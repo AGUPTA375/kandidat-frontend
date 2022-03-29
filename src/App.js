@@ -20,6 +20,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
+
         {/* Home */}
         <Tab.Screen name="Home" component={Home} options={{
           tabBarIcon: ({focused, color}) => {
@@ -51,6 +52,7 @@ export default function App() {
             return <Ionicons name="person" size={24} color={color} />;
           }
         }} />
+        
       </Tab.Navigator>
     </NavigationContainer>
   );
