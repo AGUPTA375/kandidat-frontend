@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function Chat() {
     return (
         <View>
-            <Text>Chat</Text>
+            <Text>Chafet</Text>
         </View>
     )
 }
