@@ -21,7 +21,7 @@ export default function Chat(props) {
         )
     } else {
         return (
-            <CommunitiesChat screen={"communities"}/>
+            <CommunitiesChat screen={"communities"} com={"my"}/>
         )
     }
 

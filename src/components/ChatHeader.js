@@ -6,7 +6,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function ChatHeader(props) {
-    
+
     // States
     const [line, setLine] = useState(props.screen)
 
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: "TharLon",
         fontSize: windowHeight/45,
-        marginBottom: "4%"
+        marginBottom: "4%",
     },
     headerButton: {
         width: windowWidth/3,
@@ -67,10 +67,10 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontFamily: "TharLon",
-        marginTop: 0
     },
     headerUnderLine: {
         width: windowWidth/5, 
-        height: 2, 
-        marginTop: "5%"}
+        height: 1, 
+        marginTop: "5%"
+    }
 })
