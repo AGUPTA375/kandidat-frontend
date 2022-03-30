@@ -26,7 +26,7 @@ export default function JoinCommunity(props) {
         {
             id: 1,
             title: "#Sport",
-            members: 60
+            members: 100
         },
         {
             id: 2,
