@@ -49,9 +49,9 @@ export default function App() {
             var color = focused ? "#1F7A8C" : "black"
             return <Ionicons name="chatbox-ellipses" size={24} color={color} />;
           },
-          header: () => {
-            return <ChatHeader title={"CHATROOM"} />;
-          }
+          header: (props) => {
+            return <ChatHeader title={"CHATROOM"} screen={0} nav={props.navigation} />;
+          },
         }} />
 
         {/* Profile */}
