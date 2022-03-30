@@ -10,29 +10,8 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function CommunitiesChat(props) {
 
-    var colors = ["#83B692", "#F9ADA0", "#F9627D", "#C65B7C", "#5B3758"]
-
-    var DATA = [
-        {
-            id: 0,
-            title: "#Football"
-        },
-        {
-            id: 1,
-            title: "#Politics"
-        },
-        {
-            id: 2,
-            title: "#Random"
-        },
-        {
-            id: 3,
-            title: "#Memes"
-        }
-    ]
-
     // States
-    const [line, setLine] = useState(props.com)
+    const [line, setLine] = useState("my")
 
     if (line === "my") {
         return (
@@ -57,7 +36,7 @@ export default function CommunitiesChat(props) {
 
                 </View>
 
-            <MyCommunities />
+            <MyCommunities nav={props.navigation}/>
             </View>
         )
     } else {

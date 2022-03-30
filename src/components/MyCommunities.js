@@ -6,6 +6,9 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function MyCommunities(props) {
+
+    console.log(props)
+    
     var colors = ["#83B692", "#F9ADA0", "#F9627D", "#C65B7C", "#5B3758"]
 
     var DATA = [
@@ -33,7 +36,10 @@ export default function MyCommunities(props) {
             renderItem={({ item }) => {
                 return(
                     <View style={styles.list}>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.id % colors.length]}]}>
+                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.id % colors.length]}]}
+                        onPress={() => {
+                            props.nav.navigate("Community chat", { community: item.title})
+                        }}>
                             <Text style={styles.comstext}>{item.title}</Text>
                         </TouchableOpacity>
 
