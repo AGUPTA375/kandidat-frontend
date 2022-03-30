@@ -51,7 +51,7 @@ export default function App() {
           },
           header: (props) => {
             return <ChatHeader title={"CHATROOM"} screen={0} nav={props.navigation} />;
-          },
+          }
         }} />
 
         {/* Profile */}

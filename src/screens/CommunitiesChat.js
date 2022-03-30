@@ -96,21 +96,6 @@ const styles = StyleSheet.create({
         height: windowHeight,
         backgroundColor: "white"
     },
-    button: {
-        width: windowWidth*0.9,
-        height: windowHeight*0.1,
-        justifyContent: "center",
-        alignItems:"center",
-        borderRadius: 10
-
-    },
-    list: {
-        alignItems:"center",
-        marginTop:"5%"
-    },
-    comstext: {
-        fontSize: windowHeight/40
-    },
     my_join_com: {
         flexDirection: "row",
         justifyContent:"space-around",

@@ -45,11 +45,6 @@ export default function MyCommunities(props) {
 }
 
 const styles = StyleSheet.create({
-    root: {
-        width: windowWidth,
-        height: windowHeight,
-        backgroundColor: "white"
-    },
     button: {
         width: windowWidth*0.9,
         height: windowHeight*0.1,
@@ -64,22 +59,5 @@ const styles = StyleSheet.create({
     },
     comstext: {
         fontSize: windowHeight/40
-    },
-    my_join_com: {
-        flexDirection: "row",
-        justifyContent:"space-around",
-        marginTop: "5%",
-        marginBottom: "2%"
-    },
-    com_buttons: {
-        width: windowWidth*0.4,
-        height: windowHeight*0.04,
-        justifyContent:"center",
-        alignItems:"center",
-    },
-    line: {
-        height:1,
-        width: windowWidth*0.3,
-        alignSelf:"center"
     }
 })
