@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -16,12 +15,11 @@ import { Ionicons } from '@expo/vector-icons';
 // Components
 import ChatHeader from './components/ChatHeader';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -65,16 +63,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    height: windowHeight*0.2,
-    backgroundColor: "red"
-}
-});

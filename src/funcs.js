@@ -1,3 +1,5 @@
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+
 export function searchCommunities(input, data) {
     var result = []
     for (var community of data) {

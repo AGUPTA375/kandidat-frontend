@@ -6,6 +6,8 @@ import CommunitiesChat from './CommunitiesChat';
 import CommunitiesStack from '../components/CommunitiesStack';
 
 export default function Chat(props) {
+
+
     if(props.route.params === undefined) {
         return (
             <View>
@@ -22,8 +24,7 @@ export default function Chat(props) {
         )
     } else {
         return (
-            //<CommunitiesChat screen={"communities"} com={"my"}/>
-            <CommunitiesStack />
+            <CommunitiesStack  />
         )
     }
 
