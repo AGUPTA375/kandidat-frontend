@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View, Dimensions, ImageBackground, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -7,12 +9,14 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function ChatHeader(props) {
 
+
     // States
     const [line, setLine] = useState(props.screen)
 
     useEffect(() => {
         props.nav.setParams({screen: line})
     }, [line])
+
 
     return (
         <ImageBackground style={styles.header} source={require('../assets/bg.jpg')} resizeMode="cover">
