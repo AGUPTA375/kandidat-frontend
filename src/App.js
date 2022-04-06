@@ -56,7 +56,8 @@ export default function App() {
           tabBarIcon: ({focused, color}) => {
             var color = focused ? "#1F7A8C" : "black"
             return <Ionicons name="person" size={24} color={color} />;
-          }
+          },
+          headerShown: false
         }} />
         
       </Tab.Navigator>

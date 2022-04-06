@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity } from 'react-native';
 import { useState, useEffect, useContext } from "react"
 
+import { getUsersCommunities } from '../data';
+
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -9,36 +11,29 @@ export default function MyCommunities(props) {
 
     var colors = ["#83B692", "#F9ADA0", "#F9627D", "#C65B7C", "#5B3758"]
 
-    var DATA = [
-        {
-            id: 0,
-            title: "#Football"
-        },
-        {
-            id: 1,
-            title: "#Politics"
-        },
-        {
-            id: 2,
-            title: "#Random"
-        },
-        {
-            id: 3,
-            title: "#Memes"
-        }
-    ]
+    // States
+    const [communities, setCommunities] = useState([])
+
+    useEffect(() => {
+        getUsersCommunities(1).then((data) =>{
+            if(data[0] == 200) {
+                setCommunities(data[1])
+            }
+        })
+    }, [])
 
     return(
         <FlatList
-            data={DATA}
+            data={communities}
+            keyExtractor={(item) => item.CommunityID}
             renderItem={({ item }) => {
                 return(
                     <View style={styles.list}>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.id % colors.length]}]}
+                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.CommunityID % colors.length]}]}
                         onPress={() => {
-                            props.nav.navigate("Community chat", { community: item.title })
+                            props.nav.navigate("Community chat", { community: item.Name })
                         }}>
-                            <Text style={styles.comstext}>{item.title}</Text>
+                            <Text style={styles.comstext}>{item.Name}</Text>
                         </TouchableOpacity>
 
                     </View>

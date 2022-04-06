@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     searchIcon: {
         position: "absolute",
         paddingLeft: windowWidth*0.02,
-
     },
     button: {
         width: windowWidth*0.9,
