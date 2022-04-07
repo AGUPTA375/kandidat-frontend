@@ -9,6 +9,9 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function ProfileNotLoggedIn(props) {
 
+    const [phone, setPhone] = useState(null)
+    const [password, setPassword] = useState(null)
+
     const storeData = async (key, value) => {
         try {
           await AsyncStorage.setItem(key, value)
@@ -19,8 +22,24 @@ export default function ProfileNotLoggedIn(props) {
 
     return(
         <View style={styles.root}>
+            <View style={styles.inputs}>
 
-            <TouchableOpacity style={styles.button} onPress={() => {login({"PhoneNumber": "6929", "Password": "1234"}).then((data) => {
+                <TextInput 
+                style={styles.textinput}
+                onChangeText={setPhone}
+                value={phone}
+                placeholder={"Enter phone number..."}/>
+
+                <TextInput 
+                style={styles.textinput}
+                onChangeText={setPassword}
+                value={password}
+                placeholder={"Enter password..."}
+                secureTextEntry={true}/>
+
+            </View>
+            <TouchableOpacity style={styles.button} onPress={() => {login({"PhoneNumber": phone, "Password": password})
+            .then((data) => {
                 if (data[0] == 200) {
                     var token = data[1]["Token"]
                     var id = data[1]["ID"]
@@ -46,7 +65,7 @@ const styles = StyleSheet.create({
         height: windowHeight,
         backgroundColor:"white",
         alignItems:"center",
-        paddingTop: windowHeight*0.4
+        paddingTop: windowHeight*0.3
     },
     button: {
         width: windowWidth*0.7,
@@ -59,5 +78,17 @@ const styles = StyleSheet.create({
     },
     buttontext: {
         fontSize: windowHeight/40
+    },
+    textinput: {
+        width: windowWidth*0.7,
+        height: windowHeight*0.05,
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 10,
+        paddingLeft: "5%",
+        marginVertical: "5%"
+    },
+    inputs: {
+
     }
 })
