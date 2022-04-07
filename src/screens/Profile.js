@@ -13,20 +13,23 @@ const windowHeight = Dimensions.get('window').height;
 export default function Profile() {
 
     const [token, setToken] = useState(null)
+    const [id, setID] = useState(null)
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
-        getData();
+        getToken();
+        getID();
     }, [])
-    
-    const storeData = async (value) => {
-        try {
-          await AsyncStorage.setItem('token', value)
-        } catch (e) {
-          // saving error
-        }
-      }
 
-    const getData = async () => {
+    useEffect(() => {
+        if (refresh === true) {
+            getToken()
+            getID()
+        }
+    }, [refresh])
+
+
+    const getToken = async () => {
         try {
         const value = await AsyncStorage.getItem('token')
         if(value !== null) {
@@ -38,60 +41,34 @@ export default function Profile() {
         // error reading value
         }
     }
-    
-    if (token == null) {
+
+    const getID = async () => {
+        try {
+        const value = await AsyncStorage.getItem('id')
+        if(value !== null) {
+            setID(value)
+        } else {
+            setID(null)
+        }
+        } catch(e) {
+        // error reading value
+        }
+    }
+
+
+    if (token == null && id == null) {
         return (
-            <ProfileNotLoggedIn />
+            <ProfileNotLoggedIn setToken={setToken} setID={setID} setRefresh={setRefresh}/>
         )
-    } else  {
+    } else if(token != null && id != null) {
         return (
-            <ProfileLoggedIn />
+            <ProfileLoggedIn setToken={setToken} token={token} id={id} setID={setID} setRefresh={setRefresh}/>
+        )
+    } else {
+        return (
+            <View></View>
         )
     }
 
     
 }
-
-const styles = StyleSheet.create({
-    profilepic: {
-        width: windowWidth/2.5,
-        height: windowHeight/5,
-        borderRadius: 1000,
-        marginTop: "5%",
-        marginBottom: "2%"
-    },
-    profile: {
-        height: windowHeight/3,
-        width: windowWidth,
-        alignItems:"center",
-        marginTop: "15%"
-    },
-    name: {
-        fontSize: windowHeight/30
-    },
-    followers: {
-        fontSize: windowHeight/50
-    },
-    textinput: {
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: "black",
-        width: windowWidth*0.7,
-        paddingLeft: "10%",
-        height: windowHeight*0.04,
-        marginRight: "10%"
-    },
-    search: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginLeft: "6%",
-    },
-    searchIcon: {
-        position: "absolute",
-        paddingLeft: windowWidth*0.02,
-    },
-    root: {
-        flex:1,
-        backgroundColor:"white"
-    }
-})

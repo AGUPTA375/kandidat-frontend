@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -14,6 +15,23 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function ProfileLoggedIn(props) {
+    useEffect(() => {
+        if (props.id != null) {
+            props.setID(props.id)
+        }
+    }, [props.id])
+
+    const clearAll = async () => {
+        try {
+          await AsyncStorage.clear()
+        } catch(e) {
+          // clear error
+        }
+        props.setToken(null)
+        props.setID(null)
+        props.setRefresh(false)
+        console.log('Cleared async storage.')
+      }
 
     // State
     const [img, setImg] = useState(null)
@@ -21,7 +39,7 @@ export default function ProfileLoggedIn(props) {
     const [search, setSearch] = useState(null)
 
     useEffect(() => {
-        getUserInfo(4).then((data) => {
+        getUserInfo(props.id).then((data) => {
             if(data[0] === 200) {
                 var user = data[1]
                 setImg(`data:image/png;base64,${base64.decode(user.Picture)}`)
@@ -47,6 +65,9 @@ export default function ProfileLoggedIn(props) {
                 />
                 <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
             </View>
+            <TouchableOpacity onPress={() => clearAll()}>
+                <Text>CLEAR ASYNC (DEV)</Text>
+            </TouchableOpacity>
         </View>
     )
 }
