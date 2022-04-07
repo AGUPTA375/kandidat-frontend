@@ -1,53 +1,55 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
-import { getUserInfo } from '../data';
-import { Buffer } from 'buffer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-var base64 = require('base-64');
+import ProfileNotLoggedIn from '../components/ProfileNotLoggedIn'; // Not logged in
+import ProfileLoggedIn from '../components/ProfileLoggedIn'; // Logged in
+
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-// Icons
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
-
 export default function Profile() {
 
-    // State
-    const [img, setImg] = useState(null)
-    const [name, setName] = useState(null)
-    const [search, setSearch] = useState(null)
+    const [token, setToken] = useState(null)
 
     useEffect(() => {
-        getUserInfo(4).then((data) => {
-            if(data[0] === 200) {
-                var user = data[1]
-                setImg(`data:image/png;base64,${base64.decode(user.Picture)}`)
-                setName(user.Name)
-            }
-        })
+        getData();
     }, [])
+    
+    const storeData = async (value) => {
+        try {
+          await AsyncStorage.setItem('token', value)
+        } catch (e) {
+          // saving error
+        }
+      }
 
-    return (
-        <View style={styles.root}>
-            <View style={styles.profile}>
-                <Image style={styles.profilepic} source={{ uri: img}} />
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.followers}>6 followers • 10 following</Text>
-            </View>
-            <View style={styles.search}>
-                <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.03} color="black" />
-                <TextInput
-                onChangeText={setSearch}
-                style={styles.textinput}
-                placeholder={"Search your ads..."}
-                value={search}
-                />
-                <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
-            </View>
-        </View>
-    )
+    const getData = async () => {
+        try {
+        const value = await AsyncStorage.getItem('token')
+        if(value !== null) {
+            setToken(value)
+        } else {
+            setToken(null)
+        }
+        } catch(e) {
+        // error reading value
+        }
+    }
+    
+    if (token == null) {
+        return (
+            <ProfileNotLoggedIn />
+        )
+    } else  {
+        return (
+            <ProfileLoggedIn />
+        )
+    }
+
+    
 }
 
 const styles = StyleSheet.create({
