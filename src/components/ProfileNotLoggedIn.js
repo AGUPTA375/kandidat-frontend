@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login } from '../data';
 
@@ -46,6 +46,16 @@ export default function ProfileNotLoggedIn(props) {
                     storeData('token', token)
                     storeData('id', id.toString())
                     props.setRefresh(true)
+                } else {
+                    Alert.alert(
+                        "Login failed",
+                        "Wrong phone number or password.",
+                        [
+                            {
+                                text: "Try again"
+                            }
+                        ]
+                    )
                 }
             })}}>
                 <Text style={styles.buttontext}>Log in</Text>
@@ -88,7 +98,4 @@ const styles = StyleSheet.create({
         paddingLeft: "5%",
         marginVertical: "5%"
     },
-    inputs: {
-
-    }
 })
