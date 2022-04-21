@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
+import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ProfileNotLoggedIn from '../components/ProfileNotLoggedIn'; // Not logged in
 import ProfileLoggedIn from '../components/ProfileLoggedIn'; // Logged in
 
-
-// Window dimensions
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
-export default function Profile() {
+export default function Profile(props) {
 
     const [token, setToken] = useState(null)
     const [id, setID] = useState(null)
     const [refresh, setRefresh] = useState(false)
+
 
     useEffect(() => {
         getToken();
@@ -27,7 +23,6 @@ export default function Profile() {
             getID()
         }
     }, [refresh])
-
 
     const getToken = async () => {
         try {
@@ -62,7 +57,7 @@ export default function Profile() {
         )
     } else if(token != null && id != null) {
         return (
-            <ProfileLoggedIn setToken={setToken} token={token} id={id} setID={setID} setRefresh={setRefresh}/>
+            <ProfileLoggedIn setToken={setToken} token={token} id={id} setID={setID} setRefresh={setRefresh} />
         )
     } else {
         return (

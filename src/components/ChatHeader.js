@@ -1,17 +1,11 @@
 import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-
-// Icons
-import { Ionicons } from '@expo/vector-icons';
-
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function ChatHeader(props) {
-
 
     // States
     const [line, setLine] = useState(props.screen)
@@ -33,9 +27,7 @@ export default function ChatHeader(props) {
 
                 </View>
                 <View style={{ width:windowWidth*0.2}}>
-                    <TouchableOpacity>
-                        <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
-                    </TouchableOpacity>
+
                 </View>
             </View>
             <View style={styles.headerLower}>
