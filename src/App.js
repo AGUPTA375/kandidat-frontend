@@ -22,12 +22,17 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: '#EDB219',
+        tabBarInactiveTintColor: '#8D5B10',
+        tabBarStyle:{backgroundColor:"#7f0001"}
+      }}>
 
         {/* Home */}
         <Tab.Screen name="Home" component={Home} options={{
           tabBarIcon: ({focused, color}) => {
-            var color = focused ? "#1F7A8C" : "black"
+            var color = focused ? "#EDB219" : "#8D5B10"
             return <Entypo name="home" size={24} color={color}/>;
           }
         }} />
@@ -35,7 +40,7 @@ export default function App() {
         {/* Search */}
         <Tab.Screen name="Search" component={Search} options={{
           tabBarIcon: ({focused, color}) => {
-            var color = focused ? "#1F7A8C" : "black"
+            var color = focused ? "#EDB219" : "#8D5B10"
             return <AntDesign name="search1" size={24} color={color} />;
           }
         }}/>
@@ -43,7 +48,7 @@ export default function App() {
         {/* Chat */}
         <Tab.Screen name="Chat" component={Chat} options={{
           tabBarIcon: ({focused, color}) => {
-            var color = focused ? "#1F7A8C" : "black"
+            var color = focused ? "#EDB219" : "#8D5B10"
             return <Ionicons name="chatbox-ellipses" size={24} color={color} />;
           },
           header: (props) => {
@@ -54,7 +59,7 @@ export default function App() {
         {/* Profile */}
         <Tab.Screen name="Profile" component={Profile} options={{
           tabBarIcon: ({focused, color}) => {
-            var color = focused ? "#1F7A8C" : "black"
+            var color = focused ? "#EDB219" : "#8D5B10"
             return <Ionicons name="person" size={24} color={color} />;
           },
           headerShown: false
