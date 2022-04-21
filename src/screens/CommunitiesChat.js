@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import MyCommunities from '../components/MyCommunities';
 import JoinCommunity from '../components/JoinCommunity';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -18,6 +19,7 @@ export default function CommunitiesChat(props) {
     const getID = async () => {
         try {
         const value = await AsyncStorage.getItem('id')
+        console.log(value)
         if(value !== null) {
             setID(value)
         } else {
@@ -32,9 +34,13 @@ export default function CommunitiesChat(props) {
         getID();
     }, [])
 
+    useFocusEffect(() => {
+        getID();
+    })
+
     if (line === "my") {
 
-        if (id == null) {
+        if (id === null) {
             return (
                 <View>
                     <Text>Not logged in</Text>
