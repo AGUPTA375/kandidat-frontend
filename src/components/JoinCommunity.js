@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { useState, useEffect } from "react"
+import { getNotUsersCommunities } from '../data';
 
 // Helper functions
 import { searchCommunities } from "../funcs"
@@ -17,35 +18,27 @@ export default function JoinCommunity(props) {
 
     var colors = ["#83B692", "#F9ADA0", "#F9627D", "#C65B7C", "#5B3758"]
 
-    var DATA = [
-        {
-            id: 0,
-            title: "#Clothes",
-            members: 93
-        },
-        {
-            id: 1,
-            title: "#Sport",
-            members: 100
-        },
-        {
-            id: 2,
-            title: "#Talk",
-            members: 43
-        }
-    ]
-
     // States
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState([])
+    const [communities, setCommunities] = useState([])
 
     useEffect(() => {
         if (search === "") {
-            setSearchResults(DATA)
+            setSearchResults(communities)
         } else {
-            setSearchResults(searchCommunities(search, DATA))
+            setSearchResults(searchCommunities(search, communities))
         }
     }, [search])
+
+    useEffect(() => {
+        getNotUsersCommunities(props.id).then((data) => {
+            if(data[0] == 200) {
+                setCommunities(data[1])
+                setSearchResults(data[1])
+            }
+        })
+    }, [])
 
     return (
         <View style={styles.root}>
@@ -60,11 +53,12 @@ export default function JoinCommunity(props) {
             </View>
             <FlatList
             data={searchResults}
+            keyExtractor={item => item.CommunityID}
             renderItem={({ item }) => {
                 return (
                     <View style={styles.list}>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.id % colors.length]}]}>
-                            <Text style={styles.comstext}>{item.title} - {item.members} members</Text>
+                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.CommunityID % colors.length]}]}>
+                            <Text style={styles.comstext}>{item.Name}</Text>
                         </TouchableOpacity>
                     </View>
                 )
