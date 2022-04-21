@@ -87,7 +87,8 @@ export default function ProfileNotLoggedIn(props) {
                             style={styles.textinput}
                             placeholder="Set password..."
                             value={passwordRegister}
-                            onChangeText={setPasswordRegister} />
+                            onChangeText={setPasswordRegister}
+                            secureTextEntry={true} />
 
                             <TouchableOpacity
                             onPress={() => pickImage()}
@@ -180,7 +181,6 @@ const styles = StyleSheet.create({
         height: windowHeight,
         backgroundColor:"white",
         alignItems:"center",
-        paddingTop: windowHeight*0.15,
     },
     button: {
         width: windowWidth*0.7,
@@ -208,20 +208,24 @@ const styles = StyleSheet.create({
         height: windowHeight*0.6,
         backgroundColor: "white",
         borderRadius: 20,
-        marginTop: windowHeight*0.2,
         marginLeft: windowWidth*0.05,
         flexDirection:"column",
         borderWidth: 1,
         borderColor:"black",
-        alignItems:"center"
+        alignItems:"center",
+        marginTop: windowHeight*0.2
     },
     image: {
-        width: windowWidth*0.8,
-        height: windowHeight*0.1,
-        marginBottom: "20%"
+        width: windowWidth,
+        height: windowHeight*0.22,
+        alignItems:"center",
+        backgroundColor:"#7f0001",
+        justifyContent:"center",
+        marginBottom: "15%"
     },
     logo: {
-        width: "100%",
-        height: "100%"
+        width: windowWidth*0.8,
+        height: windowHeight*0.1,
+        marginTop: "10%"
     }
 })

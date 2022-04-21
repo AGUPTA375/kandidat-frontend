@@ -26,7 +26,8 @@ export default function App() {
       screenOptions={{
         tabBarActiveTintColor: '#EDB219',
         tabBarInactiveTintColor: '#8D5B10',
-        tabBarStyle:{backgroundColor:"#7f0001"}
+        tabBarStyle:{backgroundColor:"#7f0001", height: "10%"},
+
       }}>
 
         {/* Home */}

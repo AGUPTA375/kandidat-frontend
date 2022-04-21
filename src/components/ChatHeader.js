@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View, Dimensions, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+
+// Icons
+import { Ionicons } from '@expo/vector-icons';
 
 
 // Window dimensions
@@ -20,8 +23,20 @@ export default function ChatHeader(props) {
 
     return (
         <View style={styles.header}>
-            <View style={{flex: 0.7, justifyContent: "flex-end"}}>
-                <Text style={styles.title}>{props.title}</Text>
+            <View style={{width: windowWidth, flexDirection:"row", alignItems:"center", justifyContent:"space-between", marginBottom:"7%"}}>
+                <View style={{ width: windowWidth*0.2, alignItems:"center"}}>
+                    <Image source={require('../assets/amargbologoonly.png')}
+                    style={{ width:windowWidth*0.1 }}/>
+                </View>
+                <View style={{ width:windowWidth*0.3}}>
+                    <Text style={styles.title}>{props.title}</Text>
+
+                </View>
+                <View style={{ width:windowWidth*0.2}}>
+                    <TouchableOpacity>
+                        <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={styles.headerLower}>
 
@@ -69,7 +84,7 @@ const styles = StyleSheet.create({
         width:windowWidth, 
         flexDirection:"row", 
         justifyContent:"space-around",
-        alignItems:"flex-end",
+        marginBottom: "3%"
     },
     headerText: {
         fontFamily: "TharLon",
