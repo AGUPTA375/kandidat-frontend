@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Alert, Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { login } from '../data';
+import { login, signup } from '../data';
+import * as ImagePicker from 'expo-image-picker';
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -11,6 +12,37 @@ export default function ProfileNotLoggedIn(props) {
 
     const [phone, setPhone] = useState(null)
     const [password, setPassword] = useState(null)
+    const [register, setRegister] = useState(false)
+    const [nameRegister, setNameRegister] = useState(null)
+    const [phoneRegister, setPhoneRegister] = useState(null)
+    const [passwordRegister, setPasswordRegister] = useState(null)
+    const [image, setImage] = useState(null)
+    const [reset, setReset] = useState(false)
+
+    useEffect(() => {
+        if (reset) {
+            setNameRegister(null)
+            setPhoneRegister(null)
+            setPasswordRegister(null)
+            setReset(false)
+        }
+    }, [reset])
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+          setImage(result.uri);
+        }
+      };
 
     const storeData = async (key, value) => {
         try {
@@ -22,6 +54,75 @@ export default function ProfileNotLoggedIn(props) {
 
     return(
         <View style={styles.root}>
+            <Modal
+            animationType='slide'
+            visible={register} 
+            transparent={true}
+            onRequestClose={() => setRegister(!register)}>
+                <View style={styles.modal}>
+                        <TouchableOpacity
+                        style={{ width: windowWidth*0.3, height:windowHeight*0.08, backgroundColor:"#7f0001", justifyContent:"center", alignItems:"center", borderRadius:20 }}
+                        onPress={() => {setRegister(!register); setReset(true)}} >
+                            <Text style={{fontSize:windowHeight*0.03}} >Close</Text>
+                        </TouchableOpacity>
+                        <View style={{ alignItems:"center"}}>
+
+                            <TextInput
+                            style={styles.textinput}
+                            placeholder="Set name..."
+                            value={nameRegister}
+                            onChangeText={setNameRegister} />
+
+                            <TextInput
+                            style={styles.textinput}
+                            placeholder="Set phone number..."
+                            value={phoneRegister}
+                            onChangeText={setPhoneRegister} />
+
+                            <TextInput
+                            style={styles.textinput}
+                            placeholder="Set password..."
+                            value={passwordRegister}
+                            onChangeText={setPasswordRegister} />
+
+                            <TouchableOpacity
+                            onPress={() => pickImage()}
+                            style={{width: windowWidth*0.5, height:windowHeight*0.05, justifyContent:"center", alignItems:"center", borderRadius:30, backgroundColor:"#7f0001"}}>
+                                <Text>Choose image</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                            onPress={() => signup({name: nameRegister, phonenumber: phoneRegister.toString(), password: passwordRegister, picture: image })
+                            .then((data) => {
+                                if (data[0] === 200) {
+                                    Alert.alert(
+                                        "Account created!",
+                                        "You can now login.",
+                                        [
+                                            {
+                                                text: "OK"
+                                            }
+                                        ]
+                                    )
+                                    setRegister(!register)
+                                } else {
+                                    Alert.alert(
+                                        "Something went wrong...",
+                                        "Try again",
+                                        [
+                                            { text: "OK" }
+                                        ]
+                                    )
+                                }
+                            })}
+                            style={{width: windowWidth*0.5, height:windowHeight*0.05, justifyContent:"center", alignItems:"center", borderRadius:30, backgroundColor:"#7f0001"}}>
+                                <Text>Create account</Text>
+                            </TouchableOpacity>
+
+                        </View>
+
+                </View>
+            </Modal>
             <View style={styles.inputs}>
 
                 <TextInput 
@@ -61,10 +162,10 @@ export default function ProfileNotLoggedIn(props) {
                 <Text style={styles.buttontext}>Log in</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.button, { backgroundColor: "#F9ADA0"}]}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: "#F9ADA0"}]}
+            onPress={() => setRegister(!register)}>
                 <Text style={styles.buttontext}>Sign up</Text>
             </TouchableOpacity>
-
         </View>
     )
 }
@@ -98,4 +199,16 @@ const styles = StyleSheet.create({
         paddingLeft: "5%",
         marginVertical: "5%"
     },
+    modal: {
+        width: windowWidth*0.9,
+        height: windowHeight*0.6,
+        backgroundColor: "white",
+        borderRadius: 20,
+        marginTop: windowHeight*0.2,
+        marginLeft: windowWidth*0.05,
+        flexDirection:"column",
+        borderWidth: 1,
+        borderColor:"black",
+        alignItems:"center"
+    }
 })
