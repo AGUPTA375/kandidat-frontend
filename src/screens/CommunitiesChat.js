@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from "react"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import MyCommunities from '../components/MyCommunities';
 import JoinCommunity from '../components/JoinCommunity';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -12,59 +14,104 @@ export default function CommunitiesChat(props) {
 
     // States
     const [line, setLine] = useState("my")
+    const [id, setID] = useState(null)
+
+    const getID = async () => {
+        try {
+        const value = await AsyncStorage.getItem('id')
+        console.log(value)
+        if(value !== null) {
+            setID(value)
+        } else {
+            setID(null)
+        }
+        } catch(e) {
+        // error reading value
+        }
+    }
+
+    useEffect(() => {
+        getID();
+    }, [])
+
+    useFocusEffect(() => {
+        getID();
+    })
 
     if (line === "my") {
-        return (
-            <View style={styles.root}>
-                <View style={styles.my_join_com}>
 
-                    <View>
-                        {/* My communities */}
-                        <TouchableOpacity style={styles.com_buttons} onPress={() => {setLine("my")}}>
-                            <Text style={{fontSize: windowHeight/50}}>My communities</Text>
-                        </TouchableOpacity>
-                        <View style={[styles.line, {backgroundColor: line === "my" ? "#1F7A8C" : "transparent"}]}></View>
-                    </View>
-
-                    <View>
-                        {/* Join new community */}
-                        <TouchableOpacity style={styles.com_buttons} onPress={() => {setLine("join")}}>
-                            <Text style={{fontSize: windowHeight/50}}>Join new community</Text>
-                        </TouchableOpacity>
-                        <View style={[styles.line, {backgroundColor: line === "join" ? "#1F7A8C" : "transparent"}]}></View>
-                    </View>
-
+        if (id === null) {
+            return (
+                <View>
+                    <Text>Not logged in</Text>
                 </View>
+            )
+        } else {
+            return (
+                <View style={styles.root}>
+                    <View style={styles.my_join_com}>
+    
+                        <View>
+                            {/* My communities */}
+                            <TouchableOpacity style={styles.com_buttons} onPress={() => {setLine("my")}}>
+                                <Text style={{fontSize: windowHeight/50}}>My communities</Text>
+                            </TouchableOpacity>
+                            <View style={[styles.line, {backgroundColor: line === "my" ? "#1F7A8C" : "transparent"}]}></View>
+                        </View>
+    
+                        <View>
+                            {/* Join new community */}
+                            <TouchableOpacity style={styles.com_buttons} onPress={() => {setLine("join")}}>
+                                <Text style={{fontSize: windowHeight/50}}>Join new community</Text>
+                            </TouchableOpacity>
+                            <View style={[styles.line, {backgroundColor: line === "join" ? "#1F7A8C" : "transparent"}]}></View>
+                        </View>
+    
+                    </View>
+    
+                <MyCommunities nav={props.navigation} id={id}/>
+                </View>
+            )
+        }
 
-            <MyCommunities nav={props.navigation}/>
-            </View>
-        )
+
     } else {
-        return (
-            <View style={styles.root}>
-                <View style={styles.my_join_com}>
 
-                    <View>
-                        {/* My communities */}
-                        <TouchableOpacity style={styles.com_buttons} onPress={() => {setLine("my")}}>
-                            <Text style={{fontSize: windowHeight/50}}>My communities</Text>
-                        </TouchableOpacity>
-                        <View style={[styles.line, {backgroundColor: line === "my" ? "#1F7A8C" : "transparent"}]}></View>
-                    </View>
-
-                    <View>
-                        {/* Join new community */}
-                        <TouchableOpacity style={styles.com_buttons} onPress={() => {setLine("join")}}>
-                            <Text style={{fontSize: windowHeight/50}}>Join new community</Text>
-                        </TouchableOpacity>
-                        <View style={[styles.line, {backgroundColor: line === "join" ? "#1F7A8C" : "transparent"}]}></View>
-                    </View>
-
+        if (id == null) {
+            return (
+                <View>
+                    <Text>Not logged in.</Text>
                 </View>
+            )
+        } else {
+            return (
+                <View style={styles.root}>
+                    <View style={styles.my_join_com}>
+    
+                        <View>
+                            {/* My communities */}
+                            <TouchableOpacity style={styles.com_buttons} onPress={() => {setLine("my")}}>
+                                <Text style={{fontSize: windowHeight/50}}>My communities</Text>
+                            </TouchableOpacity>
+                            <View style={[styles.line, {backgroundColor: line === "my" ? "#1F7A8C" : "transparent"}]}></View>
+                        </View>
+    
+                        <View>
+                            {/* Join new community */}
+                            <TouchableOpacity style={styles.com_buttons} onPress={() => {setLine("join")}}>
+                                <Text style={{fontSize: windowHeight/50}}>Join new community</Text>
+                            </TouchableOpacity>
+                            <View style={[styles.line, {backgroundColor: line === "join" ? "#1F7A8C" : "transparent"}]}></View>
+                        </View>
+    
+                    </View>
+    
+                <JoinCommunity id={id}/>
+                </View>
+            )
+        }
 
-            <JoinCommunity />
-            </View>
-        )
+
     }
     
 }

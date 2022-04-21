@@ -50,7 +50,7 @@ export default function ProfileNotLoggedIn(props) {
         } catch (e) {
           // saving error
         }
-      }
+    }
 
     return(
         <View style={styles.root}>

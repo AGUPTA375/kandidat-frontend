@@ -15,7 +15,7 @@ export default function MyCommunities(props) {
     const [communities, setCommunities] = useState([])
 
     useEffect(() => {
-        getUsersCommunities(1).then((data) =>{
+        getUsersCommunities(props.id).then((data) =>{
             if(data[0] == 200) {
                 setCommunities(data[1])
             }

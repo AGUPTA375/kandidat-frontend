@@ -6,6 +6,14 @@ export function getUsersCommunities(id) {
     })
 }
 
+export function getNotUsersCommunities(id) {
+    return fetch(`http://localhost:8080/users/${id}/communities?joined=false`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    })
+}
+
 export function getUserInfo(id) {
     return fetch(`http://localhost:8080/users/${id}`).then((response) => {
         const statusCode = response.status;
@@ -30,6 +38,20 @@ export function login(body) {
 
 export function signup(body) {
     return fetch(`http://localhost:8080/users`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    })
+}
+
+export function joinCommunity(userid, body) {
+    return fetch(`http://localhost:8080/users/${userid}/communities`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
