@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Settings from './Settings';
 
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -37,6 +38,7 @@ export default function ProfileLoggedIn(props) {
     const [img, setImg] = useState(null)
     const [name, setName] = useState(null)
     const [search, setSearch] = useState(null)
+    const [modalVisible, setModalVisible] = useState(false)
 
     useEffect(() => {
         getUserInfo(props.id).then((data) => {
@@ -50,6 +52,7 @@ export default function ProfileLoggedIn(props) {
 
     return (
         <View style={styles.root}>
+            <Settings modal={modalVisible} setModal={setModalVisible} clear={clearAll}/>
             <View style={styles.profile}>
                 <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
 
@@ -59,7 +62,8 @@ export default function ProfileLoggedIn(props) {
                     <Text style={styles.name}>{name}</Text>
                 </View>
                 <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}>
                         <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
                     </TouchableOpacity>
                 </View>
@@ -74,9 +78,6 @@ export default function ProfileLoggedIn(props) {
                 />
                 <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
             </View>
-            <TouchableOpacity onPress={() => clearAll()}>
-                <Text>CLEAR ASYNC (DEV)</Text>
-            </TouchableOpacity>
         </View>
     )
 }
@@ -124,7 +125,8 @@ const styles = StyleSheet.create({
     },
     root: {
         flex:1,
-        backgroundColor:"white"
+        backgroundColor:"white",
+        alignItems:"center"
     },
     info: {
         width: windowWidth*0.6,
