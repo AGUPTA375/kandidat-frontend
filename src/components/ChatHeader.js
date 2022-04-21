@@ -19,29 +19,29 @@ export default function ChatHeader(props) {
 
 
     return (
-        <ImageBackground style={styles.header} source={require('../assets/bg.jpg')} resizeMode="cover">
+        <View style={styles.header}>
             <View style={{flex: 0.7, justifyContent: "flex-end"}}>
                 <Text style={styles.title}>{props.title}</Text>
             </View>
             <View style={styles.headerLower}>
 
                 <TouchableOpacity style={styles.headerButton} onPress={() => {setLine(0)}}>
-                    <Text style={[styles.headerText, ]} >SELLING</Text>
-                    <View style={[styles.headerUnderLine, {backgroundColor: line == 0 ? "#1F7A8C" : "transparent"}]}></View>
+                    <Text style={[styles.headerText, { color: line == 0 ? "#EDB219" : "#8D5B10"}]} >SELLING</Text>
+                    <View style={[styles.headerUnderLine, {backgroundColor: line == 0 ? "#EDB219" : "transparent"}]}></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.headerButton} onPress={() => {setLine(1); }} >
-                    <Text style={[styles.headerText,]} >BUYING</Text>
-                    <View style={[styles.headerUnderLine, {backgroundColor: line == 1 ? "#1F7A8C" : "transparent"}]}></View>
+                    <Text style={[styles.headerText,{ color: line == 1 ? "#EDB219" : "#8D5B10"}]} >BUYING</Text>
+                    <View style={[styles.headerUnderLine, {backgroundColor: line == 1 ? "#EDB219" : "transparent"}]}></View>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.headerButton} onPress={() => {setLine(2)}}>
-                    <Text style={[styles.headerText, ]} >COMMUNITIES</Text>
-                    <View style={[styles.headerUnderLine, {backgroundColor: line == 2 ? "#1F7A8C" : "transparent"}]}></View>
+                    <Text style={[styles.headerText, { color: line == 2 ? "#EDB219" : "#8D5B10"}]} >COMMUNITIES</Text>
+                    <View style={[styles.headerUnderLine, {backgroundColor: line == 2 ? "#EDB219" : "transparent"}]}></View>
                 </TouchableOpacity>
 
             </View>
-        </ImageBackground>
+        </View>
     )
 }
 
@@ -49,12 +49,14 @@ const styles = StyleSheet.create({
     header: {
         height: windowHeight*0.2,
         alignItems: "center",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
+        backgroundColor:"#7f0001"
     },
     title: {
         fontFamily: "TharLon",
         fontSize: windowHeight/45,
         marginBottom: "4%",
+        color: "#EDB219"
     },
     headerButton: {
         width: windowWidth/3,
