@@ -1,95 +1,74 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
-import { getUserInfo } from '../data';
-import { Buffer } from 'buffer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-var base64 = require('base-64');
+import ProfileNotLoggedIn from '../components/ProfileNotLoggedIn'; // Not logged in
+import ProfileLoggedIn from '../components/ProfileLoggedIn'; // Logged in
+
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-// Icons
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
-
 export default function Profile() {
 
-    // State
-    const [img, setImg] = useState(null)
-    const [name, setName] = useState(null)
-    const [search, setSearch] = useState(null)
+    const [token, setToken] = useState(null)
+    const [id, setID] = useState(null)
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
-        getUserInfo(4).then((data) => {
-            if(data[0] === 200) {
-                var user = data[1]
-                setImg(`data:image/png;base64,${base64.decode(user.Picture)}`)
-                setName(user.Name)
-            }
-        })
+        getToken();
+        getID();
     }, [])
 
-    return (
-        <View style={styles.root}>
-            <View style={styles.profile}>
-                <Image style={styles.profilepic} source={{ uri: img}} />
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.followers}>6 followers • 10 following</Text>
-            </View>
-            <View style={styles.search}>
-                <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.03} color="black" />
-                <TextInput
-                onChangeText={setSearch}
-                style={styles.textinput}
-                placeholder={"Search your ads..."}
-                value={search}
-                />
-                <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
-            </View>
-        </View>
-    )
-}
+    useEffect(() => {
+        if (refresh === true) {
+            getToken()
+            getID()
+        }
+    }, [refresh])
 
-const styles = StyleSheet.create({
-    profilepic: {
-        width: windowWidth/2.5,
-        height: windowHeight/5,
-        borderRadius: 1000,
-        marginTop: "5%",
-        marginBottom: "2%"
-    },
-    profile: {
-        height: windowHeight/3,
-        width: windowWidth,
-        alignItems:"center",
-        marginTop: "15%"
-    },
-    name: {
-        fontSize: windowHeight/30
-    },
-    followers: {
-        fontSize: windowHeight/50
-    },
-    textinput: {
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: "black",
-        width: windowWidth*0.7,
-        paddingLeft: "10%",
-        height: windowHeight*0.04,
-        marginRight: "10%"
-    },
-    search: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginLeft: "6%",
-    },
-    searchIcon: {
-        position: "absolute",
-        paddingLeft: windowWidth*0.02,
-    },
-    root: {
-        flex:1,
-        backgroundColor:"white"
+
+    const getToken = async () => {
+        try {
+        const value = await AsyncStorage.getItem('token')
+        if(value !== null) {
+            setToken(value)
+        } else {
+            setToken(null)
+        }
+        } catch(e) {
+        // error reading value
+        }
     }
-})
+
+    const getID = async () => {
+        try {
+        const value = await AsyncStorage.getItem('id')
+        if(value !== null) {
+            setID(value)
+        } else {
+            setID(null)
+        }
+        } catch(e) {
+        // error reading value
+        }
+    }
+
+
+    if (token == null && id == null) {
+        return (
+            <ProfileNotLoggedIn setToken={setToken} setID={setID} setRefresh={setRefresh}/>
+        )
+    } else if(token != null && id != null) {
+        return (
+            <ProfileLoggedIn setToken={setToken} token={token} id={id} setID={setID} setRefresh={setRefresh}/>
+        )
+    } else {
+        return (
+            <View></View>
+        )
+    }
+
+    
+}
