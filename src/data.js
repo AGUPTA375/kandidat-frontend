@@ -49,3 +49,17 @@ export function signup(body) {
         return Promise.all([statusCode, data]);
     })
 }
+
+export function joinCommunity(userid, body) {
+    return fetch(`http://localhost:8080/users/${userid}/communities`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    })
+}

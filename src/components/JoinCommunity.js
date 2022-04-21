@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useState, useEffect } from "react"
-import { getNotUsersCommunities } from '../data';
+import { getNotUsersCommunities, joinCommunity } from '../data';
 
 // Helper functions
 import { searchCommunities } from "../funcs"
@@ -22,6 +22,7 @@ export default function JoinCommunity(props) {
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState([])
     const [communities, setCommunities] = useState([])
+    const [refresh, setRefresh] = useState(true)
 
     useEffect(() => {
         if (search === "") {
@@ -40,6 +41,18 @@ export default function JoinCommunity(props) {
         })
     }, [])
 
+    useEffect(() => {
+        if (refresh) {
+            getNotUsersCommunities(props.id).then((data) => {
+                if(data[0] == 200) {
+                    setCommunities(data[1])
+                    setSearchResults(data[1])
+                    setRefresh(false)
+                }
+            })
+        }
+    }, [refresh])
+
     return (
         <View style={styles.root}>
             <View style={styles.search}>
@@ -57,7 +70,17 @@ export default function JoinCommunity(props) {
             renderItem={({ item }) => {
                 return (
                     <View style={styles.list}>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.CommunityID % colors.length]}]}>
+                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.CommunityID % colors.length]}]}
+                        onPress={() => joinCommunity(props.id, {CommunityID: item.CommunityID}).then((data) => {
+                            if (data[0] === 201) {
+                                Alert.alert(
+                                    "Joined community!",
+                                    "You can now chat in the joined community.",
+                                    [{ text: "OK"}]
+                                )
+                                setRefresh(true)
+                            }
+                        })}>
                             <Text style={styles.comstext}>{item.Name}</Text>
                         </TouchableOpacity>
                     </View>
