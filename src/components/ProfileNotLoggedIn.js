@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Alert, Modal } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Alert, Modal, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login, signup } from '../data';
 import * as ImagePicker from 'expo-image-picker';
@@ -54,6 +54,10 @@ export default function ProfileNotLoggedIn(props) {
 
     return(
         <View style={styles.root}>
+
+            <View style={styles.image}>
+                <Image style={styles.logo} source={require('../assets/amargbo.png')} />
+            </View>
             <Modal
             animationType='slide'
             visible={register} 
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
         height: windowHeight,
         backgroundColor:"white",
         alignItems:"center",
-        paddingTop: windowHeight*0.3
+        paddingTop: windowHeight*0.15,
     },
     button: {
         width: windowWidth*0.7,
@@ -210,5 +214,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor:"black",
         alignItems:"center"
+    },
+    image: {
+        width: windowWidth*0.8,
+        height: windowHeight*0.1,
+        marginBottom: "20%"
+    },
+    logo: {
+        width: "100%",
+        height: "100%"
     }
 })
