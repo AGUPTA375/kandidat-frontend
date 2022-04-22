@@ -22,6 +22,18 @@ export function getUserInfo(id) {
     })
 }
 
+export function fetchUserInfo(userID, setUser) {
+    return fetch(`http://localhost:8080/users/${userID}`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setUser(data[1])
+        }
+    })
+}
+
 export function login(body) {
     return fetch(`http://localhost:8080/login`, {
         method: "POST",

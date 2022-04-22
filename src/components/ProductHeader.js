@@ -1,5 +1,6 @@
-import { Dimensions, View, Text, Image, StyleSheet } from "react-native";
+import { Dimensions, View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
+import { AntDesign } from '@expo/vector-icons';
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -10,7 +11,9 @@ export default function ProductHeader(props) {
         <View style={styles.container}>
 
             <View style={styles.leftright}>
-                <Image source={require("../assets/amargbologoonly.png")} style={styles.img} />
+                <TouchableOpacity onPress={() => props.navigation.navigate("Feed")}>
+                    <AntDesign name="back" size={windowHeight*0.05} color="#EDB219" />
+                </TouchableOpacity>
             </View>
 
             <View style={styles.mid}>
@@ -22,7 +25,7 @@ export default function ProductHeader(props) {
             </View>
 
             <View style={styles.leftright}>
-
+                <Image source={require("../assets/amargbologoonly.png")} style={styles.img} />
             </View>
 
         </View>
