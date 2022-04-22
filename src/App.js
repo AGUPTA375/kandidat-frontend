@@ -1,5 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Dimensions } from 'react-native';
+
+// Window dimensions
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 // Screens
 import Home from '../src/screens/Home'
@@ -26,7 +31,7 @@ export default function App() {
       screenOptions={{
         tabBarActiveTintColor: '#EDB219',
         tabBarInactiveTintColor: '#8D5B10',
-        tabBarStyle:{backgroundColor:"#7f0001", height: "10%"},
+        tabBarStyle:{backgroundColor:"#7f0001", height: windowHeight*0.1},
         headerShown: false
 
       }}>

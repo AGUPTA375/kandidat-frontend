@@ -63,3 +63,15 @@ export function joinCommunity(userid, body) {
         return Promise.all([statusCode, data]);
     })
 }
+
+export function fetchProduct(productID, setProduct) {
+    return fetch(`http://localhost:8080/products/${productID}`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setProduct(data[1])
+        }
+    })
+}
