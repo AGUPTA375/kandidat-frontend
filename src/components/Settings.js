@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         backgroundColor:"white",
         borderColor: "black",
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 40,
         alignSelf:"center",
         marginTop: "20%",
         shadowColor: "#000",
