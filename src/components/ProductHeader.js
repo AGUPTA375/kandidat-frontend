@@ -15,6 +15,9 @@ export default function ProductHeader(props) {
 
             <View style={styles.mid}>
                 <Text style={styles.title}>{props.title}</Text>
+                <View style={styles.line}>
+
+                </View>
 
             </View>
 
@@ -45,14 +48,21 @@ const styles = StyleSheet.create({
         height: windowHeight*0.25,
         width: windowWidth*0.6,
         alignItems:"center",
-        justifyContent:"center"
+        justifyContent:"center",
+        flexDirection:"column"
     },
     img: {
         width: windowWidth*0.15,
         height: windowHeight*0.1
     },
     title: {
-        fontSize: windowHeight*0.05,
-        color: "#EDB219"
+        fontSize: windowHeight*0.04,
+        color: "#EDB219",
+        fontFamily: "TharLon"
+    },
+    line: {
+        width: windowWidth*0.5,
+        height: 1,
+        backgroundColor: "#EDB219"
     }
 })

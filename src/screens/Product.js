@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { View, Text } from "react-native"
 import { fetchProduct } from "../data"
-import ProductHeader from "./ProductHeader"
+import ProductHeader from "../components/ProductHeader"
+import ProductPage from "../components/ProductPage"
 
 export default function Product() {
 
@@ -23,7 +24,10 @@ export default function Product() {
         )
     } else {
         return(
-            <ProductHeader title={product.Name} />
+            <View>
+                <ProductHeader title={product.Name} />
+                <ProductPage product={product} />
+            </View>
         )
     }
 }

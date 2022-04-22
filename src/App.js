@@ -32,7 +32,6 @@ export default function App() {
         tabBarActiveTintColor: '#EDB219',
         tabBarInactiveTintColor: '#8D5B10',
         tabBarStyle:{backgroundColor:"#7f0001", height: windowHeight*0.1},
-        headerShown: false
 
       }}>
 
@@ -41,7 +40,8 @@ export default function App() {
           tabBarIcon: ({focused, color}) => {
             var color = focused ? "#EDB219" : "#8D5B10"
             return <Entypo name="home" size={24} color={color}/>;
-          }
+          },
+          headerShown: false
         }} />
 
         {/* Search */}

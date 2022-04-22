@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Feed from './Feed';
-import Product from '../components/Product';
+import Product from './Product';
 
 const Stack = createStackNavigator()
 

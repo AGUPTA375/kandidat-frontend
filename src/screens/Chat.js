@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import SellingChat from './SellingChat';
 import BuyingChat from './BuyingChat';
-import CommunitiesChat from './CommunitiesChat';
 import CommunitiesStack from '../components/CommunitiesStack';
 
 export default function Chat(props) {
+
+    console.log(props)
 
 
     if(props.route.params === undefined) {
