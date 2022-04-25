@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList } from "react-native"
 import { useState, useCallback, useEffect } from "react";
 import * as SplashScreen from 'expo-splash-screen';
+import { fetchAllProducts } from "../data";
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -9,6 +10,7 @@ const windowHeight = Dimensions.get('window').height;
 export default function Feed(props) {
 
     const [appIsReady, setAppIsReady] = useState(false);
+    const [products, setProducts] = useState(null)
 
     useEffect(() => {
         async function prepare() {
@@ -17,7 +19,7 @@ export default function Feed(props) {
             await SplashScreen.preventAutoHideAsync();
             // Artificially delay for two seconds to simulate a slow loading
             // experience. Please remove this if you copy and paste the code!
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            fetchAllProducts(setProducts)
           } catch (e) {
             console.warn(e);
           } finally {
@@ -47,11 +49,30 @@ export default function Feed(props) {
     return(
         <View onLayout={onLayoutRootView}
         style={styles.container}>
-            <TouchableOpacity
-            style={styles.test}
-            onPress={() => props.navigation.navigate("Product")}>
-              <Text>Test product page</Text>
-            </TouchableOpacity>
+          <View style={styles.products} >
+            <FlatList
+            horizontal={true}
+            data={products}
+            keyExtractor={item => item.ProductID}
+            renderItem={({ item }) => {
+              return(
+                <TouchableOpacity style={styles.product}
+                onPress={() => props.navigation.navigate("Product", { product: item })}>
+                  <View style={styles.productimage}>
+                    <Text>PRODUCT IMAGE</Text>
+                  </View>
+                  <View style={styles.productinfo}>
+                    <Text>{item.Name}</Text>
+                    <Text>{item.Price} kr</Text>
+
+                  </View>
+                </TouchableOpacity>
+              )
+            }}>
+
+
+            </FlatList>
+          </View>
         </View>
     )
 }
@@ -60,16 +81,28 @@ const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: windowHeight*0.9,
-    justifyContent:"center",
-    alignItems: "center"
+    alignItems: "center",
   },
-  test: {
+  product: {
+    width: windowWidth*0.4,
+    height:windowHeight*0.25,
+    alignItems:"center"
+  },
+  products: {
     width: windowWidth*0.9,
-    height: windowHeight*0.1,
+    height: windowHeight*0.25,
+    marginTop: "20%"
+  },
+  productimage: {
+    width: windowWidth*0.35,
+    height: windowHeight*0.15,
+    backgroundColor:"blue",
     justifyContent:"center",
-    alignItems:"center",
-    backgroundColor:"yellow",
-    borderWidth: 1,
-    borderRadius: 15
+    alignItems:"center"
+  },
+  productinfo: {
+    width: windowWidth*0.35,
+    height: windowHeight*0.1,
+    backgroundColor:"green"
   }
 })

@@ -8,8 +8,11 @@ export default function Product(props) {
 
     const [product, setProduct] = useState(null)
 
+
     useEffect(() => {
-        fetchProduct(1, setProduct)
+        if (props.route.params.product != undefined) {
+            fetchProduct(props.route.params.product.ProductID, setProduct)
+        }
     }, [])
 
     useEffect(() => {

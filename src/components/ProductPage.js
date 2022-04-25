@@ -14,10 +14,6 @@ export default function ProductPage(props) {
         fetchUserInfo(props.product.UserID, setUser)
     }, [])
 
-    useEffect(() => {
-        user !== null ? console.log(user) : {}
-    }, [user])
-
     if (user === null) {
         return (
             <View>

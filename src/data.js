@@ -87,3 +87,15 @@ export function fetchProduct(productID, setProduct) {
         }
     })
 }
+
+export function fetchAllProducts(setProducts) {
+    return fetch(`http://localhost:8080/products`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setProducts(data[1])
+        }
+    })
+}
