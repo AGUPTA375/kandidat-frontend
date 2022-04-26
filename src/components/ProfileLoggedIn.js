@@ -7,6 +7,7 @@ import Settings from './Settings';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 import { getUserInfo } from '../data';
+import CreateProduct from './CreateProduct';
 
 var base64 = require('base-64');
 
@@ -38,7 +39,8 @@ export default function ProfileLoggedIn(props) {
     const [img, setImg] = useState(null)
     const [name, setName] = useState(null)
     const [search, setSearch] = useState(null)
-    const [modalVisible, setModalVisible] = useState(false)
+    const [settingsVisible, setSettingsVisible] = useState(false)
+    const [addVisible, setAddVisible] = useState(false)
 
     useEffect(() => {
         getUserInfo(props.id).then((data) => {
@@ -52,7 +54,8 @@ export default function ProfileLoggedIn(props) {
 
     return (
         <View style={styles.root}>
-            <Settings modal={modalVisible} setModal={setModalVisible} clear={clearAll}/>
+            <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>
+            <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
             <View style={styles.profile}>
                 <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
 
@@ -63,7 +66,7 @@ export default function ProfileLoggedIn(props) {
                 </View>
                 <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
                     <TouchableOpacity
-                    onPress={() => setModalVisible(!modalVisible)}>
+                    onPress={() => setSettingsVisible(!settingsVisible)}>
                         <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
                     </TouchableOpacity>
                 </View>
@@ -76,7 +79,10 @@ export default function ProfileLoggedIn(props) {
                 placeholder={"Search your ads..."}
                 value={search}
                 />
-                <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
+                <TouchableOpacity
+                onPress={() => setAddVisible(!addVisible)}>
+                    <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -118,6 +124,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginLeft: "6%",
+        marginTop: "5%"
     },
     searchIcon: {
         position: "absolute",
