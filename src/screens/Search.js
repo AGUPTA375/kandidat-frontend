@@ -55,7 +55,7 @@ export default function Search() {
         <View style={styles.container}>
 
             <View style={styles.top}>
-                <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.025} color="black" />
+                <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.025} color="#EDB219" />
                 <TextInput
                 onChangeText={setSearch}
                 style={styles.textinput}
@@ -96,14 +96,14 @@ const styles = StyleSheet.create({
         height: windowHeight*0.9,
         backgroundColor:"white",
         alignItems:"center",
-        justifyContent:"space-evenly"
+        justifyContent:"space-between"
     },
     top: {
-        width: windowWidth*0.8,
-        height: windowHeight*0.1,
+        width: windowWidth,
+        height: windowHeight*0.2,
         flexDirection:"row",
         alignItems: "center",
-        marginTop: "15%"
+        backgroundColor: "#7f0001",
     },
     bottom: {
         width: windowWidth,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     },
     searchIcon: {
         position: "absolute",
-        marginLeft:"2%"
+        marginLeft:"13%"
     },
     textinput: {
         borderWidth: 1,
@@ -121,6 +121,9 @@ const styles = StyleSheet.create({
         width: windowWidth*0.8,
         paddingLeft: "12%",
         height: windowHeight*0.06,
+        marginLeft:" 10%",
+        color: "#EDB219",
+        fontWeight: "bold"
     },
     list: {
         width: "100%",
