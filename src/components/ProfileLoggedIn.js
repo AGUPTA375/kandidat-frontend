@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#7f0001"
     },
     name: {
-        fontSize: windowHeight/30
+        fontSize: windowHeight/30,
+        color: "#EDB219"
     },
     followers: {
         fontSize: windowHeight/50

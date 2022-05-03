@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login, signup } from '../data';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -17,7 +18,6 @@ export default function ProfileNotLoggedIn(props) {
     const [nameRegister, setNameRegister] = useState(null)
     const [phoneRegister, setPhoneRegister] = useState(null)
     const [passwordRegister, setPasswordRegister] = useState(null)
-    const [image, setImage] = useState(null)
     const [reset, setReset] = useState(false)
     const [imgb64, setimgb64] = useState(null)
 
@@ -34,18 +34,15 @@ export default function ProfileNotLoggedIn(props) {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
+          allowsEditing: false,
           aspect: [4, 3],
-          quality: 1,
+          quality: 0.5,
         });
-        
-        console.log(result)
-    
+            
         const base64 = await FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' });
-        setimgb64(base64)
     
         if (!result.cancelled) {
-          setImage(result.uri);
+            setimgb64(base64)
         }
       };
 
