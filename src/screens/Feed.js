@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList, ScrollView, RefreshControl } from "react-native"
 import { useState, useCallback, useEffect } from "react";
 import * as SplashScreen from 'expo-splash-screen';
 import { fetchAllProducts } from "../data";
@@ -9,8 +9,21 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function Feed(props) {
 
+    const wait = (timeout) => {
+      return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+
     const [appIsReady, setAppIsReady] = useState(false);
     const [products, setProducts] = useState(null)
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      wait(2000).then(() => {
+        fetchAllProducts(setProducts)
+        setRefreshing(false)
+      });
+    }, []);
 
     useEffect(() => {
         async function prepare() {
@@ -47,8 +60,15 @@ export default function Feed(props) {
       }
 
     return(
-        <View onLayout={onLayoutRootView}
-        style={styles.container}>
+        <ScrollView onLayout={onLayoutRootView}
+        contentContainerStyle={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>
+          
           <View style={styles.products} >
             <FlatList
             horizontal={true}
@@ -73,7 +93,7 @@ export default function Feed(props) {
 
             </FlatList>
           </View>
-        </View>
+        </ScrollView>
     )
 }
 

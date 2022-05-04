@@ -101,6 +101,7 @@ export function fetchAllProducts(setProducts) {
 }
 
 export function postProduct(userID, body) {
+    console.log(body)
     return fetch(`http://localhost:8080/users/${userID}/product`, {
         method: "POST",
         headers: {

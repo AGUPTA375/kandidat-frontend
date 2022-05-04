@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, Modal, StyleSheet, Dimensions, TextInput } from "react-native"
+import { View, Text, Modal, StyleSheet, Dimensions, TextInput, Alert } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { postProduct } from "../data";
@@ -42,7 +42,8 @@ export default function CreateProduct(props) {
                     style={styles.textinput}
                     placeholder="Enter product price..."
                     value={price}
-                    onChangeText={setPrice} />
+                    onChangeText={setPrice}
+                    keyboardType="numeric" />
 
                     <TextInput
                     style={styles.textinput}
@@ -51,8 +52,28 @@ export default function CreateProduct(props) {
                     onChangeText={setDescription} />
 
                     <TouchableOpacity onPress={() => {
-                        var todayDate = new Date().toISOString().slice(0, 10);
-                        postProduct(props.id, { name: name, service: false, price: price, upload_date: todayDate, description: description, fk_user_id: props.id })
+                        if (name === null || price === null || description === null) {
+                            Alert.alert("Error", "All fields must be filled", [{ text:"OK" }])
+                        } else {
+                            var todayDate = new Date().toISOString().slice(0, 10);
+                            postProduct(props.id, { 
+                                name: name, 
+                                service: false, 
+                                price: parseInt(price), 
+                                uploaddate: todayDate, 
+                                description: description, 
+                                fk_user_id: parseInt(props.id) }).then((data) => {
+                                    if (data[0] === 201) {
+                                        Alert.alert(
+                                            "Item uploaded!",
+                                            "Your item has been uploaded.",
+                                            [{ text: "OK" }]
+                                        )
+                                    } else {
+                                        Alert.alert("Error!", "Something went wrong...", [{ text: "OK" }])
+                                    }
+                                })
+                        }
                     }}>
                         <Text>Upload product</Text>
                     </TouchableOpacity>
