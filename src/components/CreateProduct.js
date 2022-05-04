@@ -3,6 +3,8 @@ import { View, Text, Modal, StyleSheet, Dimensions, TextInput, Alert } from "rea
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { postProduct } from "../data";
+import * as FileSystem from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -15,7 +17,23 @@ export default function CreateProduct(props) {
     const [price, setPrice] = useState(null)
     const [uploadDate, setUploadDate] = useState(null)
     const [description, setDescription] = useState(null)
-    const [userID, setUserID] = useState(null)
+    const [imgb64, setimgb64] = useState(null)
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: false,
+          aspect: [4, 3],
+          quality: 0.5,
+        });
+            
+        const base64 = await FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' });
+    
+        if (!result.cancelled) {
+            setimgb64(base64)
+        }
+      };
 
     return (
         <Modal
@@ -51,8 +69,12 @@ export default function CreateProduct(props) {
                     value={description}
                     onChangeText={setDescription} />
 
+                    <TouchableOpacity onPress={() => pickImage()}>
+                        <Text>Choose image</Text>
+                    </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => {
-                        if (name === null || price === null || description === null) {
+                        if (name === null || price === null || description === null || imgb64 === null) {
                             Alert.alert("Error", "All fields must be filled", [{ text:"OK" }])
                         } else {
                             var todayDate = new Date().toISOString().slice(0, 10);
@@ -61,7 +83,8 @@ export default function CreateProduct(props) {
                                 service: false, 
                                 price: parseInt(price), 
                                 uploaddate: todayDate, 
-                                description: description, 
+                                description: description,
+                                picture: imgb64, 
                                 fk_user_id: parseInt(props.id) }).then((data) => {
                                     if (data[0] === 201) {
                                         Alert.alert(

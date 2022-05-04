@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native"
 import { fetchUserInfo } from "../data";
+
+var base64 = require('base-64');
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -21,15 +23,15 @@ export default function ProductPage(props) {
             </View>
         )
     } else {
+        var img = `data:image/png;base64,${base64.decode(props.product.Picture)}`
+
         return (
             <View style={styles.container}>
                 <View style={styles.sellerinfo}>
                     <Text style={{ fontSize: windowHeight*0.03}}>{user.Name}</Text>
                 </View>
 
-                <View style={styles.img} >
-                    <Text>PRODUCT IMAGE</Text>
-                </View>
+                <Image source={{uri:img}} style={styles.img} />
 
                 <View style={styles.description} >
                     <Text style={{ fontSize:windowHeight*0.035 }}>{props.product.Price} kr</Text>
@@ -56,9 +58,6 @@ const styles = StyleSheet.create({
     img: {
         width: windowWidth,
         height: windowHeight*0.25,
-        backgroundColor:"blue",
-        justifyContent:"center",
-        alignItems:"center"
     },
     description: {
         width: windowWidth,

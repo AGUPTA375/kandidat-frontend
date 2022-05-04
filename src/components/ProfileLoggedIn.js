@@ -52,6 +52,10 @@ export default function ProfileLoggedIn(props) {
         });
     }, [])
 
+    useEffect(() => {
+        console.log(img)
+    }, [img])
+
     return (
         <View style={styles.root}>
             <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>

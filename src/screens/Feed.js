@@ -1,7 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList, ScrollView, RefreshControl } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList, ScrollView, RefreshControl, Image } from "react-native"
 import { useState, useCallback, useEffect } from "react";
 import * as SplashScreen from 'expo-splash-screen';
 import { fetchAllProducts } from "../data";
+
+var base64 = require('base-64');
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -75,12 +77,11 @@ export default function Feed(props) {
             data={products}
             keyExtractor={item => item.ProductID}
             renderItem={({ item }) => {
+              var img = `data:image/png;base64,${base64.decode(item.Picture)}`
               return(
                 <TouchableOpacity style={styles.product}
                 onPress={() => props.navigation.navigate("Product", { product: item })}>
-                  <View style={styles.productimage}>
-                    <Text>PRODUCT IMAGE</Text>
-                  </View>
+                    <Image style={styles.productimage} source={{ uri: img }}/>
                   <View style={styles.productinfo}>
                     <Text>{item.Name}</Text>
                     <Text>{item.Price} kr</Text>
@@ -116,13 +117,10 @@ const styles = StyleSheet.create({
   productimage: {
     width: windowWidth*0.35,
     height: windowHeight*0.15,
-    backgroundColor:"blue",
-    justifyContent:"center",
-    alignItems:"center"
   },
   productinfo: {
     width: windowWidth*0.35,
     height: windowHeight*0.1,
     backgroundColor:"green"
-  }
+  },
 })
