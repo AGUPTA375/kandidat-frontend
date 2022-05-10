@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         height: windowHeight*0.45,
         width: windowWidth*0.9,
         marginTop: "20%",
-        alignSelf:"center"
+        alignSelf:"center",
     },
     button: {
         width: windowWidth*0.43,
