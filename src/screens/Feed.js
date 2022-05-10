@@ -1,7 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList, ScrollView, RefreshControl, Image } from "react-native"
 import { useState, useCallback, useEffect } from "react";
-import * as SplashScreen from 'expo-splash-screen';
-import { fetchAllProducts } from "../data";
+import { useFocusEffect } from '@react-navigation/native';
+import { fetchAllProducts, getNotUsersProducts } from "../data";
+import LoggedInFeed from "../components/LoggedInFeed";
+import NotLoggedInFeed from "../components/NotLoggedInFeed";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var base64 = require('base-64');
 
@@ -11,91 +14,39 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function Feed(props) {
 
-    const wait = (timeout) => {
-      return new Promise(resolve => setTimeout(resolve, timeout));
+  const [id, setID] = useState(null)
+
+  const getID = async () => {
+    try {
+    const value = await AsyncStorage.getItem('id')
+    if(value !== null) {
+        setID(value)
+    } else {
+        setID(null)
     }
+    } catch(e) {
+    // error reading value
+    }
+  }
 
-    const [appIsReady, setAppIsReady] = useState(false);
-    const [products, setProducts] = useState(null)
-    const [refreshing, setRefreshing] = useState(false);
+  useEffect(() => {
+      getID();
+  }, [])
 
-    const onRefresh = useCallback(() => {
-      setRefreshing(true);
-      wait(2000).then(() => {
-        fetchAllProducts(setProducts)
-        setRefreshing(false)
-      });
-    }, []);
+  useFocusEffect(() => {
+      getID();
+  })
 
-    useEffect(() => {
-        async function prepare() {
-          try {
-            // Keep the splash screen visible while we fetch resources
-            await SplashScreen.preventAutoHideAsync();
-            // Artificially delay for two seconds to simulate a slow loading
-            // experience. Please remove this if you copy and paste the code!
-            fetchAllProducts(setProducts)
-          } catch (e) {
-            console.warn(e);
-          } finally {
-            // Tell the application to render
-            setAppIsReady(true);
-          }
-        }
-    
-        prepare();
-      }, []);
-
-    const onLayoutRootView = useCallback(async () => {
-        if (appIsReady) {
-          // This tells the splash screen to hide immediately! If we call this after
-          // `setAppIsReady`, then we may see a blank screen while the app is
-          // loading its initial state and rendering its first pixels. So instead,
-          // we hide the splash screen once we know the root view has already
-          // performed layout.
-          await SplashScreen.hideAsync();
-        }
-      }, [appIsReady]);
-    
-      if (!appIsReady) {
-        return null;
-      }
-
-    return(
-        <ScrollView onLayout={onLayoutRootView}
-        contentContainerStyle={styles.container}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }>
-          
-          <View style={styles.products} >
-            <FlatList
-            horizontal={true}
-            data={products}
-            keyExtractor={item => item.ProductID}
-            renderItem={({ item }) => {
-              var img = `data:image/png;base64,${base64.decode(item.Picture)}`
-              return(
-                <TouchableOpacity style={styles.product}
-                onPress={() => props.navigation.navigate("Product", { product: item })}>
-                    <Image style={styles.productimage} source={{ uri: img }}/>
-                  <View style={styles.productinfo}>
-                    <Text>{item.Name}</Text>
-                    <Text>{item.Price} kr</Text>
-
-                  </View>
-                </TouchableOpacity>
-              )
-            }}>
-
-
-            </FlatList>
-          </View>
-        </ScrollView>
+  if (id === null) {
+    return (
+      <NotLoggedInFeed />
     )
+  } else {
+    return (
+      <LoggedInFeed id={id} />
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({

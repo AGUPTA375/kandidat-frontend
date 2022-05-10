@@ -1,0 +1,76 @@
+import { useEffect, useState } from "react"
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image } from "react-native"
+import { fetchAllProducts } from "../data"
+var base64 = require('base-64');
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+export default function NotLoggedInFeed() {
+
+    const [products, setProducts] = useState(null)
+
+    useEffect(() => {
+        fetchAllProducts(setProducts)
+    }, [])
+
+    return (
+        <ScrollView contentContainerStyle={styles.container}>
+            <FlatList 
+            data={products}
+            contentContainerStyle={{ justifyContent:"center", alignItems:"center"}}
+            horizontal={true}
+            keyExtractor={item => item.ProductID}
+            renderItem={({ item }) => {
+                var img = `data:image/png;base64,${base64.decode(item.Picture)}`
+                return (
+                    <TouchableOpacity style={styles.product}>
+
+                        <Image style={styles.buttonTop} source={{ uri: img }}/>
+                            
+
+
+                        <View style={styles.buttonDown}>
+                            <Text style={styles.goldText}>{item.Name}</Text>
+                        </View>
+                        
+                    </TouchableOpacity>
+            )
+            }} />
+        </ScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    container: {
+        width: windowWidth,
+        height: windowHeight*0.9,
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    product: {
+        width: windowWidth*0.43,
+        height:windowHeight*0.25,
+        alignItems:"center",
+        backgroundColor:"#7f0001",
+        marginHorizontal: windowWidth*0.05,
+        borderRadius: 10
+      },
+    goldText: { 
+    color: "#EDB219", 
+    fontSize:windowHeight*0.02, 
+    fontWeight:"bold"
+    },
+    buttonTop: {
+        width: windowWidth*0.43,
+        height: windowHeight*0.17,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10
+    },
+    buttonDown: {
+        width: windowWidth*0.43,
+        height: windowHeight*0.08,
+        justifyContent:"center",
+        alignItems:"center"
+    },
+})
