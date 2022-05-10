@@ -94,7 +94,6 @@ export default function ProfileLoggedIn(props) {
                 data={userProducts}
                 renderItem={({ item }) => {
                     var im = `data:image/png;base64,${base64.decode(item.Picture)}`
-                    console.log(im)
                     return (
                             <TouchableOpacity style={styles.button}>
 

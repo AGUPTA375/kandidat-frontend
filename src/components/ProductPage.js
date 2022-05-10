@@ -24,7 +24,6 @@ export default function ProductPage(props) {
         )
     } else {
         var img = `data:image/png;base64,${base64.decode(props.product.Picture)}`
-        console.log(props.product.Service)
         return (
             <View style={styles.container}>
                 <View style={styles.sellerinfo}>
