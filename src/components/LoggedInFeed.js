@@ -24,7 +24,7 @@ export default function LoggedInFeed(props) {
             renderItem={({ item }) => {
                 var img = `data:image/png;base64,${base64.decode(item.Picture)}`
                 return (
-                    <TouchableOpacity style={styles.product}>
+                    <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
 
                         <Image style={styles.buttonTop} source={{ uri: img }}/>
                             

@@ -39,11 +39,11 @@ export default function Feed(props) {
 
   if (id === null) {
     return (
-      <NotLoggedInFeed />
+      <NotLoggedInFeed navigation={props.navigation}/>
     )
   } else {
     return (
-      <LoggedInFeed id={id} />
+      <LoggedInFeed id={id} navigation={props.navigation} />
     )
   }
 

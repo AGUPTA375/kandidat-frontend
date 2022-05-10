@@ -6,7 +6,7 @@ var base64 = require('base-64');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default function NotLoggedInFeed() {
+export default function NotLoggedInFeed(props) {
 
     const [products, setProducts] = useState(null)
 
@@ -24,7 +24,7 @@ export default function NotLoggedInFeed() {
             renderItem={({ item }) => {
                 var img = `data:image/png;base64,${base64.decode(item.Picture)}`
                 return (
-                    <TouchableOpacity style={styles.product}>
+                    <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item, loggedIn: false })}>
 
                         <Image style={styles.buttonTop} source={{ uri: img }}/>
                             
