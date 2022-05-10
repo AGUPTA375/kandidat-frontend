@@ -36,10 +36,11 @@ export default function ProductHeader(props) {
 const styles = StyleSheet.create({
     container: {
         width: windowWidth,
-        height: windowHeight*0.25,
+        height: windowHeight*0.2,
         backgroundColor:"#7f0001",
         flexDirection:"row",
-        alignItems:"center"
+        alignItems:"center",
+        paddingTop: "6%"
     },
     leftright: {
         height: windowHeight*0.25,

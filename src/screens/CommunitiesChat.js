@@ -19,7 +19,6 @@ export default function CommunitiesChat(props) {
     const getID = async () => {
         try {
         const value = await AsyncStorage.getItem('id')
-        console.log(value)
         if(value !== null) {
             setID(value)
         } else {

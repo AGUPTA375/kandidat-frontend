@@ -66,9 +66,9 @@ export default function ProfileNotLoggedIn(props) {
             onRequestClose={() => setRegister(!register)}>
                 <View style={styles.modal}>
                         <TouchableOpacity
-                        style={{ width: windowWidth*0.3, height:windowHeight*0.08, backgroundColor:"#7f0001", justifyContent:"center", alignItems:"center", borderRadius:20 }}
+                        style={styles.close}
                         onPress={() => {setRegister(!register); setReset(true)}} >
-                            <Text style={{fontSize:windowHeight*0.03}} >Close</Text>
+                            <Text style={[styles.goldTextBold, { fontSize: windowHeight*0.03}]} >Close</Text>
                         </TouchableOpacity>
                         <View style={{ alignItems:"center"}}>
 
@@ -93,8 +93,8 @@ export default function ProfileNotLoggedIn(props) {
 
                             <TouchableOpacity
                             onPress={() => pickImage()}
-                            style={{width: windowWidth*0.5, height:windowHeight*0.05, justifyContent:"center", alignItems:"center", borderRadius:30, backgroundColor:"#7f0001"}}>
-                                <Text>Choose image</Text>
+                            style={styles.modalbuttons}>
+                                <Text style={[styles.goldTextBold, { fontSize: windowHeight*0.02}]}>Choose image</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
@@ -121,8 +121,8 @@ export default function ProfileNotLoggedIn(props) {
                                     )
                                 }
                             })}
-                            style={{width: windowWidth*0.5, height:windowHeight*0.05, justifyContent:"center", alignItems:"center", borderRadius:30, backgroundColor:"#7f0001"}}>
-                                <Text>Create account</Text>
+                            style={styles.modalbuttons}>
+                                <Text style={[styles.goldTextBold, { fontSize: windowHeight*0.02}]}>Create account</Text>
                             </TouchableOpacity>
 
                         </View>
@@ -165,12 +165,12 @@ export default function ProfileNotLoggedIn(props) {
                     )
                 }
             })}}>
-                <Text style={styles.buttontext}>Log in</Text>
+                <Text style={[styles.goldTextBold, { fontSize: windowHeight*0.035}]}>Log in</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.button, { backgroundColor: "#F9ADA0"}]}
+            <TouchableOpacity style={[styles.button, { backgroundColor: "#650001"}]}
             onPress={() => setRegister(!register)}>
-                <Text style={styles.buttontext}>Sign up</Text>
+                <Text style={[styles.goldTextBold, { fontSize: windowHeight*0.035 }]}>Sign up</Text>
             </TouchableOpacity>
         </View>
     )
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     button: {
         width: windowWidth*0.7,
         height: windowHeight*0.1,
-        backgroundColor:"#83B692",
+        backgroundColor:"#650001",
         justifyContent:"center",
         alignItems:"center",
         borderRadius: 10,
@@ -228,5 +228,27 @@ const styles = StyleSheet.create({
         width: windowWidth*0.8,
         height: windowHeight*0.1,
         marginTop: "10%"
+    },
+    close: { 
+        width: windowWidth*0.3, 
+        height:windowHeight*0.06, 
+        backgroundColor:"#7f0001", 
+        justifyContent:"center", 
+        alignItems:"center", 
+        borderRadius:20,
+        marginTop: "10%"
+    },
+    goldTextBold: {
+        color: "#EDB219", 
+        fontWeight: "bold"
+    },
+    modalbuttons: {
+        width: windowWidth*0.5, 
+        height:windowHeight*0.05, 
+        justifyContent:"center", 
+        alignItems:"center", 
+        borderRadius:30, 
+        backgroundColor:"#7f0001",
+        marginVertical: "3%"
     }
 })

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Settings from './Settings';
 
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
-import { getUserInfo } from '../data';
+import { getUserInfo, getUsersProducts } from '../data';
 import CreateProduct from './CreateProduct';
 
 var base64 = require('base-64');
@@ -41,6 +41,7 @@ export default function ProfileLoggedIn(props) {
     const [search, setSearch] = useState(null)
     const [settingsVisible, setSettingsVisible] = useState(false)
     const [addVisible, setAddVisible] = useState(false)
+    const [userProducts, setUserProducts] = useState(null)
 
     useEffect(() => {
         getUserInfo(props.id).then((data) => {
@@ -50,11 +51,8 @@ export default function ProfileLoggedIn(props) {
                 setName(user.Name)
             }
         });
+        getUsersProducts(props.id, setUserProducts)
     }, [])
-
-    useEffect(() => {
-        console.log(img)
-    }, [img])
 
     return (
         <View style={styles.root}>
@@ -88,6 +86,31 @@ export default function ProfileLoggedIn(props) {
                     <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
                 </TouchableOpacity>
             </View>
+            <View style={styles.productsView}> 
+                <FlatList 
+                contentContainerStyle={styles.flatlist}
+                keyExtractor={item => item.ProductID}
+                numColumns={2}
+                data={userProducts}
+                renderItem={({ item }) => {
+                    var im = `data:image/png;base64,${base64.decode(item.Picture)}`
+                    console.log(im)
+                    return (
+                            <TouchableOpacity style={styles.button}>
+
+                                <Image style={styles.buttonTop} source={{ uri: im }}/>
+                                    
+
+
+                                <View style={styles.buttonDown}>
+                                    <Text style={styles.goldText}>{item.Name}</Text>
+                                </View>
+                                
+                            </TouchableOpacity>
+                    )
+                }}
+                />
+            </View>
         </View>
     )
 }
@@ -111,7 +134,8 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: windowHeight/30,
-        color: "#EDB219"
+        color: "#EDB219",
+        fontWeight:"bold"
     },
     followers: {
         fontSize: windowHeight/50
@@ -145,5 +169,48 @@ const styles = StyleSheet.create({
         height: windowHeight/2.5,
         alignItems:"center",
         justifyContent:"flex-end"
+    },
+    productsView: {
+        width: windowWidth,
+        height: windowHeight*0.45,
+    },
+    flatlist: {
+        flexDirection:"column",
+        width:"100%",
+        alignItems:"center",
+    },
+    button: {
+        width: windowWidth*0.43,
+        height: windowHeight*0.25,
+        backgroundColor:"#7f0001",
+        alignItems:"center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        elevation: 10,
+        borderRadius: 10,
+        marginVertical: "5%",
+        marginHorizontal:"3%"
+    },
+    goldText: { 
+        color: "#EDB219", 
+        fontSize:windowHeight*0.02, 
+        fontWeight:"bold"
+    },
+    buttonTop: {
+        width: windowWidth*0.43,
+        height: windowHeight*0.17,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10
+    },
+    buttonDown: {
+        width: windowWidth*0.43,
+        height: windowHeight*0.08,
+        justifyContent:"center",
+        alignItems:"center"
     }
 })

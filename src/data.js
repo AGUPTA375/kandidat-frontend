@@ -14,6 +14,16 @@ export function getNotUsersCommunities(id) {
     })
 }
 
+export function getUsersProducts(id, setProducts) {
+    return fetch(`http://localhost:8080/users/${id}/products`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        data[0] === 200 ? setProducts(data[1]) : setProducts(null)
+    })
+}
+
 export function getUserInfo(id) {
     return fetch(`http://localhost:8080/users/${id}`).then((response) => {
         const statusCode = response.status;
@@ -101,7 +111,6 @@ export function fetchAllProducts(setProducts) {
 }
 
 export function postProduct(userID, body) {
-    console.log(body)
     return fetch(`http://localhost:8080/users/${userID}/product`, {
         method: "POST",
         headers: {

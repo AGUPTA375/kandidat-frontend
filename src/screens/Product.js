@@ -15,10 +15,6 @@ export default function Product(props) {
         }
     }, [])
 
-    useEffect(() => {
-        product === null ? {} : console.log(product)
-    }, [product])
-
     if (product === null) {
         return(
             <View>

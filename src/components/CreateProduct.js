@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Modal, StyleSheet, Dimensions, TextInput, Alert } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { postProduct } from "../data";
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
+import { Switch } from "react-native-paper";
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -13,9 +14,8 @@ const windowHeight = Dimensions.get('window').height;
 export default function CreateProduct(props) {
 //name,service,price,upload_date,description,fk_user_id
     const [name, setName] = useState(null)
-    const [service, setService] = useState(null)
+    const [service, setService] = useState(false)
     const [price, setPrice] = useState(null)
-    const [uploadDate, setUploadDate] = useState(null)
     const [description, setDescription] = useState(null)
     const [imgb64, setimgb64] = useState(null)
 
@@ -34,6 +34,18 @@ export default function CreateProduct(props) {
             setimgb64(base64)
         }
       };
+
+    // Clear inputs in modal when its closed
+    useEffect(() => {
+        if (!props.modal) {
+            setName(null)
+            setService(false)
+            setPrice(null)
+            setDescription(null)
+            setDescription(null)
+            setimgb64(null)
+        }
+    }, [props.modal])
 
     return (
         <Modal
@@ -58,19 +70,33 @@ export default function CreateProduct(props) {
 
                     <TextInput
                     style={styles.textinput}
-                    placeholder="Enter product price..."
-                    value={price}
-                    onChangeText={setPrice}
-                    keyboardType="numeric" />
-
-                    <TextInput
-                    style={styles.textinput}
                     placeholder="Enter product description..."
                     value={description}
                     onChangeText={setDescription} />
 
-                    <TouchableOpacity onPress={() => pickImage()}>
-                        <Text>Choose image</Text>
+                    <View style={{ flexDirection: "row", alignItems:"center", width: windowWidth*0.7, justifyContent:"space-between"}}>
+                        <TextInput
+                        style={[styles.textinput, { width: windowWidth*0.4}]}
+                        placeholder="Enter product price..."
+                        value={price}
+                        onChangeText={setPrice}
+                        keyboardType="numeric" />
+                        <View style={{ flexDirection:"column"}}>
+                            <Text style={{ fontWeight: "bold"}}>Service?</Text>
+                            <Switch value={service} onValueChange={() => setService(!service)} color="#7f0001" style={{
+                                marginBottom: "45%",
+                                marginTop: "15%"
+                            }}/>
+                        </View>
+
+                    </View>
+
+
+                    
+
+                    <TouchableOpacity onPress={() => pickImage()}
+                    style={styles.modalbuttons}>
+                        <Text style={styles.goldTextBold}>Choose image</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => {
@@ -80,7 +106,7 @@ export default function CreateProduct(props) {
                             var todayDate = new Date().toISOString().slice(0, 10);
                             postProduct(props.id, { 
                                 name: name, 
-                                service: false, 
+                                service: service, 
                                 price: parseInt(price), 
                                 uploaddate: todayDate, 
                                 description: description,
@@ -97,8 +123,9 @@ export default function CreateProduct(props) {
                                     }
                                 })
                         }
-                    }}>
-                        <Text>Upload product</Text>
+                    }}
+                    style={styles.modalbuttons}>
+                        <Text style={styles.goldTextBold}>Upload product</Text>
                     </TouchableOpacity>
 
 
@@ -148,6 +175,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingLeft: "5%",
         marginVertical: "5%"
+    },
+    modalbuttons: {
+        width: windowWidth*0.5, 
+        height:windowHeight*0.05, 
+        justifyContent:"center", 
+        alignItems:"center", 
+        borderRadius:30, 
+        backgroundColor:"#7f0001",
+        marginVertical: "3%"
+    },
+    goldTextBold: {
+        color: "#EDB219", 
+        fontWeight: "bold"
     },
 })
 

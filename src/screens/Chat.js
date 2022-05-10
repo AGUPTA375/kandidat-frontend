@@ -5,9 +5,6 @@ import CommunitiesStack from '../components/CommunitiesStack';
 
 export default function Chat(props) {
 
-    console.log(props)
-
-
     if(props.route.params === undefined) {
         return (
             <View>

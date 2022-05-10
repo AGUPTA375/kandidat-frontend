@@ -24,7 +24,7 @@ export default function ProductPage(props) {
         )
     } else {
         var img = `data:image/png;base64,${base64.decode(props.product.Picture)}`
-
+        console.log(props.product.Service)
         return (
             <View style={styles.container}>
                 <View style={styles.sellerinfo}>
@@ -46,7 +46,7 @@ export default function ProductPage(props) {
 const styles = StyleSheet.create({
     container: {
         width: windowWidth,
-        height: windowHeight*0.65,
+        height: windowHeight*0.7,
         backgroundColor:"white"
     },
     sellerinfo: {
