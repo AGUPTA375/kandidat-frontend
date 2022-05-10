@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput, FlatList } from 'react-native';
+import { useEffect, useState, useCallback } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput, FlatList, RefreshControl, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Settings from './Settings';
 
@@ -42,6 +42,19 @@ export default function ProfileLoggedIn(props) {
     const [settingsVisible, setSettingsVisible] = useState(false)
     const [addVisible, setAddVisible] = useState(false)
     const [userProducts, setUserProducts] = useState(null)
+    const [refreshing, setRefreshing] = useState(false);
+
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      wait(2000).then(() => {
+        getUsersProducts(props.id, setUserProducts)
+        setRefreshing(false)
+      });
+    }, []);
 
     useEffect(() => {
         getUserInfo(props.id).then((data) => {
@@ -55,7 +68,7 @@ export default function ProfileLoggedIn(props) {
     }, [])
 
     return (
-        <View style={styles.root}>
+        <View >
             <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>
             <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
             <View style={styles.profile}>
@@ -86,16 +99,21 @@ export default function ProfileLoggedIn(props) {
                     <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
                 </TouchableOpacity>
             </View>
-            <View style={styles.productsView}> 
+            <ScrollView contentContainerStyle={styles.productsView}
+            refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                />
+              } > 
                 <FlatList 
-                contentContainerStyle={styles.flatlist}
+                horizontal={true}
                 keyExtractor={item => item.ProductID}
-                numColumns={2}
                 data={userProducts}
                 renderItem={({ item }) => {
                     var im = `data:image/png;base64,${base64.decode(item.Picture)}`
                     return (
-                            <TouchableOpacity style={styles.button}>
+                            <TouchableOpacity style={styles.product}>
 
                                 <Image style={styles.buttonTop} source={{ uri: im }}/>
                                     
@@ -109,7 +127,7 @@ export default function ProfileLoggedIn(props) {
                     )
                 }}
                 />
-            </View>
+            </ScrollView>
         </View>
     )
 }
@@ -158,11 +176,6 @@ const styles = StyleSheet.create({
         position: "absolute",
         paddingLeft: windowWidth*0.02,
     },
-    root: {
-        flex:1,
-        backgroundColor:"white",
-        alignItems:"center"
-    },
     info: {
         width: windowWidth*0.6,
         height: windowHeight/2.5,
@@ -170,19 +183,14 @@ const styles = StyleSheet.create({
         justifyContent:"flex-end"
     },
     productsView: {
-        width: windowWidth,
         height: windowHeight*0.45,
-    },
-    flatlist: {
-        flexDirection:"column",
-        width:"100%",
-        alignItems:"center",
+        width: windowWidth*0.9,
+        marginTop: "20%",
+        alignSelf:"center"
     },
     button: {
         width: windowWidth*0.43,
         height: windowHeight*0.25,
-        backgroundColor:"#7f0001",
-        alignItems:"center",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -193,7 +201,7 @@ const styles = StyleSheet.create({
         elevation: 10,
         borderRadius: 10,
         marginVertical: "5%",
-        marginHorizontal:"3%"
+        marginHorizontal:"3%",
     },
     goldText: { 
         color: "#EDB219", 
@@ -211,5 +219,13 @@ const styles = StyleSheet.create({
         height: windowHeight*0.08,
         justifyContent:"center",
         alignItems:"center"
-    }
+    },
+    product: {
+        width: windowWidth*0.43,
+        height:windowHeight*0.25,
+        alignItems:"center",
+        backgroundColor:"#7f0001",
+        marginHorizontal: windowWidth*0.05,
+        borderRadius: 10
+      },
 })
