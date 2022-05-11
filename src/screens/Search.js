@@ -1,11 +1,12 @@
 import { View, Dimensions, StyleSheet, TextInput, Text, FlatList, TouchableOpacity, Image } from "react-native"
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { useState, useEffect } from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import { searchItems } from "../funcs";
+import { searchItems,searchWithCategory } from "../funcs";
 import { getNotUsersProducts } from "../data";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 var base64 = require('base-64');
+
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -51,6 +52,10 @@ export default function Search(props) {
         {
             id: 8,
             name: "Winter"
+        },
+        {
+            id: 9,
+            name: "category"
         }
     ]
 
@@ -58,6 +63,7 @@ export default function Search(props) {
     const [searchResults, setSearchResults] = useState(null)
     const [products, setProducts] = useState(null)
     const [id, setID] = useState(null)
+    const [category, setCategory] = useState("Categories")
 
     const getID = async () => {
       try {
@@ -96,44 +102,118 @@ export default function Search(props) {
         }
     }, [search, products])
 
+    useEffect(() => {
+        if (category == "Categories") {
+            setSearchResults(products)
+        } else {
+            setSearchResults(searchWithCategory(category, products))
+        }
+    }, [category])
+
     if (search === "") {
-        return(
-            <View style={styles.container}>
 
-                <View style={styles.top}>
-                    <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.025} color="#EDB219" />
-                    <TextInput
-                    onChangeText={setSearch}
-                    style={styles.textinput}
-                    placeholder={"Search..."}
-                    value={search}
-                    />
-                </View>
-                <Text style={{ fontSize: windowHeight*0.03, fontWeight:"bold"}}>Categories</Text>
+        if (category == "Categories") {
+
+        
+            return(
+                <View style={styles.container}>
+
+                    <View style={styles.top}>
+                        <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.025} color="#EDB219" />
+                        <TextInput
+                        onChangeText={setSearch}
+                        style={styles.textinput}
+                        placeholder={"Search..."}
+                        value={search}
+                        />
+                    </View>
+                    <Text style={{ fontSize: windowHeight*0.03, fontWeight:"bold"}}>{category}</Text>
 
 
-                <View style={styles.bottom}>
-                    <View style={styles.list}>
-                        <FlatList 
-                        numColumns={2}
-                        contentContainerStyle={styles.flatlist}
-                        data={categories}
-                        renderItem={({ item }) => {
-                            return (
-                                <TouchableOpacity
-                                style={styles.button}>
-                                    <Text style={{ color: "#EDB219", fontSize:windowHeight*0.02, fontWeight:"bold"}}>{item.name}</Text>
-                                </TouchableOpacity>
-                            )
-                        }}/>
+                    <View style={styles.bottom}>
+                        <View style={styles.list}>
+                            <FlatList 
+                            numColumns={2}
+                            contentContainerStyle={styles.flatlist}
+                            data={categories}
+                            renderItem={({ item }) => {
+                                return (
+                                    <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => {
+                                        setCategory(item.name)
+                                    }} >
+                                        <Text style={{ color: "#EDB219", fontSize:windowHeight*0.02, fontWeight:"bold"}}>{item.name}</Text>
+                                    </TouchableOpacity>
+                                )
+                            }}/>
+
+                        </View>
 
                     </View>
 
+
                 </View>
+            )
+        } else {
+            return(
+                <View style={styles.container}>
+
+                    <View style={styles.top}>
+                        <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.025} color="#EDB219" />
+                        <TextInput
+                        onChangeText={setSearch}
+                        style={styles.textinput}
+                        placeholder={"Search..."}
+                        value={search}
+                        />
+                    </View>
+
+                    <View style={{ width:windowWidth, height:windowHeight*0.1, justifyContent:"space-around", alignItems:"center", flexDirection:"row"}}>
+                        <Text style={{ fontSize: windowHeight*0.03, fontWeight:"bold"}}>{category}</Text>
+                        <TouchableOpacity onPress={() => {
+                            setCategory("Categories")
+                        }}>
+                            
+                            <Entypo name="circle-with-cross" size={windowHeight*0.04} color="black" />
+
+                        </TouchableOpacity>
+                    </View>
 
 
-            </View>
-        )
+                    <View style={styles.bottom}>
+                        <View style={styles.list}>
+                            <FlatList 
+                            numColumns={2}
+                            contentContainerStyle={styles.flatlist}
+                            data={searchResults}
+                            keyExtractor={item => item.product_id}
+                            renderItem={({ item }) => {
+                            var img = `data:image/png;base64,${base64.decode(item.picture)}`
+                            return (
+                                <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
+            
+                                    <Image style={styles.buttonTop} source={{ uri: img }}/>
+                                        
+                                    <View style={styles.buttonDown}>
+                                        <Text style={styles.goldText}>{item.name}</Text>
+                                    </View>
+                                    
+                                </TouchableOpacity>
+                        )
+                        }} />
+
+                        </View>
+
+                    </View>
+
+
+                </View>
+            )
+        }
+
+
+
     } else {
         return(
             <View style={styles.container}>
@@ -169,7 +249,7 @@ export default function Search(props) {
                                     
                                 </TouchableOpacity>
                         )
-                        }}/>
+                        }} />
 
                     </View>
 

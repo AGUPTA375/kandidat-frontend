@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Modal, StyleSheet, Dimensions, TextInput, Alert } from "react-native"
+import { View, Text, Modal, StyleSheet, Dimensions, TextInput, Alert, Image } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { postProduct } from "../data";
@@ -18,6 +18,8 @@ export default function CreateProduct(props) {
     const [price, setPrice] = useState(null)
     const [description, setDescription] = useState(null)
     const [imgb64, setimgb64] = useState(null)
+    const [category, setCategory] = useState("category")
+    const [img, setImg] = useState("f")
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -31,6 +33,7 @@ export default function CreateProduct(props) {
         const base64 = await FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' });
     
         if (!result.cancelled) {
+            setImg(result.uri)
             setimgb64(base64)
         }
       };
@@ -44,6 +47,7 @@ export default function CreateProduct(props) {
             setDescription(null)
             setDescription(null)
             setimgb64(null)
+            setImg("f")
         }
     }, [props.modal])
 
@@ -91,13 +95,21 @@ export default function CreateProduct(props) {
 
                     </View>
 
+                    <View style={{ width: windowWidth*0.9, height: windowHeight*0.1, flexDirection:"row", justifyContent:"space-evenly"}}>
+                        <TouchableOpacity style={styles.modalbuttons}>
+                            <Text style={styles.goldTextBold}>{category}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => pickImage()}
+                        style={styles.modalbuttons}>
+                            <Text style={styles.goldTextBold}>Choose image</Text>
+                        </TouchableOpacity>
+                    </View>
 
-                    
+                    <View style={{ width:windowWidth*0.7, height:windowHeight*0.2, alignItems:"center"}}>
 
-                    <TouchableOpacity onPress={() => pickImage()}
-                    style={styles.modalbuttons}>
-                        <Text style={styles.goldTextBold}>Choose image</Text>
-                    </TouchableOpacity>
+                        <Image source={{ uri:img }} style={{ width:"100%", height:"100%"}} resizeMode="contain" />
+
+                    </View>
 
                     <TouchableOpacity onPress={() => {
                         if (name === null || price === null || description === null || imgb64 === null) {
@@ -105,7 +117,8 @@ export default function CreateProduct(props) {
                         } else {
                             postProduct(props.id, { 
                                 name: name, 
-                                service: service, 
+                                service: service,
+                                category: category,
                                 price: parseInt(price), 
                                 description: description,
                                 picture: imgb64, 
@@ -122,10 +135,9 @@ export default function CreateProduct(props) {
                                 })
                         }
                     }}
-                    style={styles.modalbuttons}>
+                    style={[styles.modalbuttons, { marginTop: "6%" }]}>
                         <Text style={styles.goldTextBold}>Upload product</Text>
                     </TouchableOpacity>
-
 
                 </View>
 
@@ -175,13 +187,13 @@ const styles = StyleSheet.create({
         marginVertical: "5%"
     },
     modalbuttons: {
-        width: windowWidth*0.5, 
-        height:windowHeight*0.05, 
+        width: windowWidth*0.4, 
+        height:windowHeight*0.06, 
         justifyContent:"center", 
         alignItems:"center", 
         borderRadius:30, 
         backgroundColor:"#7f0001",
-        marginVertical: "3%"
+        marginVertical: "10%"
     },
     goldTextBold: {
         color: "#EDB219", 

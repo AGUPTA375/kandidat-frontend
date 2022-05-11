@@ -8,3 +8,13 @@ export function searchItems(input, data) {
     }
     return result
 }
+
+export function searchWithCategory(category, data) {
+    var result = []
+    for (var ele of data) {
+        if (ele.category == category) {
+            result.push(ele)
+        }
+    }
+    return result
+}
