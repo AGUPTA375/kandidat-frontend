@@ -224,10 +224,10 @@ export default function ProfileLoggedIn(props) {
                 } > 
                     <FlatList 
                     horizontal={true}
-                    keyExtractor={item => item.ProductID}
+                    keyExtractor={item => item.product_id}
                     data={userProducts}
                     renderItem={({ item }) => {
-                        var im = `data:image/png;base64,${base64.decode(item.Picture)}`
+                        var im = `data:image/png;base64,${base64.decode(item.picture)}`
                         return (
                                 <TouchableOpacity style={styles.product}>
 
@@ -236,7 +236,7 @@ export default function ProfileLoggedIn(props) {
 
 
                                     <View style={styles.buttonDown}>
-                                        <Text style={styles.goldText}>{item.Name}</Text>
+                                        <Text style={styles.goldText}>{item.name}</Text>
                                     </View>
                                     
                                 </TouchableOpacity>
