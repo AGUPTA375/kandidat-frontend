@@ -1,8 +1,11 @@
-import { View, Dimensions, StyleSheet, TextInput, Text, FlatList, TouchableOpacity } from "react-native"
+import { View, Dimensions, StyleSheet, TextInput, Text, FlatList, TouchableOpacity, Image } from "react-native"
 import { FontAwesome } from '@expo/vector-icons';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import { searchItems } from "../funcs";
 import { getNotUsersProducts } from "../data";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+var base64 = require('base-64');
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -51,15 +54,49 @@ export default function Search(props) {
         }
     ]
 
-    const [search, setSearch] = useState(null)
+    const [search, setSearch] = useState("")
+    const [searchResults, setSearchResults] = useState(null)
     const [products, setProducts] = useState(null)
+    const [id, setID] = useState(null)
+
+    const getID = async () => {
+      try {
+      const value = await AsyncStorage.getItem('id')
+      if(value !== null) {
+          setID(value)
+      } else {
+          setID(null)
+      }
+      } catch(e) {
+      // error reading value
+      }
+    }
+  
+    useEffect(() => {
+        getID();
+    }, [])
+  
+    useFocusEffect(() => {
+        getID();
+    })
 
     useEffect(() => {
-        console.log(props)
-    }, [])
-    
+        if (id !== null) {
+            getNotUsersProducts(id, setProducts)
+        }
+    }, [id])
 
-    if (search === null) {
+    useEffect(() => {
+        if (search === "") {
+            setSearchResults(products)
+        } else {
+            if (products !== null) {
+                setSearchResults(searchItems(search, products))
+            }
+        }
+    }, [search, products])
+
+    if (search === "") {
         return(
             <View style={styles.container}>
 
@@ -117,14 +154,21 @@ export default function Search(props) {
                         <FlatList 
                         numColumns={2}
                         contentContainerStyle={styles.flatlist}
-                        data={categories}
+                        data={searchResults}
+                        keyExtractor={item => item.product_id}
                         renderItem={({ item }) => {
+                            var img = `data:image/png;base64,${base64.decode(item.picture)}`
                             return (
-                                <TouchableOpacity
-                                style={styles.button}>
-                                    <Text style={{ color: "#EDB219", fontSize:windowHeight*0.02, fontWeight:"bold"}}>{item.name}</Text>
+                                <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
+            
+                                    <Image style={styles.buttonTop} source={{ uri: img }}/>
+                                        
+                                    <View style={styles.buttonDown}>
+                                        <Text style={styles.goldText}>{item.name}</Text>
+                                    </View>
+                                    
                                 </TouchableOpacity>
-                            )
+                        )
                         }}/>
 
                     </View>
@@ -198,5 +242,30 @@ const styles = StyleSheet.create({
         flexDirection:"column",
         width:"100%",
         alignItems:"center",
-    }
+    },
+    product: {
+        width: windowWidth*0.43,
+        height:windowHeight*0.25,
+        alignItems:"center",
+        backgroundColor:"#7f0001",
+        marginHorizontal: windowWidth*0.05,
+        borderRadius: 10
+      },
+    goldText: { 
+        color: "#EDB219", 
+        fontSize:windowHeight*0.02, 
+        fontWeight:"bold"
+    },
+    buttonTop: {
+        width: windowWidth*0.43,
+        height: windowHeight*0.17,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10
+    },
+    buttonDown: {
+        width: windowWidth*0.43,
+        height: windowHeight*0.08,
+        justifyContent:"center",
+        alignItems:"center"
+    },
 })
