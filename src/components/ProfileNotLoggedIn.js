@@ -98,9 +98,9 @@ export default function ProfileNotLoggedIn(props) {
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                            onPress={() => signup({name: nameRegister, phonenumber: phoneRegister.toString(), password: passwordRegister, picture: imgb64 })
+                            onPress={() => signup({name: nameRegister, phone_number: phoneRegister.toString(), password: passwordRegister, picture: imgb64 })
                             .then((data) => {
-                                if (data[0] === 200) {
+                                if (data[0] === 201) {
                                     Alert.alert(
                                         "Account created!",
                                         "You can now login.",
@@ -112,6 +112,7 @@ export default function ProfileNotLoggedIn(props) {
                                     )
                                     setRegister(!register)
                                 } else {
+                                    console.log(data)
                                     Alert.alert(
                                         "Something went wrong...",
                                         "Try again",

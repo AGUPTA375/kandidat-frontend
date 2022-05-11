@@ -103,15 +103,13 @@ export default function CreateProduct(props) {
                         if (name === null || price === null || description === null || imgb64 === null) {
                             Alert.alert("Error", "All fields must be filled", [{ text:"OK" }])
                         } else {
-                            var todayDate = new Date().toISOString().slice(0, 10);
                             postProduct(props.id, { 
                                 name: name, 
                                 service: service, 
                                 price: parseInt(price), 
-                                uploaddate: todayDate, 
                                 description: description,
                                 picture: imgb64, 
-                                fk_user_id: parseInt(props.id) }).then((data) => {
+                                user_id: parseInt(props.id) }).then((data) => {
                                     if (data[0] === 201) {
                                         Alert.alert(
                                             "Item uploaded!",

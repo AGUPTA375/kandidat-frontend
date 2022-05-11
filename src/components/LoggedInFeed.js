@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image } from "react-native"
 import { getNotUsersProducts } from "../data"
+import { useFocusEffect } from '@react-navigation/native';
 var base64 = require('base-64');
 
 const windowWidth = Dimensions.get('window').width;
@@ -20,9 +21,9 @@ export default function LoggedInFeed(props) {
             data={products}
             contentContainerStyle={{ justifyContent:"center", alignItems:"center"}}
             horizontal={true}
-            keyExtractor={item => item.ProductID}
+            keyExtractor={item => item.product_id}
             renderItem={({ item }) => {
-                var img = `data:image/png;base64,${base64.decode(item.Picture)}`
+                var img = `data:image/png;base64,${base64.decode(item.picture)}`
                 return (
                     <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
 
@@ -31,7 +32,7 @@ export default function LoggedInFeed(props) {
 
 
                         <View style={styles.buttonDown}>
-                            <Text style={styles.goldText}>{item.Name}</Text>
+                            <Text style={styles.goldText}>{item.name}</Text>
                         </View>
                         
                     </TouchableOpacity>

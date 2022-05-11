@@ -1,12 +1,14 @@
 import { View, Dimensions, StyleSheet, TextInput, Text, FlatList, TouchableOpacity } from "react-native"
 import { FontAwesome } from '@expo/vector-icons';
 import { useState } from "react";
+import { searchItems } from "../funcs";
+import { getNotUsersProducts } from "../data";
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default function Search() {
+export default function Search(props) {
 
 
 
@@ -50,44 +52,89 @@ export default function Search() {
     ]
 
     const [search, setSearch] = useState(null)
+    const [products, setProducts] = useState(null)
 
-    return(
-        <View style={styles.container}>
+    useEffect(() => {
+        console.log(props)
+    }, [])
+    
 
-            <View style={styles.top}>
-                <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.025} color="#EDB219" />
-                <TextInput
-                onChangeText={setSearch}
-                style={styles.textinput}
-                placeholder={"Search..."}
-                value={search}
-                />
-            </View>
-            <Text style={{ fontSize: windowHeight*0.03, fontWeight:"bold"}}>Categories</Text>
+    if (search === null) {
+        return(
+            <View style={styles.container}>
+
+                <View style={styles.top}>
+                    <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.025} color="#EDB219" />
+                    <TextInput
+                    onChangeText={setSearch}
+                    style={styles.textinput}
+                    placeholder={"Search..."}
+                    value={search}
+                    />
+                </View>
+                <Text style={{ fontSize: windowHeight*0.03, fontWeight:"bold"}}>Categories</Text>
 
 
-            <View style={styles.bottom}>
-                <View style={styles.list}>
-                    <FlatList 
-                    numColumns={2}
-                    contentContainerStyle={styles.flatlist}
-                    data={categories}
-                    renderItem={({ item }) => {
-                        return (
-                            <TouchableOpacity
-                            style={styles.button}>
-                                <Text style={{ color: "#EDB219", fontSize:windowHeight*0.02, fontWeight:"bold"}}>{item.name}</Text>
-                            </TouchableOpacity>
-                        )
-                    }}/>
+                <View style={styles.bottom}>
+                    <View style={styles.list}>
+                        <FlatList 
+                        numColumns={2}
+                        contentContainerStyle={styles.flatlist}
+                        data={categories}
+                        renderItem={({ item }) => {
+                            return (
+                                <TouchableOpacity
+                                style={styles.button}>
+                                    <Text style={{ color: "#EDB219", fontSize:windowHeight*0.02, fontWeight:"bold"}}>{item.name}</Text>
+                                </TouchableOpacity>
+                            )
+                        }}/>
+
+                    </View>
 
                 </View>
 
+
             </View>
+        )
+    } else {
+        return(
+            <View style={styles.container}>
+
+                <View style={styles.top}>
+                    <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.025} color="#EDB219" />
+                    <TextInput
+                    onChangeText={setSearch}
+                    style={styles.textinput}
+                    placeholder={"Search..."}
+                    value={search}
+                    />
+                </View>
 
 
-        </View>
-    )
+                <View style={styles.bottom}>
+                    <View style={styles.list}>
+                        <FlatList 
+                        numColumns={2}
+                        contentContainerStyle={styles.flatlist}
+                        data={categories}
+                        renderItem={({ item }) => {
+                            return (
+                                <TouchableOpacity
+                                style={styles.button}>
+                                    <Text style={{ color: "#EDB219", fontSize:windowHeight*0.02, fontWeight:"bold"}}>{item.name}</Text>
+                                </TouchableOpacity>
+                            )
+                        }}/>
+
+                    </View>
+
+                </View>
+
+
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

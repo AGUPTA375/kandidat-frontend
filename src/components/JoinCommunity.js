@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { getNotUsersCommunities, joinCommunity } from '../data';
 
 // Helper functions
-import { searchCommunities } from "../funcs"
+import { searchItems } from "../funcs"
 
 // Icons
 import { FontAwesome } from '@expo/vector-icons';
@@ -28,7 +28,7 @@ export default function JoinCommunity(props) {
         if (search === "") {
             setSearchResults(communities)
         } else {
-            setSearchResults(searchCommunities(search, communities))
+            setSearchResults(searchItems(search, communities))
         }
     }, [search])
 
@@ -66,12 +66,12 @@ export default function JoinCommunity(props) {
             </View>
             <FlatList
             data={searchResults}
-            keyExtractor={item => item.CommunityID}
+            keyExtractor={item => item.community_id}
             renderItem={({ item }) => {
                 return (
                     <View style={styles.list}>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.CommunityID % colors.length]}]}
-                        onPress={() => joinCommunity(props.id, {CommunityID: item.CommunityID}).then((data) => {
+                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.community_id % colors.length]}]}
+                        onPress={() => joinCommunity(props.id, {community_id: item.community_id}).then((data) => {
                             if (data[0] === 201) {
                                 Alert.alert(
                                     "Joined community!",
@@ -81,7 +81,7 @@ export default function JoinCommunity(props) {
                                 setRefresh(true)
                             }
                         })}>
-                            <Text style={styles.comstext}>{item.Name}</Text>
+                            <Text style={styles.comstext}>{item.name}</Text>
                         </TouchableOpacity>
                     </View>
                 )

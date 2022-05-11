@@ -25,15 +25,15 @@ export default function MyCommunities(props) {
     return(
         <FlatList
             data={communities}
-            keyExtractor={(item) => item.CommunityID}
+            keyExtractor={(item) => item.community_id}
             renderItem={({ item }) => {
                 return(
                     <View style={styles.list}>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.CommunityID % colors.length]}]}
+                        <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.community_id % colors.length]}]}
                         onPress={() => {
-                            props.nav.navigate("Community chat", { community: item.Name })
+                            props.nav.navigate("Community chat", { community: item.name })
                         }}>
-                            <Text style={styles.comstext}>{item.Name}</Text>
+                            <Text style={styles.comstext}>{item.name}</Text>
                         </TouchableOpacity>
 
                     </View>

@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList, ScrollView, RefreshControl, Image } from "react-native"
 import { useState, useCallback, useEffect } from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import { fetchAllProducts, getNotUsersProducts } from "../data";
 import LoggedInFeed from "../components/LoggedInFeed";
 import NotLoggedInFeed from "../components/NotLoggedInFeed";
 import AsyncStorage from '@react-native-async-storage/async-storage';

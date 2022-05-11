@@ -1,9 +1,9 @@
 
-export function searchCommunities(input, data) {
+export function searchItems(input, data) {
     var result = []
-    for (var community of data) {
-        if (community.Name.toLowerCase().includes(input.toLowerCase())) {
-            result.push(community)
+    for (var ele of data) {
+        if (ele.Name.toLowerCase().includes(input.toLowerCase())) {
+            result.push(ele)
         }
     }
     return result

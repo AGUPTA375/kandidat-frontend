@@ -43,6 +43,7 @@ export default function ProfileLoggedIn(props) {
     const [addVisible, setAddVisible] = useState(false)
     const [userProducts, setUserProducts] = useState(null)
     const [refreshing, setRefreshing] = useState(false);
+    const [line, setLine] = useState(false)
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
@@ -60,76 +61,192 @@ export default function ProfileLoggedIn(props) {
         getUserInfo(props.id).then((data) => {
             if(data[0] === 200) {
                 var user = data[1]
-                setImg(`data:image/png;base64,${base64.decode(user.Picture)}`)
-                setName(user.Name)
+                setImg(`data:image/png;base64,${base64.decode(user.picture)}`)
+                setName(user.name)
             }
         });
         getUsersProducts(props.id, setUserProducts)
     }, [])
+    if (!line) {
+        return (
+            <View >
+                <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>
+                <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
+                <View style={styles.profile}>
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
 
-    return (
-        <View >
-            <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>
-            <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
-            <View style={styles.profile}>
-                <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
-
+                    </View>
+                    <View style={styles.info}>
+                        <Image style={styles.profilepic} source={{ uri: img}} />
+                        <Text style={styles.name}>{name}</Text>
+                    </View>
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
+                        <TouchableOpacity
+                        onPress={() => setSettingsVisible(!settingsVisible)}>
+                            <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.info}>
-                    <Image style={styles.profilepic} source={{ uri: img}} />
-                    <Text style={styles.name}>{name}</Text>
-                </View>
-                <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
+                <View style={styles.search}>
+                    <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.03} color="black" />
+                    <TextInput
+                    onChangeText={setSearch}
+                    style={styles.textinput}
+                    placeholder={"Search your ads..."}
+                    value={search}
+                    />
                     <TouchableOpacity
-                    onPress={() => setSettingsVisible(!settingsVisible)}>
-                        <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
+                    onPress={() => setAddVisible(!addVisible)}>
+                        <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
                     </TouchableOpacity>
                 </View>
-            </View>
-            <View style={styles.search}>
-                <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.03} color="black" />
-                <TextInput
-                onChangeText={setSearch}
-                style={styles.textinput}
-                placeholder={"Search your ads..."}
-                value={search}
-                />
-                <TouchableOpacity
-                onPress={() => setAddVisible(!addVisible)}>
-                    <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
-                </TouchableOpacity>
-            </View>
-            <ScrollView contentContainerStyle={styles.productsView}
-            refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                />
-              } > 
-                <FlatList 
-                horizontal={true}
-                keyExtractor={item => item.ProductID}
-                data={userProducts}
-                renderItem={({ item }) => {
-                    var im = `data:image/png;base64,${base64.decode(item.Picture)}`
-                    return (
-                            <TouchableOpacity style={styles.product}>
+                <View style={styles.adsbanner}>
 
-                                <Image style={styles.buttonTop} source={{ uri: im }}/>
+                    <View style={styles.myorpinned}>
+                        <TouchableOpacity style={styles.mopTO} onPress={() => setLine(false)}>
+
+                            <Text style={styles.mopText}>My uploaded ads</Text>
+                            <View style={[styles.line, {
+                                backgroundColor: line ? "transparent" : "#7f0001"
+                            }]}></View>
+
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.mopTO} onPress={() => setLine(true)}>
+
+                            <Text style={styles.mopText}>Pinned ads</Text>
+                            <View style={[styles.line, {
+                                backgroundColor: !line ? "transparent" : "#7f0001",
+                                width: windowWidth*0.3
+                            }]}></View>
+
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+
+                <ScrollView contentContainerStyle={styles.productsView}
+                refreshControl={
+                    <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    />
+                } > 
+                    <FlatList 
+                    horizontal={true}
+                    keyExtractor={item => item.product_id}
+                    data={userProducts}
+                    renderItem={({ item }) => {
+                        var im = `data:image/png;base64,${base64.decode(item.picture)}`
+                        return (
+                                <TouchableOpacity style={styles.product}>
+
+                                    <Image style={styles.buttonTop} source={{ uri: im }}/>
+                                        
+
+
+                                    <View style={styles.buttonDown}>
+                                        <Text style={styles.goldText}>{item.name}</Text>
+                                    </View>
                                     
+                                </TouchableOpacity>
+                        )
+                    }}
+                    />
+                </ScrollView>
+            </View>
+        )
+    } else {
+        // TODO: samma som ovan atm. fixa pinnned products state osv. 
+        return(
+            <View >
+                <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>
+                <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
+                <View style={styles.profile}>
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
+
+                    </View>
+                    <View style={styles.info}>
+                        <Image style={styles.profilepic} source={{ uri: img}} />
+                        <Text style={styles.name}>{name}</Text>
+                    </View>
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
+                        <TouchableOpacity
+                        onPress={() => setSettingsVisible(!settingsVisible)}>
+                            <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.search}>
+                    <FontAwesome style={styles.searchIcon} name="search" size={windowHeight*0.03} color="black" />
+                    <TextInput
+                    onChangeText={setSearch}
+                    style={styles.textinput}
+                    placeholder={"Search your ads..."}
+                    value={search}
+                    />
+                    <TouchableOpacity
+                    onPress={() => setAddVisible(!addVisible)}>
+                        <Ionicons name="add-circle-outline" size={windowHeight/30} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.adsbanner}>
+
+                    <View style={styles.myorpinned}>
+                        <TouchableOpacity style={styles.mopTO} onPress={() => setLine(false)}>
+
+                            <Text style={styles.mopText}>My uploaded ads</Text>
+                            <View style={[styles.line, {
+                                backgroundColor: line ? "transparent" : "#7f0001"
+                            }]}></View>
+
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.mopTO} onPress={() => setLine(true)}>
+
+                            <Text style={styles.mopText}>Pinned ads</Text>
+                            <View style={[styles.line, {
+                                backgroundColor: !line ? "transparent" : "#7f0001",
+                                width: windowWidth*0.3
+                            }]}></View>
+
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+
+                <ScrollView contentContainerStyle={styles.productsView}
+                refreshControl={
+                    <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    />
+                } > 
+                    <FlatList 
+                    horizontal={true}
+                    keyExtractor={item => item.ProductID}
+                    data={userProducts}
+                    renderItem={({ item }) => {
+                        var im = `data:image/png;base64,${base64.decode(item.Picture)}`
+                        return (
+                                <TouchableOpacity style={styles.product}>
+
+                                    <Image style={styles.buttonTop} source={{ uri: im }}/>
+                                        
 
 
-                                <View style={styles.buttonDown}>
-                                    <Text style={styles.goldText}>{item.Name}</Text>
-                                </View>
-                                
-                            </TouchableOpacity>
-                    )
-                }}
-                />
-            </ScrollView>
-        </View>
-    )
+                                    <View style={styles.buttonDown}>
+                                        <Text style={styles.goldText}>{item.Name}</Text>
+                                    </View>
+                                    
+                                </TouchableOpacity>
+                        )
+                    }}
+                    />
+                </ScrollView>
+            </View>
+        )
+    }
 }
 
 
@@ -170,7 +287,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginLeft: "6%",
-        marginTop: "5%"
+        marginTop: "5%",
     },
     searchIcon: {
         position: "absolute",
@@ -183,10 +300,10 @@ const styles = StyleSheet.create({
         justifyContent:"flex-end"
     },
     productsView: {
-        height: windowHeight*0.45,
+        height: windowHeight*0.35,
         width: windowWidth*0.9,
-        marginTop: "20%",
         alignSelf:"center",
+        alignItems:"center",
     },
     button: {
         width: windowWidth*0.43,
@@ -228,4 +345,34 @@ const styles = StyleSheet.create({
         marginHorizontal: windowWidth*0.05,
         borderRadius: 10
       },
+    adsbanner: {
+        height: windowHeight*0.1,
+        width: windowWidth,
+        justifyContent:"center",
+        alignItems:"center"
+
+    },
+    myorpinned: {
+        width: windowWidth*0.9,
+        height: "60%",
+        flexDirection:"row"
+    },
+    mopTO: {
+        width: windowWidth*0.45,
+        height: "100%",
+        justifyContent:"center",
+        alignItems:"center",
+        flexDirection:"column",
+    },
+    mopText: {
+        fontSize: windowHeight*0.02,
+        color: "#7f0001",
+        fontWeight:"bold",
+        marginBottom: "5%"
+    },
+    line: {
+        width: windowWidth*0.4,
+        height: 1,
+        backgroundColor:"black"
+    }
 })

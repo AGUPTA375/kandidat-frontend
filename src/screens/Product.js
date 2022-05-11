@@ -11,7 +11,7 @@ export default function Product(props) {
 
     useEffect(() => {
         if (props.route.params.product != undefined) {
-            fetchProduct(props.route.params.product.ProductID, setProduct)
+            fetchProduct(props.route.params.product.product_id, setProduct)
         }
     }, [])
 
@@ -24,7 +24,7 @@ export default function Product(props) {
     } else {
         return(
             <View>
-                <ProductHeader title={product.Name} navigation={props.navigation}/>
+                <ProductHeader title={product.name} navigation={props.navigation}/>
                 <ProductPage product={product} />
             </View>
         )

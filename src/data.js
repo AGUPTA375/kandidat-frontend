@@ -115,13 +115,14 @@ export function fetchAllProducts(setProducts) {
         return Promise.all([statusCode, data]);
     }).then((data) => {
         if (data[0] === 200) {
+            (data)
             setProducts(data[1])
         }
     })
 }
 
 export function postProduct(userID, body) {
-    return fetch(`http://localhost:8080/users/${userID}/product`, {
+    return fetch(`http://localhost:8080/users/${userID}/products`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -132,4 +133,8 @@ export function postProduct(userID, body) {
         const data = response.json();
         return Promise.all([statusCode, data]);
     })
+}
+
+export function pinProduct(product) {
+    return null
 }
