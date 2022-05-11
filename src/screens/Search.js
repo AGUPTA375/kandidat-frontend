@@ -193,7 +193,7 @@ export default function Search(props) {
                             return (
                                 <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
             
-                                    <Image style={styles.buttonTop} source={{ uri: img }}/>
+                                    <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
                                         
                                     <View style={styles.buttonDown}>
                                         <Text style={styles.goldText}>{item.name}</Text>
@@ -241,7 +241,7 @@ export default function Search(props) {
                             return (
                                 <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
             
-                                    <Image style={styles.buttonTop} source={{ uri: img }}/>
+                                    <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
                                         
                                     <View style={styles.buttonDown}>
                                         <Text style={styles.goldText}>{item.name}</Text>

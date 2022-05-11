@@ -57,7 +57,7 @@ export default function ProfileNotLoggedIn(props) {
         <View style={styles.root}>
 
             <View style={styles.image}>
-                <Image style={styles.logo} source={require('../assets/amargbo.png')} />
+                <Image style={styles.logo} source={require('../assets/amargbo.png')} resizeMode="contain" />
             </View>
             <Modal
             animationType='slide'

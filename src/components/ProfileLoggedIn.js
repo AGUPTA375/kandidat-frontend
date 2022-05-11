@@ -77,7 +77,7 @@ export default function ProfileLoggedIn(props) {
 
                     </View>
                     <View style={styles.info}>
-                        <Image style={styles.profilepic} source={{ uri: img}} />
+                        <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />
                         <Text style={styles.name}>{name}</Text>
                     </View>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
@@ -141,7 +141,7 @@ export default function ProfileLoggedIn(props) {
                         return (
                                 <TouchableOpacity style={styles.product}>
 
-                                    <Image style={styles.buttonTop} source={{ uri: im }}/>
+                                    <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="contain"/>
                                         
 
 
@@ -167,7 +167,7 @@ export default function ProfileLoggedIn(props) {
 
                     </View>
                     <View style={styles.info}>
-                        <Image style={styles.profilepic} source={{ uri: img}} />
+                        <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />
                         <Text style={styles.name}>{name}</Text>
                     </View>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
@@ -231,7 +231,7 @@ export default function ProfileLoggedIn(props) {
                         return (
                                 <TouchableOpacity style={styles.product}>
 
-                                    <Image style={styles.buttonTop} source={{ uri: im }}/>
+                                    <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="contain"/>
                                         
 
 

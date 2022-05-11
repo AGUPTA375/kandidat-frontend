@@ -27,7 +27,7 @@ export default function LoggedInFeed(props) {
                 return (
                     <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
 
-                        <Image style={styles.buttonTop} source={{ uri: img }}/>
+                        <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
                             
 
 

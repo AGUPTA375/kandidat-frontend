@@ -44,7 +44,7 @@ export default function ProductPage(props) {
                     </TouchableOpacity>
                 </View>
 
-                <Image source={{uri:img}} style={styles.img} />
+                <Image source={{uri:img}} style={styles.img} resizeMode="contain" />
 
                 <View style={styles.description} >
                     <Text style={{ fontSize:windowHeight*0.035 }}>{props.product.price} kr</Text>

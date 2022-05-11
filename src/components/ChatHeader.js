@@ -19,7 +19,7 @@ export default function ChatHeader(props) {
         <View style={styles.header}>
             <View style={{width: windowWidth, flexDirection:"row", alignItems:"center", justifyContent:"space-between", marginBottom:"7%"}}>
                 <View style={{ width: windowWidth*0.2, alignItems:"center"}}>
-                    <Image source={require('../assets/amargbologoonly.png')}
+                    <Image source={require('../assets/amargbologoonly.png')} resizeMode="contain"
                     style={{ width:windowWidth*0.1 }}/>
                 </View>
                 <View style={{ width:windowWidth*0.3}}>

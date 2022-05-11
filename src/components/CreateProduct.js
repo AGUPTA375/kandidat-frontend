@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, Modal, StyleSheet, Dimensions, TextInput, Alert, Image } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { postProduct } from "../data";
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,7 +12,50 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function CreateProduct(props) {
-//name,service,price,upload_date,description,fk_user_id
+
+    var categories = [
+        {
+            id: 0,
+            name: "Art"
+        },
+        {
+            id: 1,
+            name: "Books"
+        },
+        {
+            id: 2,
+            name: "Chairs"
+        },
+        {
+            id: 3,
+            name: "Electronics"
+        },
+        {
+            id: 4,
+            name: "Hair products"
+        },
+        {
+            id: 5,
+            name: "Furniture"
+        },
+        {
+            id: 6,
+            name: "Kitchen"
+        },
+        {
+            id: 7,
+            name: "Bathroom"
+        },
+        {
+            id: 8,
+            name: "Winter"
+        },
+        {
+            id: 9,
+            name: "category"
+        }
+    ]
+
     const [name, setName] = useState(null)
     const [service, setService] = useState(false)
     const [price, setPrice] = useState(null)
@@ -20,6 +63,7 @@ export default function CreateProduct(props) {
     const [imgb64, setimgb64] = useState(null)
     const [category, setCategory] = useState("category")
     const [img, setImg] = useState("f")
+    const [categoriesVisible, setCategoriesVisible] = useState(false)
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -95,8 +139,38 @@ export default function CreateProduct(props) {
 
                     </View>
 
+                    <Modal
+                    animationType="slide"
+                    visible={categoriesVisible}
+                    transparent={true}
+                    onRequestClose={() => setCategoriesVisible(!categoriesVisible)}
+                     >
+
+                        <View style={[styles.container, { 
+                            width: windowWidth*0.5,
+                            height: windowHeight*0.35,
+                            alignItems:"center",
+                            marginTop: windowHeight*0.4,
+                            marginLeft: windowWidth*0.35
+                        }]} >
+                            <FlatList 
+                            data={categories}
+                            contentContainerStyle={styles.flatlist}
+                            renderItem={({ item }) => {
+                                return(
+                                    <TouchableOpacity style={styles.flatlistTO} onPress={() => {setCategory(item.name); setCategoriesVisible(!categoriesVisible)}}>
+                                        <Text style={styles.goldTextBold}>{item.name}</Text>
+                                    </TouchableOpacity>
+                                )
+                            }}
+                            />
+                        </View>
+                        
+                    </Modal>
+
                     <View style={{ width: windowWidth*0.9, height: windowHeight*0.1, flexDirection:"row", justifyContent:"space-evenly"}}>
-                        <TouchableOpacity style={styles.modalbuttons}>
+                        <TouchableOpacity style={styles.modalbuttons}
+                        onPress={() => setCategoriesVisible(!categoriesVisible)} >
                             <Text style={styles.goldTextBold}>{category}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => pickImage()}
@@ -199,5 +273,28 @@ const styles = StyleSheet.create({
         color: "#EDB219", 
         fontWeight: "bold"
     },
+    flatlist: {
+        flexDirection:"column",
+        width:"100%",
+        alignItems:"center",
+    },
+    flatlistTO: {
+        width: windowWidth*0.35,
+        height: windowHeight*0.05,
+        backgroundColor:"#7f0001",
+        justifyContent:"center",
+        alignItems:"center",
+        marginVertical: "4%",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        elevation: 10,
+        borderRadius: 40,
+
+    }
 })
 

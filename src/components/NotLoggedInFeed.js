@@ -32,7 +32,7 @@ export default function NotLoggedInFeed(props) {
                 return (
                     <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item, loggedIn: false })}>
 
-                        <Image style={styles.buttonTop} source={{ uri: img }}/>
+                        <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain" />
                             
 
 
