@@ -6,7 +6,7 @@ import Settings from './Settings';
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
-import { getUserInfo, getUsersProducts } from '../data';
+import { getUserInfo, getUsersProducts, getPinnedProducts } from '../data';
 import CreateProduct from './CreateProduct';
 
 var base64 = require('base-64');
@@ -44,6 +44,7 @@ export default function ProfileLoggedIn(props) {
     const [userProducts, setUserProducts] = useState(null)
     const [refreshing, setRefreshing] = useState(false);
     const [line, setLine] = useState(false)
+    const [pinnedProducts, setPinnedProducts] = useState(null)
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
@@ -57,6 +58,14 @@ export default function ProfileLoggedIn(props) {
       });
     }, []);
 
+    const onRefresh2 = useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => {
+            getPinnedProducts(props.id, setPinnedProducts)
+            setRefreshing(false)
+        });
+      }, []);
+
     useEffect(() => {
         getUserInfo(props.id).then((data) => {
             if(data[0] === 200) {
@@ -66,6 +75,7 @@ export default function ProfileLoggedIn(props) {
             }
         });
         getUsersProducts(props.id, setUserProducts)
+        getPinnedProducts(props.id, setPinnedProducts)
     }, [])
     if (!line) {
         return (
@@ -219,13 +229,13 @@ export default function ProfileLoggedIn(props) {
                 refreshControl={
                     <RefreshControl
                     refreshing={refreshing}
-                    onRefresh={onRefresh}
+                    onRefresh={onRefresh2}
                     />
                 } > 
                     <FlatList 
                     horizontal={true}
                     keyExtractor={item => item.product_id}
-                    data={userProducts}
+                    data={pinnedProducts}
                     renderItem={({ item }) => {
                         var im = `data:image/png;base64,${base64.decode(item.picture)}`
                         return (
