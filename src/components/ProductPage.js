@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native"
-import { fetchUserInfo, pinProduct } from "../data";
+import { fetchUserInfo, pinProduct, unpinProduct, getPinnedProducts } from "../data";
+import { checkIfPinned } from "../funcs";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -14,17 +16,55 @@ export default function ProductPage(props) {
 
 
     const [user, setUser] = useState(null)
-    const [pinned, setPinned] = useState(false)
+    const [pinned, setPinned] = useState(null)
+    const [pinnedProducts, setPinnedProducts] = useState(null)
+    const [id, setID] = useState(null)
+    const [pin, setPin] = useState(null)
+
+    const getID = async () => {
+        try {
+        const value = await AsyncStorage.getItem('id')
+        if(value !== null) {
+            setID(value)
+        } else {
+            setID(null)
+        }
+        } catch(e) {
+        // error reading value
+        }
+      }
+    
+    useEffect(() => {
+        getID();
+        fetchUserInfo(props.product.user_id, setUser)
+      }, [])
 
     useEffect(() => {
-        fetchUserInfo(props.product.user_id, setUser)
-    }, [])
+        if (id !== null) {
+            getPinnedProducts(id, setPinnedProducts)
+        }
+    }, [id])
+
+    useEffect(() => {
+        if (pinnedProducts != null) {
+            setPinned(checkIfPinned(pinnedProducts, props.product))
+            setPin(checkIfPinned(pinnedProducts, props.product))
+        }
+    }, [pinnedProducts])
 
     useEffect(() => {
         if (pinned) {
-            pinProduct(props.product)
+            if (!pin) {
+                unpinProduct(props.product.product_id, id)
+                setPinned(!pinned)
+            }
+        } else {
+            if (pin) {
+                pinProduct({ product_id: props.product.product_id }, id)
+                setPinned(!pinned)
+            }
         }
-    }, [pinned])
+    }, [pin])
 
     if (user === null) {
 
@@ -39,7 +79,7 @@ export default function ProductPage(props) {
             <View style={styles.container}>
                 <View style={styles.sellerinfo}>
                     <Text style={{ fontSize: windowHeight*0.03}}>{user.name}</Text>
-                    <TouchableOpacity onPress={() => setPinned(!pinned)}>
+                    <TouchableOpacity onPress={() => setPin(!pin)}>
                         <AntDesign style={{ marginRight: "5%"}} name="pushpin" size={windowHeight*0.06} color={pinned ? "red": "black"} />
                     </TouchableOpacity>
                 </View>

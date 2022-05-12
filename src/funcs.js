@@ -18,3 +18,13 @@ export function searchWithCategory(category, data) {
     }
     return result
 }
+
+export function checkIfPinned(pinnedProducts, product) {
+    for (var prod of pinnedProducts) {
+        if (prod.product_id === product.product_id) {
+            return true
+        }
+    }
+
+    return false
+}

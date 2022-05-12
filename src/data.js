@@ -115,7 +115,6 @@ export function fetchAllProducts(setProducts) {
         return Promise.all([statusCode, data]);
     }).then((data) => {
         if (data[0] === 200) {
-            (data)
             setProducts(data[1])
         }
     })
@@ -135,6 +134,39 @@ export function postProduct(userID, body) {
     })
 }
 
-export function pinProduct(product) {
-    return null
+export function pinProduct(body, user_id) {
+    console.log(user_id)
+    return fetch(`http://localhost:8080/users/${user_id}/pinned`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    })
+}
+
+export function unpinProduct(product_id, user_id) {
+    return fetch(`http://localhost:8080/users/${user_id}/pinned/${product_id}`, {
+        method: "DELETE",
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    })
+}
+
+export function getPinnedProducts(user_id, setPinnedProducts) {
+    return fetch(`http://localhost:8080/users/${user_id}/pinned`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setPinnedProducts(data[1])
+        }
+    })
 }
