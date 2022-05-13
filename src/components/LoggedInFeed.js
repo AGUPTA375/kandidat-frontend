@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image } from "react-native"
+import { useEffect, useState, useCallback } from "react"
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image, RefreshControl } from "react-native"
 import { getNotUsersProducts } from "../data"
 import { useFocusEffect } from '@react-navigation/native';
 var base64 = require('base-64');
@@ -10,13 +10,32 @@ const windowHeight = Dimensions.get('window').height;
 export default function LoggedInFeed(props) {
 
     const [products, setProducts] = useState(null)
+    const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
         getNotUsersProducts(props.id, setProducts)
     }, [])
 
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      wait(2000).then(() => {
+        getNotUsersProducts(props.id, setProducts)
+        setRefreshing(false)
+      });
+    }, []);
+
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}
+        refreshControl={
+            <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            />
+        }>
             <FlatList 
             data={products}
             contentContainerStyle={{ justifyContent:"center", alignItems:"center"}}
