@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput, FlatList, RefreshControl, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Settings from './Settings';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -15,6 +16,7 @@ var base64 = require('base-64');
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
 
 export default function ProfileLoggedIn(props) {
 
@@ -167,7 +169,6 @@ export default function ProfileLoggedIn(props) {
             </View>
         )
     } else {
-        // TODO: samma som ovan atm. fixa pinnned products state osv. 
         return(
             <View >
                 <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>
@@ -239,7 +240,8 @@ export default function ProfileLoggedIn(props) {
                     renderItem={({ item }) => {
                         var im = `data:image/png;base64,${base64.decode(item.picture)}`
                         return (
-                                <TouchableOpacity style={styles.product}>
+                                <TouchableOpacity style={styles.product}
+                                onPress={() => props.nav.navigate("Product", { product: item })} >
 
                                     <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="contain"/>
                                         

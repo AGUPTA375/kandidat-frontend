@@ -7,6 +7,7 @@ import ProfileLoggedIn from '../components/ProfileLoggedIn'; // Logged in
 
 export default function Profile(props) {
 
+
     const [token, setToken] = useState(null)
     const [id, setID] = useState(null)
     const [refresh, setRefresh] = useState(false)
@@ -57,7 +58,7 @@ export default function Profile(props) {
         )
     } else if(token != null && id != null) {
         return (
-            <ProfileLoggedIn setToken={setToken} token={token} id={id} setID={setID} setRefresh={setRefresh} />
+            <ProfileLoggedIn setToken={setToken} token={token} id={id} setID={setID} setRefresh={setRefresh} nav={props.navigation} />
         )
     } else {
         return (

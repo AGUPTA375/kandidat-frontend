@@ -8,9 +8,9 @@ const windowHeight = Dimensions.get('window').height;
 
 // Screens
 import Home from '../src/screens/Home'
-import Profile from '../src/screens/Profile'
 import SearchStack from './screens/SearchStack';
 import Chat from '../src/screens/Chat'
+import User from './components/User';
 
 // Icons
 import { Entypo } from '@expo/vector-icons';
@@ -66,7 +66,7 @@ export default function App() {
         }} />
 
         {/* Profile */}
-        <Tab.Screen name="Profile" component={Profile} options={{
+        <Tab.Screen name="User" component={User} options={{
           tabBarIcon: ({focused, color}) => {
             var color = focused ? "#EDB219" : "#8D5B10"
             return <Ionicons name="person" size={24} color={color} />;
