@@ -68,6 +68,7 @@ export function login(body) {
     })
 }
 
+
 export function signup(body) {
     return fetch(`http://localhost:8080/users`, {
         method: "POST",
@@ -135,8 +136,21 @@ export function postProduct(userID, body) {
 }
 
 export function pinProduct(body, user_id) {
-    console.log(user_id)
     return fetch(`http://localhost:8080/users/${user_id}/pinned`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    })
+}
+
+export function postReview(user_id, body) {
+    return fetch(`http://localhost:8080/users/${user_id}/reviews`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

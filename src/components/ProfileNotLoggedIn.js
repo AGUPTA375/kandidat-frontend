@@ -5,6 +5,7 @@ import { login, signup } from '../data';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 
+
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -19,6 +20,7 @@ export default function ProfileNotLoggedIn(props) {
     const [passwordRegister, setPasswordRegister] = useState(null)
     const [reset, setReset] = useState(false)
     const [imgb64, setimgb64] = useState(null)
+    const [sign, setSign] = useState(false)
 
     useEffect(() => {
         if (reset) {
@@ -28,6 +30,38 @@ export default function ProfileNotLoggedIn(props) {
             setReset(false)
         }
     }, [reset])
+
+    useEffect(() => {
+        if (sign) {
+            signup({name: nameRegister, phone_number: phoneRegister.toString(), password: passwordRegister, picture: imgb64 })
+            .then((data) => {
+                if (data[0] === 201) {
+                    Alert.alert(
+                        "Account created!",
+                        "You can now login.",
+                        [
+                            {
+                                text: "OK"
+                            }
+                        ]
+                    )
+                    setRegister(!register)
+                } else {
+                    console.log(data)
+                    Alert.alert(
+                        "Something went wrong...",
+                        "Try again",
+                        [
+                            { text: "OK" }
+                        ]
+                    )
+                }
+            })
+            setSign(false)
+
+        }
+
+    }, [sign])
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -98,30 +132,7 @@ export default function ProfileNotLoggedIn(props) {
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                            onPress={() => signup({name: nameRegister, phone_number: phoneRegister.toString(), password: passwordRegister, picture: imgb64 })
-                            .then((data) => {
-                                if (data[0] === 201) {
-                                    Alert.alert(
-                                        "Account created!",
-                                        "You can now login.",
-                                        [
-                                            {
-                                                text: "OK"
-                                            }
-                                        ]
-                                    )
-                                    setRegister(!register)
-                                } else {
-                                    console.log(data)
-                                    Alert.alert(
-                                        "Something went wrong...",
-                                        "Try again",
-                                        [
-                                            { text: "OK" }
-                                        ]
-                                    )
-                                }
-                            })}
+                            onPress={() => setSign(!sign)}
                             style={styles.modalbuttons}>
                                 <Text style={[styles.goldTextBold, { fontSize: windowHeight*0.02}]}>Create account</Text>
                             </TouchableOpacity>

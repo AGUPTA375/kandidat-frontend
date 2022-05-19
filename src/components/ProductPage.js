@@ -32,7 +32,7 @@ export default function ProductPage(props) {
         } catch(e) {
         // error reading value
         }
-      }
+    }
     
     useEffect(() => {
         getID();
@@ -78,7 +78,9 @@ export default function ProductPage(props) {
         return (
             <View style={styles.container}>
                 <View style={styles.sellerinfo}>
-                    <Text style={{ fontSize: windowHeight*0.03}}>{user.name}</Text>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('OtherUser', { user: user })}>
+                        <Text style={{ fontSize: windowHeight*0.03}}>{user.name}</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => setPin(!pin)}>
                         <AntDesign style={{ marginRight: "5%"}} name="pushpin" size={windowHeight*0.06} color={pinned ? "red": "black"} />
                     </TouchableOpacity>

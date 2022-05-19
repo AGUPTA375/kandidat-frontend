@@ -25,7 +25,7 @@ export default function Product(props) {
         return(
             <View>
                 <ProductHeader title={product.name} navigation={props.navigation}/>
-                <ProductPage product={product} />
+                <ProductPage product={product} navigation={props.navigation} />
             </View>
         )
     }
