@@ -1,7 +1,8 @@
-import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, FlatList, ScrollView, RefreshControl, Modal } from "react-native";
+import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, FlatList, ScrollView, RefreshControl, Modal, TextInput } from "react-native";
 import { useState, useEffect, useCallback } from "react"
 import { getUsersProducts, postReview } from "../data";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AirbnbRating } from 'react-native-ratings';
 
 var base64 = require('base-64');
 
@@ -9,9 +10,15 @@ var base64 = require('base-64');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-import { MaterialIcons, AntDesign, Entypo } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 
 export default function OtherUser(props) {
+
+    function sendRating() {
+        postReview(props.route.params.user.user_id, { rating: rating, reviewer_id: parseInt(id), content: reviewContent })
+        wait(200).then(() => { setModalVisible(false) })
+    }
+
 
     const getID = async () => {
         try {
@@ -29,47 +36,9 @@ export default function OtherUser(props) {
     const [products, setProducts] = useState([])
     const [refreshing, setRefreshing] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
-    const [star1, setStar1] = useState(false)
-    const [star2, setStar2] = useState(false)
-    const [star3, setStar3] = useState(false)
-    const [star4, setStar4] = useState(false)
-    const [star5, setStar5] = useState(false)
     const [id, setID] = useState(null)
-
-    useEffect(() => {
-        if (star1) {
-            postReview(props.route.params.user.user_id, { rating: 1, reviewer_id: parseInt(id)})
-            setModalVisible(false)
-        }
-    }, [star1])
-
-    useEffect(() => {
-        if (star2) {
-            postReview(props.route.params.user.user_id, { rating: 2, reviewer_id: parseInt(id)})
-            setModalVisible(false)
-        }
-    }, [star2])
-
-    useEffect(() => {
-        if (star3) {
-            postReview(props.route.params.user.user_id, { rating: 3, reviewer_id: parseInt(id)})
-            setModalVisible(false)
-        }
-    }, [star3])
-
-    useEffect(() => {
-        if (star4) {
-            postReview(props.route.params.user.user_id, { rating: 4, reviewer_id: parseInt(id)})
-            setModalVisible(false)
-        }
-    }, [star4])
-
-    useEffect(() => {
-        if (star5) {
-            postReview(props.route.params.user.user_id, { rating: 5, reviewer_id: parseInt(id)})
-            setModalVisible(false)
-        }
-    }, [star5])
+    const [reviewContent, setReviewContent] = useState("")
+    const [rating, setRating] = useState(3)
 
     useEffect(() => {
         getID()
@@ -88,6 +57,10 @@ export default function OtherUser(props) {
         });
       }, []);
     
+    useEffect(() => {
+        !modalVisible ? setReviewContent("") : {}
+    }, [modalVisible])
+
     return(
         <View style={styles.container}>
 
@@ -97,7 +70,7 @@ export default function OtherUser(props) {
             transparent={true}
             onRequestClose={() => setModalVisible(!modalVisible)} >
                 <View style={styles.modal}>
-                    <View style={{ width: "100%", height: "30%", justifyContent:"flex-end", alignItems:"flex-end"}}>
+                    <View style={{ width: "100%", height: "20%", justifyContent:"flex-end", alignItems:"flex-end"}}>
                         <TouchableOpacity
                         onPress={() => setModalVisible(!modalVisible)}>
                             <AntDesign name="closecircleo" size={windowHeight*0.04} color="black" style={{ marginRight: "10%" }} />
@@ -105,25 +78,21 @@ export default function OtherUser(props) {
                     </View>
                     <View style={{ flexDirection:"row", height: "70%", width:"100%", justifyContent:"center", alignItems:"center"}}>
 
-                        <TouchableOpacity onPress={() => setStar1(!star1)}>
-                            <Entypo name="star-outlined" size={windowHeight*0.04} color="#EDB219" />
-                        </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => setStar2(!star2)}>
-                            <Entypo name="star-outlined" size={windowHeight*0.04} color="#EDB219" />
+                    <View style={{ alignItems:"center" }}>
+                        <AirbnbRating defaultRating={3} showRating={false} onFinishRating={(rating) => setRating(rating)} size={windowHeight*0.045}/>
+                        <TextInput 
+                        value={reviewContent}
+                        onChangeText={setReviewContent}
+                        style={styles.ti} />
+                        <TouchableOpacity style={{ width: windowWidth*0.4, backgroundColor:"#7f0001", justifyContent:"center", alignItems:"center",
+                            height:windowHeight*0.05, borderRadius: 20, marginTop: "10%"}}
+                            onPress={() => sendRating()}>
+                            <Text style={styles.goldText}>Post review</Text>
                         </TouchableOpacity>
+                    </View>
 
-                        <TouchableOpacity onPress={() => setStar3(!star3)}>
-                            <Entypo name="star-outlined" size={windowHeight*0.04} color="#EDB219" />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => setStar4(!star4)}>
-                            <Entypo name="star-outlined" size={windowHeight*0.04} color="#EDB219" />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={() => setStar5(!star5)}>
-                            <Entypo name="star-outlined" size={windowHeight*0.04} color="#EDB219" />
-                        </TouchableOpacity>
+                    
 
                     </View>
                 </View>
@@ -135,7 +104,7 @@ export default function OtherUser(props) {
                     <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
                     <View style={styles.namenbutton}>
                         <Text style={styles.name}>{props.route.params.user.name}</Text>
-                        <Text style={styles.name}>Rating: {props.route.params.user.rating}</Text>
+                        <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
                         <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                             <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
                         </TouchableOpacity>
@@ -180,14 +149,23 @@ export default function OtherUser(props) {
 }
 
 const styles = StyleSheet.create({
+    ti: { 
+        width: windowWidth*0.6, 
+        height: windowHeight*0.05, 
+        backgroundColor:"white", 
+        borderWidth: 1, 
+        borderRadius: 10,
+        marginTop: "10%",
+        paddingLeft: "5%"
+    },
     modal: { 
         width: windowWidth*0.8, 
-        height: windowHeight*0.2, 
+        height: windowHeight*0.35, 
         alignSelf:"center",
         marginTop: "50%",
         borderRadius: 50,
         borderWidth: 1,
-        backgroundColor:"white"
+        backgroundColor:"white",
     },
     namenbutton: {
         flexDirection:"row",
