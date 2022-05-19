@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login, signup } from '../data';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
+import { Switch } from "react-native-paper";
 
 
 // Window dimensions
@@ -21,6 +22,7 @@ export default function ProfileNotLoggedIn(props) {
     const [reset, setReset] = useState(false)
     const [imgb64, setimgb64] = useState(null)
     const [sign, setSign] = useState(false)
+    const [business, setBusiness] = useState(false)
 
     useEffect(() => {
         if (reset) {
@@ -33,7 +35,7 @@ export default function ProfileNotLoggedIn(props) {
 
     useEffect(() => {
         if (sign) {
-            signup({name: nameRegister, phone_number: phoneRegister.toString(), password: passwordRegister, picture: imgb64 })
+            signup({name: nameRegister, phone_number: phoneRegister.toString(), password: passwordRegister, picture: imgb64, business: business })
             .then((data) => {
                 if (data[0] === 201) {
                     Alert.alert(
@@ -124,6 +126,11 @@ export default function ProfileNotLoggedIn(props) {
                             value={passwordRegister}
                             onChangeText={setPasswordRegister}
                             secureTextEntry={true} />
+
+                            <View style={{ flexDirection:"row", alignItems:"center", justifyContent:"space-evenly", width:"100%"}}>
+                                <Text style={styles.goldTextBold}>Business? </Text>
+                                <Switch value={business} onValueChange={() => setBusiness(!business)} color="#7f0001"/>
+                            </View>
 
                             <TouchableOpacity
                             onPress={() => pickImage()}
