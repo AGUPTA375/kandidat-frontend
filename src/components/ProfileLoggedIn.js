@@ -184,6 +184,7 @@ export default function ProfileLoggedIn(props) {
                     </View>
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />
+                        <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(rating)} />
                         <Text style={styles.name}>{name}</Text>
                     </View>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
