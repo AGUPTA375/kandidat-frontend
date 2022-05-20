@@ -95,7 +95,10 @@ export default function ProfileLoggedIn(props) {
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />
                         <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(rating)} />
-                        <Text style={styles.name}>{name}</Text>
+                        <View style={{ flexDirection:"row", justifyContent:"space-evenly", width: windowWidth }}>
+                            <Text style={styles.name}>{name}</Text>
+                            <Text style={styles.name}>FOLLOWERS</Text>
+                        </View>
                     </View>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
                         <TouchableOpacity

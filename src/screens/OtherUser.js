@@ -122,11 +122,19 @@ export default function OtherUser(props) {
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
                         <View style={styles.namenbutton}>
-                            <Text style={styles.name}>{props.route.params.user.name}</Text>
-                            <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
-                            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
-                            </TouchableOpacity>
+
+                            <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-evenly", marginBottom:"1%" }}>
+                                <Text style={styles.name}>{props.route.params.user.name}</Text>
+                                <Text style={styles.name}>FOLLOWERS!!</Text>
+                            </View>
+
+                            <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-around", alignItems:"center" }}>
+                                <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
+                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                                    <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
+                                </TouchableOpacity>
+                            </View>
+                            
                         </View>
                     </View>
     
@@ -209,11 +217,17 @@ export default function OtherUser(props) {
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
                         <View style={styles.namenbutton}>
-                            <Text style={styles.name}>{props.route.params.user.name}</Text>
-                            <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
-                            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
-                            </TouchableOpacity>
+                        <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-evenly", marginBottom:"1%" }}>
+                                <Text style={styles.name}>{props.route.params.user.name}</Text>
+                                <Text style={styles.name}>FOLLOWERS!!</Text>
+                            </View>
+
+                            <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-around", alignItems:"center" }}>
+                                <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
+                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                                    <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
     
@@ -289,11 +303,10 @@ const styles = StyleSheet.create({
         backgroundColor:"white",
     },
     namenbutton: {
-        flexDirection:"row",
+        flexDirection:"column",
         width: windowWidth,
         height: windowHeight*0.07,
         alignItems:"center",
-        justifyContent:"space-evenly"
     },
     productsView: {
         height: windowHeight*0.35,
