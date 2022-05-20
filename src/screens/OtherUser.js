@@ -1,6 +1,6 @@
-import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, FlatList, ScrollView, RefreshControl, Modal, TextInput } from "react-native";
+import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, FlatList, ScrollView, RefreshControl, Modal, TextInput, Alert } from "react-native";
 import { useState, useEffect, useCallback } from "react"
-import { getUsersProducts, postReview } from "../data";
+import { getUsersProducts, postReview, getUsersReviews } from "../data";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AirbnbRating } from 'react-native-ratings';
 
@@ -15,10 +15,15 @@ import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 export default function OtherUser(props) {
 
     function sendRating() {
-        postReview(props.route.params.user.user_id, { rating: rating, reviewer_id: parseInt(id), content: reviewContent })
+        postReview(props.route.params.user.user_id, { rating: rating, reviewer_id: parseInt(id), content: reviewContent }).then((data) => {
+            if (data[0] === 400) {
+                Alert.alert("Error", `${data[1]["error"]}`, [{
+                    "text": "OK"
+                }])
+            }
+        })
         wait(200).then(() => { setModalVisible(false) })
     }
-
 
     const getID = async () => {
         try {
@@ -39,10 +44,13 @@ export default function OtherUser(props) {
     const [id, setID] = useState(null)
     const [reviewContent, setReviewContent] = useState("")
     const [rating, setRating] = useState(3)
+    const [line, setLine] = useState(false)
+    const [reviews, setReviews] = useState([])
 
     useEffect(() => {
         getID()
         getUsersProducts(props.route.params.user.user_id, setProducts)
+        getUsersReviews(props.route.params.user.user_id, setReviews)
     }, [])
 
     const wait = (timeout) => {
@@ -61,90 +69,203 @@ export default function OtherUser(props) {
         !modalVisible ? setReviewContent("") : {}
     }, [modalVisible])
 
-    return(
-        <View style={styles.container}>
+    useEffect(() => {
+        if (line) {
+            getUsersReviews(props.route.params.user.user_id, setReviews)
+        }
+    }, [line])
 
-            <Modal
-            animationType="slide"
-            visible={modalVisible}
-            transparent={true}
-            onRequestClose={() => setModalVisible(!modalVisible)} >
-                <View style={styles.modal}>
-                    <View style={{ width: "100%", height: "20%", justifyContent:"flex-end", alignItems:"flex-end"}}>
-                        <TouchableOpacity
-                        onPress={() => setModalVisible(!modalVisible)}>
-                            <AntDesign name="closecircleo" size={windowHeight*0.04} color="black" style={{ marginRight: "10%" }} />
-                        </TouchableOpacity>
+    useEffect(() => {
+        reviews.length > 0 ? console.log(reviews) : console.log("empty")
+    }, [reviews])
+
+    if (line) {
+        return(
+            <View style={styles.container}>
+    
+                <Modal
+                animationType="slide"
+                visible={modalVisible}
+                transparent={true}
+                onRequestClose={() => setModalVisible(!modalVisible)} >
+                    <View style={styles.modal}>
+                        <View style={{ width: "100%", height: "20%", justifyContent:"flex-end", alignItems:"flex-end"}}>
+                            <TouchableOpacity
+                            onPress={() => setModalVisible(!modalVisible)}>
+                                <AntDesign name="closecircleo" size={windowHeight*0.04} color="black" style={{ marginRight: "10%" }} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection:"row", height: "70%", width:"100%", justifyContent:"center", alignItems:"center"}}>
+    
+    
+                        <View style={{ alignItems:"center" }}>
+                            <AirbnbRating defaultRating={3} showRating={false} onFinishRating={(rating) => setRating(rating)} size={windowHeight*0.045}/>
+                            <TextInput 
+                            value={reviewContent}
+                            onChangeText={setReviewContent}
+                            style={styles.ti} />
+                            <TouchableOpacity style={{ width: windowWidth*0.4, backgroundColor:"#7f0001", justifyContent:"center", alignItems:"center",
+                                height:windowHeight*0.05, borderRadius: 20, marginTop: "10%"}}
+                                onPress={() => sendRating()}>
+                                <Text style={styles.goldText}>Post review</Text>
+                            </TouchableOpacity>
+                        </View>
+    
+                        
+    
+                        </View>
                     </View>
-                    <View style={{ flexDirection:"row", height: "70%", width:"100%", justifyContent:"center", alignItems:"center"}}>
-
-
-                    <View style={{ alignItems:"center" }}>
-                        <AirbnbRating defaultRating={3} showRating={false} onFinishRating={(rating) => setRating(rating)} size={windowHeight*0.045}/>
-                        <TextInput 
-                        value={reviewContent}
-                        onChangeText={setReviewContent}
-                        style={styles.ti} />
-                        <TouchableOpacity style={{ width: windowWidth*0.4, backgroundColor:"#7f0001", justifyContent:"center", alignItems:"center",
-                            height:windowHeight*0.05, borderRadius: 20, marginTop: "10%"}}
-                            onPress={() => sendRating()}>
-                            <Text style={styles.goldText}>Post review</Text>
-                        </TouchableOpacity>
+                </Modal>
+    
+                <View style={styles.top}>
+    
+                    <View style={styles.info}>
+                        <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
+                        <View style={styles.namenbutton}>
+                            <Text style={styles.name}>{props.route.params.user.name}</Text>
+                            <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
+                            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                                <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
+                            </TouchableOpacity>
+                        </View>
                     </View>
-
-                    
-
-                    </View>
+    
                 </View>
-            </Modal>
 
-            <View style={styles.top}>
+                <View style={{ width: windowWidth, height: windowHeight*0.1, flexDirection:"row"}}>
 
-                <View style={styles.info}>
-                    <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
-                    <View style={styles.namenbutton}>
-                        <Text style={styles.name}>{props.route.params.user.name}</Text>
-                        <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
-                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                            <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
+                        <Text style={styles.redtext}>Ads</Text>
+                        <View style={{ width: windowWidth*0.3, height:2, backgroundColor: line ? "transparent" : "#7f0001", marginTop: "5%"}}></View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
+                        <Text style={styles.redtext}>Reviews</Text>
+                        <View style={{ width: windowWidth*0.3, height:2, backgroundColor: !line ? "transparent" : "#7f0001", marginTop: "5%"}}></View>
+                    </TouchableOpacity>
+
                 </View>
+
+                <FlatList
+                contentContainerStyle={{ justifyContent:"center", alignItems:"center"}}
+                data={reviews}
+                keyExtractor={item => item.review_id}
+                renderItem={({ item }) => {
+                    return (
+                        <View style={styles.flitem}>
+                            <View style={{ width: windowWidth*0.5, height: windowHeight*0.04, justifyContent:"center", alignSelf:"center" }}>
+                                <AirbnbRating isDisabled={true} showRating={false} defaultRating={Math.round(item.rating)} size={windowHeight*0.025} />
+                            </View>
+                            <View style={{ justifyContent:"center", alignItems:"center", width: windowWidth*0.7, height: windowHeight*0.06 }}>
+                                <Text style={styles.goldText}>{item.content}</Text>
+                            </View>
+                        </View>
+                    )
+                }} />
+
 
             </View>
+        )
+    } else {
+        return(
+            <View style={styles.container}>
+    
+                <Modal
+                animationType="slide"
+                visible={modalVisible}
+                transparent={true}
+                onRequestClose={() => setModalVisible(!modalVisible)} >
+                    <View style={styles.modal}>
+                        <View style={{ width: "100%", height: "20%", justifyContent:"flex-end", alignItems:"flex-end"}}>
+                            <TouchableOpacity
+                            onPress={() => setModalVisible(!modalVisible)}>
+                                <AntDesign name="closecircleo" size={windowHeight*0.04} color="black" style={{ marginRight: "10%" }} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection:"row", height: "70%", width:"100%", justifyContent:"center", alignItems:"center"}}>
+    
+    
+                        <View style={{ alignItems:"center" }}>
+                            <AirbnbRating defaultRating={3} showRating={false} onFinishRating={(rating) => setRating(rating)} size={windowHeight*0.045}/>
+                            <TextInput 
+                            value={reviewContent}
+                            onChangeText={setReviewContent}
+                            style={styles.ti} />
+                            <TouchableOpacity style={{ width: windowWidth*0.4, backgroundColor:"#7f0001", justifyContent:"center", alignItems:"center",
+                                height:windowHeight*0.05, borderRadius: 20, marginTop: "10%"}}
+                                onPress={() => sendRating()}>
+                                <Text style={styles.goldText}>Post review</Text>
+                            </TouchableOpacity>
+                        </View>
+    
+                        
+    
+                        </View>
+                    </View>
+                </Modal>
+    
+                <View style={styles.top}>
+    
+                    <View style={styles.info}>
+                        <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
+                        <View style={styles.namenbutton}>
+                            <Text style={styles.name}>{props.route.params.user.name}</Text>
+                            <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
+                            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                                <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+    
+                </View>
 
-            <ScrollView contentContainerStyle={styles.productsView}
-                refreshControl={
-                    <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                    />
-                } > 
-                    <FlatList 
-                    horizontal={true}
-                    keyExtractor={item => item.product_id}
-                    data={products}
-                    renderItem={({ item }) => {
-                        var im = `data:image/png;base64,${base64.decode(item.picture)}`
-                        return (
-                                <TouchableOpacity style={styles.product}>
+                <View style={{ width: windowWidth, height: windowHeight*0.1, flexDirection:"row"}}>
 
-                                    <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="contain"/>
+                    <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
+                        <Text style={styles.redtext}>Ads</Text>
+                        <View style={{ width: windowWidth*0.3, height:2, backgroundColor: line ? "transparent" : "#7f0001", marginTop: "5%"}}></View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
+                        <Text style={styles.redtext}>Reviews</Text>
+                        <View style={{ width: windowWidth*0.3, height:2, backgroundColor: !line ? "transparent" : "#7f0001", marginTop: "5%"}}></View>
+                    </TouchableOpacity>
+
+                </View>
+    
+                <ScrollView contentContainerStyle={styles.productsView}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        />
+                    } > 
+                        <FlatList 
+                        horizontal={true}
+                        keyExtractor={item => item.product_id}
+                        data={products}
+                        renderItem={({ item }) => {
+                            var im = `data:image/png;base64,${base64.decode(item.picture)}`
+                            return (
+                                    <TouchableOpacity style={styles.product}>
+    
+                                        <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="contain"/>
+                                            
+    
+    
+                                        <View style={styles.buttonDown}>
+                                            <Text style={styles.goldText}>{item.name}</Text>
+                                        </View>
                                         
-
-
-                                    <View style={styles.buttonDown}>
-                                        <Text style={styles.goldText}>{item.name}</Text>
-                                    </View>
-                                    
-                                </TouchableOpacity>
-                        )
-                    }}
-                    />
+                                    </TouchableOpacity>
+                            )
+                        }}
+                        />
                 </ScrollView>
-
-        </View>
-    )
+    
+            </View>
+        )
+    }
 
 }
 
@@ -243,4 +364,25 @@ const styles = StyleSheet.create({
         fontSize:windowHeight*0.02, 
         fontWeight:"bold"
     },
+    line: { 
+        flexDirection:"column", 
+        width: "50%", 
+        height: "100%", 
+        justifyContent:"center", 
+        alignItems:"center" 
+    },
+    redtext: { 
+        color: "#7f0001", 
+        fontSize:windowHeight*0.02, 
+        fontWeight:"bold"
+    },
+    flitem: {
+        width: windowWidth*0.9, 
+        height: windowHeight*0.1, 
+        marginVertical: windowHeight*0.025, 
+        backgroundColor:"#7f0001",
+        borderRadius: 30,
+        flexDirection:"column",
+        alignItems:"center"
+    }
 })

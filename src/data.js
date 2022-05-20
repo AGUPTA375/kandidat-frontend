@@ -184,3 +184,15 @@ export function getPinnedProducts(user_id, setPinnedProducts) {
         }
     })
 }
+
+export function getUsersReviews(user_id, setReviews) {
+    return fetch(`http://localhost:8080/users/${user_id}/reviews`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setReviews(data[1])
+        }
+    })
+}

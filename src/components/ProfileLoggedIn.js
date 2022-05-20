@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput, FlatList, RefreshControl, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Settings from './Settings';
+import { AirbnbRating } from 'react-native-ratings';
 
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -46,6 +47,7 @@ export default function ProfileLoggedIn(props) {
     const [refreshing, setRefreshing] = useState(false);
     const [line, setLine] = useState(false)
     const [pinnedProducts, setPinnedProducts] = useState(null)
+    const [rating, setRating] = useState(0)
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
@@ -73,6 +75,9 @@ export default function ProfileLoggedIn(props) {
                 var user = data[1]
                 setImg(`data:image/png;base64,${base64.decode(user.picture)}`)
                 setName(user.name)
+                if (user.rating !==  null) {
+                    setRating(user.rating)
+                }
             }
         });
         getUsersProducts(props.id, setUserProducts)
@@ -89,6 +94,7 @@ export default function ProfileLoggedIn(props) {
                     </View>
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />
+                        <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(rating)} />
                         <Text style={styles.name}>{name}</Text>
                     </View>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
