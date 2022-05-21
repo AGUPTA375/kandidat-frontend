@@ -97,12 +97,6 @@ export default function ProfileLoggedIn(props) {
                         <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(rating)} />
                         <View style={{ flexDirection:"row", justifyContent:"space-evenly", width: windowWidth }}>
                             <Text style={styles.name}>{name}</Text>
-
-                            <TouchableOpacity onPress={() => props.nav.navigate("FollowersAndFollowing", { id: props.id })}>
-
-                                <Text style={styles.name}>FOLLOWERS</Text>
-
-                            </TouchableOpacity>
                             
                         </View>
                     </View>
@@ -110,6 +104,12 @@ export default function ProfileLoggedIn(props) {
                         <TouchableOpacity
                         onPress={() => setSettingsVisible(!settingsVisible)}>
                             <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => props.nav.navigate("FollowersAndFollowing", { id: props.id })}>
+
+                                <Ionicons name="people" size={windowHeight*0.05} color="#EDB219" style={{ marginTop:"5%"}}/>
+
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -196,13 +196,17 @@ export default function ProfileLoggedIn(props) {
                         <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(rating)} />
                         <View style={{ flexDirection:"row", justifyContent:"space-evenly", width: windowWidth }}>
                             <Text style={styles.name}>{name}</Text>
-                            <Text style={styles.name}>FOLLOWERS</Text>
                         </View>
                     </View>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>
                         <TouchableOpacity
                         onPress={() => setSettingsVisible(!settingsVisible)}>
                             <Ionicons name="settings-sharp" size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => props.nav.navigate("FollowersAndFollowing", { id: props.id })}>
+
+                                <Ionicons name="people" size={windowHeight*0.05} color="#EDB219" style={{ marginTop:"5%"}}/>
+
                         </TouchableOpacity>
                     </View>
                 </View>

@@ -70,7 +70,7 @@ export default function FollowersAndFollowing(props) {
                         renderItem={({ item }) => {
                             var im = `data:image/png;base64,${base64.decode(item.picture)}`
                             return(
-                                <TouchableOpacity style={styles.users} onPress={() => props.navigation.navigate("Profile")}>
+                                <TouchableOpacity style={styles.users} onPress={() => props.navigation.navigate("OtherUser", {user:item})}>
                                     <Image source={{ uri: im }} style={styles.im}/>
                                     <Text style={styles.nameText}>{item.name}</Text>
                                     <AntDesign name="right" size={windowHeight*0.05} color="black" style={{ marginRight: "5%" }} />
@@ -110,7 +110,7 @@ export default function FollowersAndFollowing(props) {
                         renderItem={({ item }) => {
                             var im = `data:image/png;base64,${base64.decode(item.picture)}`
                             return(
-                                <TouchableOpacity style={styles.users} onPress={() => props.navigation.navigate("Profile", {user:item})}>
+                                <TouchableOpacity style={styles.users} onPress={() => props.navigation.navigate("OtherUser", {user:item})}>
                                     <Image source={{ uri: im }} style={styles.im}/>
                                     <Text style={styles.nameText}>{item.name}</Text>
                                     <AntDesign name="right" size={windowHeight*0.05} color="black" style={{ marginRight: "5%" }} />
