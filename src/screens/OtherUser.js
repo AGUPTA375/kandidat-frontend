@@ -76,7 +76,9 @@ export default function OtherUser(props) {
     }, [line])
 
     useEffect(() => {
-        reviews.length > 0 ? console.log(reviews) : console.log("empty")
+        if (reviews !== null) {
+            reviews.length > 0 ? console.log(reviews) : console.log("empty")
+        }
     }, [reviews])
 
     if (line) {

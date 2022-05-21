@@ -97,7 +97,13 @@ export default function ProfileLoggedIn(props) {
                         <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(rating)} />
                         <View style={{ flexDirection:"row", justifyContent:"space-evenly", width: windowWidth }}>
                             <Text style={styles.name}>{name}</Text>
-                            <Text style={styles.name}>FOLLOWERS</Text>
+
+                            <TouchableOpacity onPress={() => props.nav.navigate("FollowersAndFollowing", { id: props.id })}>
+
+                                <Text style={styles.name}>FOLLOWERS</Text>
+
+                            </TouchableOpacity>
+                            
                         </View>
                     </View>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop: "45%"}}>

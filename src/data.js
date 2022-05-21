@@ -24,6 +24,27 @@ export function getUsersProducts(id, setProducts) {
     })
 }
 
+export function getUsersProductsMulti(id, setProducts, products) {
+    return fetch(`http://localhost:8080/users/${id}/products`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        console.log(data[1])
+        data[0] === 200 ? setProducts() : setProducts(null)
+    })
+}
+
+export function getFollowingUsersProducts(user_id, setProducts) {
+    return fetch(`http://localhost:8080/users/${user_id}/followingProducts`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        data[0] === 200 ? setProducts(data[1]) : setProducts(null)
+    })
+}
+
 export function getNotUsersProducts(id, setProducts) {
     return fetch(`http://localhost:8080/users/${id}/products?owned=false`).then((response) => {
         const statusCode = response.status;
@@ -193,6 +214,30 @@ export function getUsersReviews(user_id, setReviews) {
     }).then((data) => {
         if (data[0] === 200) {
             setReviews(data[1])
+        }
+    })
+}
+
+export function getUserIsFollowing(user_id, setFollowing) {
+    return fetch(`http://localhost:8080/users/${user_id}/following`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setFollowing(data[1])
+        }
+    })
+}
+
+export function getUserFollowers(user_id, setFollowers) {
+    return fetch(`http://localhost:8080/users/${user_id}/followers`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setFollowers(data[1])
         }
     })
 }
