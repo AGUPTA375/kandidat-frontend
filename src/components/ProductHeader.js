@@ -12,7 +12,7 @@ export default function ProductHeader(props) {
 
             <View style={styles.leftright}>
                 <TouchableOpacity onPress={() => props.navigation.goBack()}>
-                    <AntDesign name="back" size={windowHeight*0.05} color="#EDB219" />
+                    <AntDesign name="left" size={windowHeight*0.05} color="#EDB219" />
                 </TouchableOpacity>
             </View>
 
