@@ -35,7 +35,7 @@ export function getUsersProductsMulti(id, setProducts, products) {
 }
 
 export function getFollowingUsersProducts(user_id, setProducts) {
-    return fetch(`http://localhost:8080/users/${user_id}/followingProducts`).then((response) => {
+    return fetch(`http://localhost:8080/users/${user_id}/following/products`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -224,7 +224,7 @@ export function getUserIsFollowing(user_id, setFollowing) {
         return Promise.all([statusCode, data]);
     }).then((data) => {
         if (data[0] === 200) {
-            setFollowing(data[1])
+            data[1] === null ? setFollowing([]) : setFollowing(data[1])
         }
     })
 }
@@ -236,7 +236,7 @@ export function getUserFollowers(user_id, setFollowers) {
         return Promise.all([statusCode, data]);
     }).then((data) => {
         if (data[0] === 200) {
-            setFollowers(data[1])
+            data[1] === null ? setFollowers([]) : setFollowers(data[1])
         }
     })
 }
@@ -244,6 +244,20 @@ export function getUserFollowers(user_id, setFollowers) {
 export function createFollow(user_id, body) {
     return fetch(`http://localhost:8080/users/${user_id}/followers`, {
         method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    })
+}
+
+export function updateUser(user_id, body) {
+    return fetch(`http://localhost:8080/users/${user_id}`, {
+        method: "PUT",
         headers: {
             'Content-Type': 'application/json'
         },
