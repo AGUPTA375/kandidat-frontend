@@ -163,9 +163,9 @@ export default function ProfileNotLoggedIn(props) {
                 secureTextEntry={true}/>
 
             </View>
-            <TouchableOpacity style={styles.button} onPress={() => {login({"PhoneNumber": phone, "Password": password})
+            <TouchableOpacity style={styles.button} onPress={() => {login({phone_number: phone, password: password})
             .then((data) => {
-                if (data[0] == 200) {
+                if (data[0] == 201) {
                     var token = data[1]["Token"]
                     var id = data[1]["ID"]
                     storeData('token', token)
