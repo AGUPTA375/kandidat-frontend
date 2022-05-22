@@ -141,7 +141,10 @@ export default function OtherUser(props) {
     
                 <View style={styles.top}>
 
-                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%", flexDirection:"column"}}>
+                        <TouchableOpacity style={{ marginBottom: windowHeight*0.01}} onPress={() => props.navigation.goBack()}>
+                            <AntDesign name="left" size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
                         <Ionicons name="business" size={windowHeight*0.05} color={props.route.params.user.business ? "#EDB219" : "transparent"}/>
                     </View>
                     
@@ -250,6 +253,9 @@ export default function OtherUser(props) {
                 <View style={styles.top}>
 
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                        <TouchableOpacity style={{ marginBottom: windowHeight*0.01}} onPress={() => props.navigation.goBack()}>
+                            <AntDesign name="left" size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
                         <Ionicons name="business" size={windowHeight*0.05} color={props.route.params.user.business ? "#EDB219" : "transparent"}/>
                     </View>
     
