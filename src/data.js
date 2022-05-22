@@ -30,7 +30,6 @@ export function getUsersProductsMulti(id, setProducts, products) {
         const data = response.json();
         return Promise.all([statusCode, data]);
     }).then((data) => {
-        console.log(data[1])
         data[0] === 200 ? setProducts() : setProducts(null)
     })
 }

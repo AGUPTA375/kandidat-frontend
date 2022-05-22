@@ -49,7 +49,6 @@ export default function ProfileNotLoggedIn(props) {
                     )
                     setRegister(!register)
                 } else {
-                    console.log(data)
                     Alert.alert(
                         "Something went wrong...",
                         "Try again",

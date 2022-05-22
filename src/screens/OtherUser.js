@@ -75,12 +75,6 @@ export default function OtherUser(props) {
         }
     }, [line])
 
-    useEffect(() => {
-        if (reviews !== null) {
-            reviews.length > 0 ? console.log(reviews) : console.log("empty")
-        }
-    }, [reviews])
-
     if (line) {
         return(
             <View style={styles.container}>
@@ -131,12 +125,15 @@ export default function OtherUser(props) {
 
                             <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-around", alignItems:"center" }}>
                                 <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
-                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                    <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
-                                </TouchableOpacity>
                             </View>
                             
                         </View>
+                    </View>
+
+                    <View style={{ width: windowWidth*0.2, height:"100%", marginRight:-windowWidth*0.2, alignItems:"center", marginTop: windowHeight*0.15}}>
+                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                            <MaterialIcons name="rate-review" size={windowHeight*0.05} color="#EDB219" />   
+                        </TouchableOpacity>
                     </View>
     
                 </View>

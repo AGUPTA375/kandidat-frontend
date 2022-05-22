@@ -86,7 +86,7 @@ export default function ProfileLoggedIn(props) {
     if (!line) {
         return (
             <View >
-                <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>
+                <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll} navigation={props.nav}/>
                 <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
                 <View style={styles.profile}>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
@@ -185,7 +185,7 @@ export default function ProfileLoggedIn(props) {
     } else {
         return(
             <View >
-                <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll}/>
+                <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll} navigation={props.nav}/>
                 <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
                 <View style={styles.profile}>
                     <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
