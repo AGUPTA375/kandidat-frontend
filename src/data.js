@@ -224,7 +224,6 @@ export function getUserIsFollowing(user_id, setFollowing) {
         return Promise.all([statusCode, data]);
     }).then((data) => {
         if (data[0] === 200) {
-            console.log(data)
             setFollowing(data[1])
         }
     })
@@ -253,7 +252,5 @@ export function createFollow(user_id, body) {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
-    }).then((data) =>
-    console.log(data)
-    )
+    })
 }

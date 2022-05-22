@@ -81,7 +81,6 @@ export default function OtherUser(props) {
 
     useEffect(() => {
         if (id !== null) {
-            console.log("ree")
             getUserIsFollowing(id, setFollowing)
         }
     }, [id])
