@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from "react"
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image, RefreshControl } from "react-native"
-import { getNotUsersProducts } from "../data"
-import { useFocusEffect } from '@react-navigation/native';
+import { getFollowingUsersProducts } from "../data"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 var base64 = require('base-64');
 
 const windowWidth = Dimensions.get('window').width;
@@ -9,12 +10,36 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function LoggedInFeed(props) {
 
-    const [products, setProducts] = useState(null)
+    const [products, setProducts] = useState([])
+    const [following, setFollowing] = useState(null)
     const [refreshing, setRefreshing] = useState(false)
+    const [id, setID] = useState(null)
+
+    const getID = async () => {
+        try {
+        const value = await AsyncStorage.getItem('id')
+        if(value !== null) {
+            setID(value)
+        } else {
+            setID(null)
+        }
+        } catch(e) {
+        // error reading value
+        }
+    }
 
     useEffect(() => {
-        getNotUsersProducts(props.id, setProducts)
+        //getNotUsersProducts(props.id, setProducts)
+        getID()
     }, [])
+
+    useEffect(() => {
+        if (id !== null) {
+            getFollowingUsersProducts(id, setProducts)
+        }
+    }, [id])
+
+    
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
@@ -23,7 +48,7 @@ export default function LoggedInFeed(props) {
     const onRefresh = useCallback(() => {
       setRefreshing(true);
       wait(2000).then(() => {
-        getNotUsersProducts(props.id, setProducts)
+        getFollowingUsersProducts(props.id, setProducts)
         setRefreshing(false)
       });
     }, []);

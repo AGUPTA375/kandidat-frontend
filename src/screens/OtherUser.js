@@ -76,7 +76,9 @@ export default function OtherUser(props) {
     }, [line])
 
     useEffect(() => {
-        reviews.length > 0 ? console.log(reviews) : console.log("empty")
+        if (reviews !== null) {
+            reviews.length > 0 ? console.log(reviews) : console.log("empty")
+        }
     }, [reviews])
 
     if (line) {
@@ -122,11 +124,18 @@ export default function OtherUser(props) {
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
                         <View style={styles.namenbutton}>
-                            <Text style={styles.name}>{props.route.params.user.name}</Text>
-                            <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
-                            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
-                            </TouchableOpacity>
+
+                            <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-evenly", marginBottom:"1%" }}>
+                                <Text style={styles.name}>{props.route.params.user.name}</Text>
+                            </View>
+
+                            <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-around", alignItems:"center" }}>
+                                <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
+                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                                    <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
+                                </TouchableOpacity>
+                            </View>
+                            
                         </View>
                     </View>
     
@@ -209,29 +218,38 @@ export default function OtherUser(props) {
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
                         <View style={styles.namenbutton}>
-                            <Text style={styles.name}>{props.route.params.user.name}</Text>
-                            <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
-                            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
-                            </TouchableOpacity>
+                        <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-evenly", marginBottom:"1%" }}>
+                                <Text style={styles.name}>{props.route.params.user.name}</Text>
+                            </View>
+
+                            <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-around", alignItems:"center" }}>
+                                <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
+                            </View>
                         </View>
                     </View>
-    
-                </View>
 
-                <View style={{ width: windowWidth, height: windowHeight*0.1, flexDirection:"row"}}>
-
-                    <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-                        <Text style={styles.redtext}>Ads</Text>
-                        <View style={{ width: windowWidth*0.3, height:2, backgroundColor: line ? "transparent" : "#7f0001", marginTop: "5%"}}></View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-                        <Text style={styles.redtext}>Reviews</Text>
-                        <View style={{ width: windowWidth*0.3, height:2, backgroundColor: !line ? "transparent" : "#7f0001", marginTop: "5%"}}></View>
-                    </TouchableOpacity>
+                    <View style={{ width: windowWidth*0.2, height:"100%", marginRight:-windowWidth*0.2, alignItems:"center", marginTop: windowHeight*0.15}}>
+                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                            <MaterialIcons name="rate-review" size={windowHeight*0.05} color="#EDB219" />   
+                        </TouchableOpacity>
+                    </View>
 
                 </View>
+
+
+                    <View style={{ width: windowWidth, height: windowHeight*0.1, flexDirection:"row"}}>
+
+                        <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
+                            <Text style={styles.redtext}>Ads</Text>
+                            <View style={{ width: windowWidth*0.3, height:2, backgroundColor: line ? "transparent" : "#7f0001", marginTop: "5%"}}></View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
+                            <Text style={styles.redtext}>Reviews</Text>
+                            <View style={{ width: windowWidth*0.3, height:2, backgroundColor: !line ? "transparent" : "#7f0001", marginTop: "5%"}}></View>
+                        </TouchableOpacity>
+
+                    </View>
     
                 <ScrollView contentContainerStyle={styles.productsView}
                     refreshControl={
@@ -289,11 +307,10 @@ const styles = StyleSheet.create({
         backgroundColor:"white",
     },
     namenbutton: {
-        flexDirection:"row",
+        flexDirection:"column",
         width: windowWidth,
         height: windowHeight*0.07,
         alignItems:"center",
-        justifyContent:"space-evenly"
     },
     productsView: {
         height: windowHeight*0.35,
@@ -324,7 +341,7 @@ const styles = StyleSheet.create({
         width: windowWidth*0.6,
         height: windowHeight/2.5,
         alignItems:"center",
-        justifyContent:"flex-end"
+        justifyContent:"flex-end",
     },
     profilepic: {
         width: windowWidth/2.5,
