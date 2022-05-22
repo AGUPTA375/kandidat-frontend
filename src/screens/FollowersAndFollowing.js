@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AntDesign } from '@expo/vector-icons';
 
-import { getUserIsFollowing, getUserFollowers } from '../data';
+import { getUserIsFollowing, getUserFollowers, fetchUserInfo } from '../data';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -18,6 +18,7 @@ export default function FollowersAndFollowing(props) {
     const [following, setFollowing] = useState(null)
     const [id, setID] = useState(null)
     const [line, setLine] = useState(false)
+    const [user, setUser] = useState(null)
 
     const getID = async () => {
         try {
@@ -39,25 +40,45 @@ export default function FollowersAndFollowing(props) {
     useEffect(() => {
         id !== null ? getUserIsFollowing(id, setFollowing) : {}
         id !== null ? getUserFollowers(id, setFollowers) : {}
+        id !== null ? fetchUserInfo(id, setUser) : {}
     }, [id])
 
-    if (following !== null && followers !== null) {
+    if (following !== null && followers !== null && user !== null) {
         if (line) {
             return (
                 <View style={styles.container}>
         
                     {/* Header */}
                     <View style={styles.header}>
+
+                        <View style={styles.headerTop}>
+                            
+                            <TouchableOpacity style={{ width: windowWidth*0.2 }} onPress={() => props.navigation.goBack()}>
+                                <AntDesign name="left" size={windowHeight*0.045} color="#EDB219" />
+
+                            </TouchableOpacity>
+                            <View style={{ width: windowWidth*0.6, alignItems:"center"}}>
+                                <Text style={styles.goldText}>{user.name}</Text>
+
+                            </View>
+
+                            <View style={{ width: windowWidth*0.2 }}>
+
+                            </View>
+
+                        </View>
         
-                        <TouchableOpacity style={styles.headerButtons} onPress={() => setLine(!line)}>
-                            <Text style={styles.goldText}>{followers.length} Followers</Text>
-                            <View style={[styles.line, { backgroundColor: line ? "#EDB219" : "transparent" }]}></View>
-                        </TouchableOpacity>
-        
-                        <TouchableOpacity style={styles.headerButtons} onPress={() => setLine(!line)}>
-                            <Text style={styles.goldText}>{following.length} Following</Text>
-                            <View style={[styles.line, { backgroundColor: !line ? "#EDB219" : "transparent" }]}></View>
-                        </TouchableOpacity>
+                        <View style={{ flexDirection:"row"}}>
+                            <TouchableOpacity style={styles.headerButtons} onPress={() => setLine(!line)}>
+                                <Text style={styles.goldText}>{followers.length} Followers</Text>
+                                <View style={[styles.line, { backgroundColor: line ? "#EDB219" : "transparent" }]}></View>
+                            </TouchableOpacity>
+            
+                            <TouchableOpacity style={styles.headerButtons} onPress={() => setLine(!line)}>
+                                <Text style={styles.goldText}>{following.length} Following</Text>
+                                <View style={[styles.line, { backgroundColor: !line ? "#EDB219" : "transparent" }]}></View>
+                            </TouchableOpacity>
+                        </View>
         
                     </View>
         
@@ -88,16 +109,36 @@ export default function FollowersAndFollowing(props) {
         
                     {/* Header */}
                     <View style={styles.header}>
+
+                        <View style={styles.headerTop}>
+                            
+                            <TouchableOpacity style={{ width: windowWidth*0.2 }} onPress={() => props.navigation.goBack()}>
+                                <AntDesign name="left" size={windowHeight*0.045} color="#EDB219" />
+
+                            </TouchableOpacity>
+                            <View style={{ width: windowWidth*0.6, alignItems:"center"}}>
+                                <Text style={styles.goldText}>{user.name}</Text>
+
+                            </View>
+
+                            <View style={{ width: windowWidth*0.2 }}>
+
+                            </View>
+
+                        </View>
         
-                        <TouchableOpacity style={styles.headerButtons} onPress={() => setLine(!line)}>
-                            <Text style={styles.goldText}>{followers.length} Followers</Text>
-                            <View style={[styles.line, { backgroundColor: line ? "#EDB219" : "transparent" }]}></View>
-                        </TouchableOpacity>
-        
-                        <TouchableOpacity style={styles.headerButtons} onPress={() => setLine(!line)}>
-                            <Text style={styles.goldText}>{following.length} Following</Text>
-                            <View style={[styles.line, { backgroundColor: !line ? "#EDB219" : "transparent" }]}></View>
-                        </TouchableOpacity>
+                        <View style={{ flexDirection:"row"}}>
+                            <TouchableOpacity style={styles.headerButtons} onPress={() => setLine(!line)}>
+                                <Text style={styles.goldText}>{followers.length} Followers</Text>
+                                <View style={[styles.line, { backgroundColor: line ? "#EDB219" : "transparent" }]}></View>
+                            </TouchableOpacity>
+            
+                            <TouchableOpacity style={styles.headerButtons} onPress={() => setLine(!line)}>
+                                <Text style={styles.goldText}>{following.length} Following</Text>
+                                <View style={[styles.line, { backgroundColor: !line ? "#EDB219" : "transparent" }]}></View>
+                            </TouchableOpacity>
+                        </View>
+                        
         
                     </View>
         
@@ -139,7 +180,7 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowHeight*0.2,
         backgroundColor: "#7f0001",
-        flexDirection:"row"
+        flexDirection:"column"
     },
     root: {
         width: windowWidth,
@@ -147,14 +188,15 @@ const styles = StyleSheet.create({
     },
     headerButtons: {
         width: windowWidth/2,
-        height: windowHeight*0.2,
-        justifyContent:"center",
+        height: windowHeight*0.06,
+        justifyContent:"flex-end",
         alignItems:"center",
-        marginTop: windowHeight*0.03
+        paddingBottom: "1%"
+
     },
     goldText: { 
         color: "#EDB219", 
-        fontSize:windowHeight*0.03, 
+        fontSize:windowHeight*0.025, 
         fontWeight:"bold"
     },
     line: {
@@ -180,5 +222,13 @@ const styles = StyleSheet.create({
     },
     nameText: {
         fontSize: windowHeight*0.03
+    },
+    headerTop: {
+        height: windowHeight*0.14,
+        width: windowWidth,
+        flexDirection:"row",
+        alignItems:"center",
+        paddingTop: "10%",
+        justifyContent:"space-evenly"
     }
 })
