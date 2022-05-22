@@ -146,17 +146,18 @@ export default function EditProfile(props) {
                         <TouchableOpacity style={styles.modalButton} onPress={() => {
                             if (newPassword === null || newPassword === "") {
                                 Alert.alert("Error", 'Password cannot be empty', [ { text: "OK" } ])
+                            } else {
+                                updateUser(id, { name: user.name, password: newPassword, phone_number: user.phone_number, picture: user.picture, business: user.business }).then((data) => {
+                                    if (data[0] === 201) {
+                                        Alert.alert("Password changed", "Your password has been updated. Please restart the app", [
+                                            {
+                                                text: "OK",
+                                                onPress: setPasswordModal(!passwordModal)
+                                            }
+                                        ])
+                                    }
+                                })
                             }
-                            updateUser(id, { name: user.name, password: newPassword, phone_number: user.phone_number, picture: user.picture, business: user.business }).then((data) => {
-                                if (data[0] === 201) {
-                                    Alert.alert("Password changed", "Your password has been updated. Please restart the app", [
-                                        {
-                                            text: "OK",
-                                            onPress: setPasswordModal(!passwordModal)
-                                        }
-                                    ])
-                                }
-                            })
                         }}
                         >
                             <Text style={styles.goldText}>Update</Text>
@@ -191,17 +192,18 @@ export default function EditProfile(props) {
                         <TouchableOpacity style={styles.modalButton} onPress={() => {
                             if (newPhone === null || newPhone === "") {
                                 Alert.alert("Error", 'Phone number cannot be empty', [ { text: "OK" } ])
+                            } else {
+                                updateUser(id, { name: user.name, password: user.password, phone_number: newPhone, picture: user.picture, business: user.business }).then((data) => {
+                                    if (data[0] === 201) {
+                                        Alert.alert("Phone number changed", "Your phone number has been updated. Please restart the app", [
+                                            {
+                                                text: "OK",
+                                                onPress: setPhoneModal(!phoneModal)
+                                            }
+                                        ])
+                                    }
+                                })
                             }
-                            updateUser(id, { name: user.name, password: user.password, phone_number: newPhone, picture: user.picture, business: user.business }).then((data) => {
-                                if (data[0] === 201) {
-                                    Alert.alert("Phone number changed", "Your phone number has been updated. Please restart the app", [
-                                        {
-                                            text: "OK",
-                                            onPress: setPhoneModal(!phoneModal)
-                                        }
-                                    ])
-                                }
-                            })
                         }}
                         >
                             <Text style={styles.goldText}>Update</Text>
@@ -236,16 +238,21 @@ export default function EditProfile(props) {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.modalButton} onPress={() => {
-                            updateUser(id, { name: user.name, password: user.password, phone_number: user.phone_number, picture: imgb64, business: user.business }).then((data) => {
-                                if (data[0] === 201) {
-                                    Alert.alert("Profice picture changed", "Your profile picture has been updated. Please restart the app", [
-                                        {
-                                            text: "OK",
-                                            onPress: setImageModal(!imageModal)
-                                        }
-                                    ])
-                                }
-                            })
+                            if (img === "f") {
+                                Alert.alert("Error", 'Please choose an image.', [ { text: "OK" } ])
+                            } else {
+                                updateUser(id, { name: user.name, password: user.password, phone_number: user.phone_number, picture: imgb64, business: user.business }).then((data) => {
+                                    if (data[0] === 201) {
+                                        Alert.alert("Profice picture changed", "Your profile picture has been updated. Please restart the app", [
+                                            {
+                                                text: "OK",
+                                                onPress: setImageModal(!imageModal)
+                                            }
+                                        ])
+                                    }
+                                })
+                            }
+                            
                         }}
                         >
                             <Text style={styles.goldText}>Update</Text>
