@@ -28,3 +28,12 @@ export function checkIfPinned(pinnedProducts, product) {
 
     return false
 }
+
+export function checkIsFollowing(following, user_id) {
+    for (var usr of following) {
+        if (usr.user_id === user_id) {
+            return true
+        }
+    }
+    return false
+}

@@ -224,6 +224,7 @@ export function getUserIsFollowing(user_id, setFollowing) {
         return Promise.all([statusCode, data]);
     }).then((data) => {
         if (data[0] === 200) {
+            console.log(data)
             setFollowing(data[1])
         }
     })
@@ -239,4 +240,20 @@ export function getUserFollowers(user_id, setFollowers) {
             setFollowers(data[1])
         }
     })
+}
+
+export function createFollow(user_id, body) {
+    return fetch(`http://localhost:8080/users/${user_id}/followers`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) =>
+    console.log(data)
+    )
 }
