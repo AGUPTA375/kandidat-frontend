@@ -48,6 +48,7 @@ export default function ProfileLoggedIn(props) {
     const [line, setLine] = useState(false)
     const [pinnedProducts, setPinnedProducts] = useState(null)
     const [rating, setRating] = useState(0)
+    const [user, setUser] = useState(null)
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
@@ -75,6 +76,7 @@ export default function ProfileLoggedIn(props) {
                 var user = data[1]
                 setImg(`data:image/png;base64,${base64.decode(user.picture)}`)
                 setName(user.name)
+                setUser(user)
                 if (user.rating !==  null) {
                     setRating(user.rating)
                 }
@@ -83,14 +85,15 @@ export default function ProfileLoggedIn(props) {
         getUsersProducts(props.id, setUserProducts)
         getPinnedProducts(props.id, setPinnedProducts)
     }, [])
+
     if (!line) {
         return (
             <View >
                 <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll} navigation={props.nav}/>
                 <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
                 <View style={styles.profile}>
-                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
-
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                        <Ionicons name="business" size={windowHeight*0.05} color={user.business ? "#EDB219" : "transparent"}/>
                     </View>
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />
@@ -188,8 +191,8 @@ export default function ProfileLoggedIn(props) {
                 <Settings modal={settingsVisible} setModal={setSettingsVisible} clear={clearAll} navigation={props.nav}/>
                 <CreateProduct modal={addVisible} setModal={setAddVisible} id={props.id}/>
                 <View style={styles.profile}>
-                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5}}>
-
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                        <Ionicons name="business" size={windowHeight*0.05} color={user.business ? "#EDB219" : "transparent"}/>
                     </View>
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />

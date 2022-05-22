@@ -10,7 +10,7 @@ var base64 = require('base-64');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-import { MaterialIcons, AntDesign } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign, Ionicons } from '@expo/vector-icons';
 
 export default function OtherUser(props) {
 
@@ -75,6 +75,7 @@ export default function OtherUser(props) {
         }
     }, [line])
 
+
     if (line) {
         return(
             <View style={styles.container}>
@@ -114,6 +115,11 @@ export default function OtherUser(props) {
                 </Modal>
     
                 <View style={styles.top}>
+
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                        <Ionicons name="business" size={windowHeight*0.05} color={props.route.params.user.business ? "#EDB219" : "transparent"}/>
+                    </View>
+                    
     
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
@@ -211,6 +217,10 @@ export default function OtherUser(props) {
                 </Modal>
     
                 <View style={styles.top}>
+
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                        <Ionicons name="business" size={windowHeight*0.05} color={props.route.params.user.business ? "#EDB219" : "transparent"}/>
+                    </View>
     
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
@@ -332,7 +342,6 @@ const styles = StyleSheet.create({
         alignItems:"center",
         paddingBottom: "10%",
         flexDirection:"row",
-        justifyContent:"center"
     },
     info: {
         width: windowWidth*0.6,
