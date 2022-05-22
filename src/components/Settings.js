@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, Modal, StyleSheet, Dimensions } from "react-native"
+import { View, Text, Modal, StyleSheet, Dimensions, FlatList } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -8,6 +8,13 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function Settings(props) {
+
+    var settings = [
+        {
+            name: "Edit profile",
+            nav: "EditProfile"
+        }
+    ]
 
 
     return (
@@ -24,6 +31,22 @@ export default function Settings(props) {
                         onPress={() => props.setModal(!props.modal)}>
                             <AntDesign name="closecircleo" size={windowHeight*0.06} color="black" style={{ marginRight: "5%", }} />
                         </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.mid}>
+                        <FlatList
+                        scrollEnabled={false}
+                        contentContainerStyle={{ alignItems:"center", marginTop: "5%"}}
+                        data={settings}
+                        keyExtractor={item => item.name}
+                        renderItem={({ item }) => {
+                            return (
+                                <TouchableOpacity style={styles.flbutton} onPress={() => {props.setModal(!props.modal); props.navigation.navigate(item.nav)}}>
+                                    <Text style={styles.nameText}>{item.name}</Text>
+                                    <AntDesign name="right" size={windowHeight*0.05} color="black" style={{ marginRight: "5%" }} />
+                                </TouchableOpacity>
+                            )
+                        }} />
                     </View>
 
                     <View style={styles.bottom}>
@@ -66,17 +89,35 @@ const styles = StyleSheet.create({
         height: windowHeight*0.1,
         justifyContent:"flex-end",
         flexDirection:"row",
-        alignItems:"center"
+        alignItems:"center",
     },
     bottom: {
         width: windowWidth*0.9,
         height: windowHeight*0.1,
-        justifyContent:"center"
+        justifyContent:"center",
     },
     logout: {
         width: windowWidth*0.4,
         height: windowHeight*0.08, 
         justifyContent:"center",
         alignItems:"center"
+    },
+    mid: {
+        width: windowWidth*0.9,
+        height: windowHeight*0.6,
+    },
+    flbutton: {
+        width: windowWidth*0.8,
+        height: windowHeight*0.1,
+        backgroundColor: "#d8d8d8",
+        alignItems:"center",
+        paddingLeft:"5%",
+        borderRadius: 30,
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    nameText: {
+        fontSize: windowHeight*0.025,
+        fontWeight:"bold"
     }
 })

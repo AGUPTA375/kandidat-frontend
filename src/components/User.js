@@ -4,6 +4,7 @@ import Product from '../screens/Product';
 import Profile from '../screens/Profile';
 import FollowersAndFollowing from '../screens/FollowersAndFollowing';
 import OtherUser from '../screens/OtherUser';
+import EditProfile from '../screens/EditProfile';
 
 const Stack = createStackNavigator()
 
@@ -14,6 +15,7 @@ export default function User() {
             <Stack.Screen name="Product" component={Product} />
             <Stack.Screen name ="FollowersAndFollowing" component={FollowersAndFollowing} />
             <Stack.Screen name="OtherUser" component={OtherUser} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
         </Stack.Navigator>
     )
 }

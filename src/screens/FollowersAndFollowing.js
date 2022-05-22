@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         alignItems:"center",
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginVertical: "3%"
     },
     im: { 
         width: windowWidth*0.15, 

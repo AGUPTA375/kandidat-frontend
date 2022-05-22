@@ -1,8 +1,9 @@
 import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, FlatList, ScrollView, RefreshControl, Modal, TextInput, Alert } from "react-native";
 import { useState, useEffect, useCallback } from "react"
-import { getUsersProducts, postReview, getUsersReviews } from "../data";
+import { getUsersProducts, postReview, getUsersReviews, getUserIsFollowing, createFollow } from "../data";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AirbnbRating } from 'react-native-ratings';
+import { checkIsFollowing } from "../funcs";
 
 var base64 = require('base-64');
 
@@ -10,7 +11,7 @@ var base64 = require('base-64');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-import { MaterialIcons, AntDesign } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign, Ionicons, SimpleLineIcons } from '@expo/vector-icons';
 
 export default function OtherUser(props) {
 
@@ -46,6 +47,9 @@ export default function OtherUser(props) {
     const [rating, setRating] = useState(3)
     const [line, setLine] = useState(false)
     const [reviews, setReviews] = useState([])
+    const [following, setFollowing] = useState(null)
+    const [isFollowing, setIsFollowing] = useState(false)
+    const [update, setUpdate] = useState(false)
 
     useEffect(() => {
         getID()
@@ -76,10 +80,27 @@ export default function OtherUser(props) {
     }, [line])
 
     useEffect(() => {
-        if (reviews !== null) {
-            reviews.length > 0 ? console.log(reviews) : console.log("empty")
+        if (id !== null) {
+            console.log("ree")
+            getUserIsFollowing(id, setFollowing)
         }
-    }, [reviews])
+    }, [id])
+
+    useEffect(() => {
+        if (following !== null) {
+            setIsFollowing(checkIsFollowing(following, props.route.params.user.user_id))
+        } else {
+            setIsFollowing(false)
+        }
+    }, [following])
+
+    useEffect(() => {
+        if (update) {
+            getUserIsFollowing(id, setFollowing)
+            setUpdate(false)
+        }
+    }, [update])
+
 
     if (line) {
         return(
@@ -120,6 +141,11 @@ export default function OtherUser(props) {
                 </Modal>
     
                 <View style={styles.top}>
+
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                        <Ionicons name="business" size={windowHeight*0.05} color={props.route.params.user.business ? "#EDB219" : "transparent"}/>
+                    </View>
+                    
     
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
@@ -131,12 +157,21 @@ export default function OtherUser(props) {
 
                             <View style={{ flexDirection:"row", width: windowWidth, justifyContent:"space-around", alignItems:"center" }}>
                                 <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(props.route.params.user.rating)} />
-                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                    <MaterialIcons name="rate-review" size={24} color="#EDB219" />   
-                                </TouchableOpacity>
                             </View>
                             
                         </View>
+                    </View>
+
+                    <View style={{ width: windowWidth*0.2, height:"100%", marginRight:-windowWidth*0.2, alignItems:"center", marginTop: windowHeight*0.15}}>
+                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                            <MaterialIcons name="rate-review" size={windowHeight*0.05} color="#EDB219" />   
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            isFollowing ? {} : createFollow(props.route.params.user.user_id, { followed_id: parseInt(id) })
+                            setUpdate(!update)
+                        }}>
+                            <SimpleLineIcons name={isFollowing ? "user-following" : "user-follow"} size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
                     </View>
     
                 </View>
@@ -214,6 +249,10 @@ export default function OtherUser(props) {
                 </Modal>
     
                 <View style={styles.top}>
+
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                        <Ionicons name="business" size={windowHeight*0.05} color={props.route.params.user.business ? "#EDB219" : "transparent"}/>
+                    </View>
     
                     <View style={styles.info}>
                         <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}`}} resizeMode="contain" />
@@ -231,6 +270,12 @@ export default function OtherUser(props) {
                     <View style={{ width: windowWidth*0.2, height:"100%", marginRight:-windowWidth*0.2, alignItems:"center", marginTop: windowHeight*0.15}}>
                         <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                             <MaterialIcons name="rate-review" size={windowHeight*0.05} color="#EDB219" />   
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            isFollowing ? {} : createFollow(props.route.params.user.user_id, { followed_id: parseInt(id) })
+                            setUpdate(!update)
+                        }}>
+                            <SimpleLineIcons name={isFollowing ? "user-following" : "user-follow"} size={windowHeight*0.05} color="#EDB219" />
                         </TouchableOpacity>
                     </View>
 
@@ -335,7 +380,6 @@ const styles = StyleSheet.create({
         alignItems:"center",
         paddingBottom: "10%",
         flexDirection:"row",
-        justifyContent:"center"
     },
     info: {
         width: windowWidth*0.6,
