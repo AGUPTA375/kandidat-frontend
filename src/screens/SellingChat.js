@@ -1,10 +1,18 @@
 import { StyleSheet, Text, View, FlatList, Dimensions, TouchableOpacity } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function SellingChat(props) {
+
+    const clearAll = async () => {
+        try {
+          await AsyncStorage.clear()
+        } catch(e) {
+          // clear error
+        }
+      }
 
     var DATA = [
         {
@@ -35,11 +43,14 @@ export default function SellingChat(props) {
                             <Text>{item.title}</Text>
                             <Text>Conversations: {item.no_convs}</Text>
                         </TouchableOpacity>
+                        
                     </View>
+
                 )
             }}>
 
             </FlatList>
+
         </View>
     )
 }

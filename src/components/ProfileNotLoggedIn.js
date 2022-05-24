@@ -92,7 +92,7 @@ export default function ProfileNotLoggedIn(props) {
         <View style={styles.root}>
 
             <View style={styles.image}>
-                <Image style={styles.logo} source={require('../assets/amargbo.png')} resizeMode="contain" />
+                <Image style={styles.logo} source={require('../assets/amargboheader.png')} resizeMode="stretch" />
             </View>
             <Modal
             animationType='slide'
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: windowWidth*0.8,
-        height: windowHeight*0.1,
+        height: windowHeight*0.15,
         marginTop: "10%"
     },
     close: { 

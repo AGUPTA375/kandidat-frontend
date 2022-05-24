@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react"
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image, RefreshControl } from "react-native"
-import { getFollowingUsersProducts } from "../data"
+import { getFollowingUsersProducts, getNotUsersProducts } from "../data"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var base64 = require('base-64');
@@ -11,9 +11,9 @@ const windowHeight = Dimensions.get('window').height;
 export default function LoggedInFeed(props) {
 
     const [products, setProducts] = useState([])
-    const [following, setFollowing] = useState(null)
     const [refreshing, setRefreshing] = useState(false)
     const [id, setID] = useState(null)
+    const [allProducts, setAllProducts] = useState([])
 
     const getID = async () => {
         try {
@@ -36,6 +36,7 @@ export default function LoggedInFeed(props) {
     useEffect(() => {
         if (id !== null) {
             getFollowingUsersProducts(id, setProducts)
+            getNotUsersProducts(id, setAllProducts)
         }
     }, [id])
 
@@ -61,27 +62,58 @@ export default function LoggedInFeed(props) {
             onRefresh={onRefresh}
             />
         }>
-            <FlatList 
-            data={products}
-            contentContainerStyle={{ justifyContent:"center", alignItems:"center"}}
-            horizontal={true}
-            keyExtractor={item => item.product_id}
-            renderItem={({ item }) => {
-                var img = `data:image/png;base64,${base64.decode(item.picture)}`
-                return (
-                    <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
+            <View style={styles.header}>
+                <Image source={require('../assets/amargboheader.png')} style={styles.logo}/>
+            </View>
+            <View style={{ width: windowWidth, height: windowHeight*0.35}}>
+                <Text style={{ fontSize: windowHeight*0.032, alignSelf:"center", fontWeight:"bold", marginTop: "4%"}}>Followed users items:</Text>
+                <FlatList 
+                data={products}
+                contentContainerStyle={{ justifyContent:"center", alignItems:"center"}}
+                horizontal={true}
+                keyExtractor={item => item.product_id}
+                renderItem={({ item }) => {
+                    var img = `data:image/png;base64,${base64.decode(item.picture)}`
+                    return (
+                        <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
 
-                        <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
+                            <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
+                                
+
+
+                            <View style={styles.buttonDown}>
+                                <Text style={styles.goldText}>{item.name}</Text>
+                            </View>
                             
+                        </TouchableOpacity>
+                )
+                }} />
+            </View>
+            <View style={{ width: windowWidth, height: windowHeight*0.35}}>
+                <Text style={{ fontSize: windowHeight*0.032, alignSelf:"center", fontWeight:"bold", marginTop: "4%"}}>All items:</Text>
+                <FlatList 
+                data={allProducts}
+                contentContainerStyle={{ justifyContent:"center", alignItems:"center"}}
+                horizontal={true}
+                keyExtractor={item => item.product_id}
+                renderItem={({ item }) => {
+                    var img = `data:image/png;base64,${base64.decode(item.picture)}`
+                    return (
+                        <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
+
+                            <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
+                                
 
 
-                        <View style={styles.buttonDown}>
-                            <Text style={styles.goldText}>{item.name}</Text>
-                        </View>
-                        
-                    </TouchableOpacity>
-            )
-            }} />
+                            <View style={styles.buttonDown}>
+                                <Text style={styles.goldText}>{item.name}</Text>
+                            </View>
+                            
+                        </TouchableOpacity>
+                )
+                }} />
+            </View>
+            
         </ScrollView>
     )
 }
@@ -90,7 +122,7 @@ const styles = StyleSheet.create({
     container: {
         width: windowWidth,
         height: windowHeight*0.9,
-        justifyContent:"center",
+        justifyContent:"space-evenly",
         alignItems:"center"
     },
     product: {
@@ -102,9 +134,9 @@ const styles = StyleSheet.create({
         borderRadius: 10
       },
     goldText: { 
-    color: "#EDB219", 
-    fontSize:windowHeight*0.02, 
-    fontWeight:"bold"
+        color: "#EDB219", 
+        fontSize:windowHeight*0.02, 
+        fontWeight:"bold"
     },
     buttonTop: {
         width: windowWidth*0.43,
@@ -117,5 +149,17 @@ const styles = StyleSheet.create({
         height: windowHeight*0.08,
         justifyContent:"center",
         alignItems:"center"
+    },
+    header: {
+        width: windowWidth,
+        height: windowHeight*0.2,
+        backgroundColor: "#7f0001",
+        justifyContent:"center",
+        alignItems: "center"
+    },
+    logo: {
+        width: windowWidth*0.8,
+        height: windowHeight*0.15,
+        marginTop: "10%"
     },
 })

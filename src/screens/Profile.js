@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ProfileNotLoggedIn from '../components/ProfileNotLoggedIn'; // Not logged in
@@ -51,6 +51,14 @@ export default function Profile(props) {
         }
     }
 
+    const clearAll = async () => {
+        try {
+          await AsyncStorage.clear()
+        } catch(e) {
+          // clear error
+        }
+      }
+
 
     if (token == null && id == null) {
         return (
@@ -62,7 +70,8 @@ export default function Profile(props) {
         )
     } else {
         return (
-            <View></View>
+            <View>
+            </View>
         )
     }
 
