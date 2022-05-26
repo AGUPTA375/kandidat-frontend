@@ -24,16 +24,6 @@ export function getUsersProducts(id, setProducts) {
     })
 }
 
-export function getUsersProductsMulti(id, setProducts, products) {
-    return fetch(`http://localhost:8080/users/${id}/products`).then((response) => {
-        const statusCode = response.status;
-        const data = response.json();
-        return Promise.all([statusCode, data]);
-    }).then((data) => {
-        data[0] === 200 ? setProducts() : setProducts(null)
-    })
-}
-
 export function getFollowingUsersProducts(user_id, setProducts) {
     return fetch(`http://localhost:8080/users/${user_id}/following/products`).then((response) => {
         const statusCode = response.status;
