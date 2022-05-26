@@ -17,8 +17,6 @@ import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-// Components
-import ChatHeader from './components/ChatHeader';
 
 const Tab = createBottomTabNavigator();
 
@@ -60,9 +58,7 @@ export default function App() {
             var color = focused ? "#EDB219" : "#8D5B10"
             return <Ionicons name="chatbox-ellipses" size={24} color={color} />;
           },
-          header: (props) => {
-            return <ChatHeader title={"CHATROOM"} screen={0} nav={props.navigation} />;
-          }
+          headerShown: false
         }} />
 
         {/* Profile */}

@@ -1,28 +1,28 @@
-import { Text, View } from 'react-native';
+import { Text, View, Dimensions } from 'react-native';
 import SellingChat from './SellingChat';
 import BuyingChat from './BuyingChat';
 import CommunitiesStack from '../components/CommunitiesStack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+// Window dimensions
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const Tab = createMaterialTopTabNavigator();
+
 
 export default function Chat(props) {
-
-    if(props.route.params === undefined) {
-        return (
-            <View>
-                <Text>Loading</Text>
-            </View>
+    return (
+            <Tab.Navigator screenOptions={{
+                tabBarActiveTintColor: '#EDB219',
+                tabBarInactiveTintColor: '#8D5B10',
+                tabBarStyle:{backgroundColor:"#7f0001", height: windowHeight*0.13, paddingTop: "12%"},
+                tabBarIndicatorStyle: {backgroundColor:"#EDB219"}
+            }}>
+                <Tab.Screen name="Selling" component={SellingChat} />
+                <Tab.Screen name="Buying" component={BuyingChat} />
+                <Tab.Screen name="Communities" component={CommunitiesStack} />
+            </Tab.Navigator>
         )
-    } else if (props.route.params.screen === 0) {
-        return (
-            <SellingChat screen={"selling"}/>
-        )
-    } else if (props.route.params.screen === 1) {
-        return (
-            <BuyingChat screen={"buying"}/>
-        )
-    } else {
-        return (
-            <CommunitiesStack  />
-        )
-    }
 
 }

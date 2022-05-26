@@ -1,6 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import { View,Text } from 'react-native';
 import CommunitiesChat from '../screens/CommunitiesChat';
 import CommunityChat from './CommunityChat';
+import CommunityHeader from './CommunityHeader';
 
 const Stack = createStackNavigator()
 
