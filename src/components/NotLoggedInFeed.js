@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image } from "react-native"
 import { fetchAllProducts } from "../data"
-import { useFocusEffect } from '@react-navigation/native';
+
 var base64 = require('base-64');
 
 const windowWidth = Dimensions.get('window').width;

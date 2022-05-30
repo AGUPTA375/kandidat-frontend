@@ -11,17 +11,19 @@ const windowHeight = Dimensions.get('window').height;
 const Tab = createMaterialTopTabNavigator();
 
 
-export default function Chat(props) {
+export default function Chat() {
     return (
             <Tab.Navigator screenOptions={{
                 tabBarActiveTintColor: '#EDB219',
                 tabBarInactiveTintColor: '#8D5B10',
-                tabBarStyle:{backgroundColor:"#7f0001", height: windowHeight*0.13, paddingTop: "12%"},
+                tabBarStyle:{backgroundColor:"#7f0001", height: windowHeight*0.13, paddingTop: "13%"},
                 tabBarIndicatorStyle: {backgroundColor:"#EDB219"}
             }}>
                 <Tab.Screen name="Selling" component={SellingChat} />
                 <Tab.Screen name="Buying" component={BuyingChat} />
-                <Tab.Screen name="Communities" component={CommunitiesStack} />
+                <Tab.Screen name="CommunitiesStack" component={CommunitiesStack} options={{
+                    title: "Communities"
+                }} />
             </Tab.Navigator>
         )
 
