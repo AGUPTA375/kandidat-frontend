@@ -1,5 +1,9 @@
+import { Alert } from "react-native";
+
+var url = 'http://13.51.193.82:5000'
+
 export function getUsersCommunities(id) {
-    return fetch(`http://localhost:8080/users/${id}/communities`).then((response) => {
+    return fetch(`${url}/users/${id}/communities`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -7,7 +11,7 @@ export function getUsersCommunities(id) {
 }
 
 export function getNotUsersCommunities(id) {
-    return fetch(`http://localhost:8080/users/${id}/communities?joined=false`).then((response) => {
+    return fetch(`${url}/users/${id}/communities?joined=false`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -15,7 +19,7 @@ export function getNotUsersCommunities(id) {
 }
 
 export function getUsersProducts(id, setProducts) {
-    return fetch(`http://localhost:8080/users/${id}/products`).then((response) => {
+    return fetch(`${url}/users/${id}/products`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -25,7 +29,7 @@ export function getUsersProducts(id, setProducts) {
 }
 
 export function getFollowingUsersProducts(user_id, setProducts) {
-    return fetch(`http://localhost:8080/users/${user_id}/following/products`).then((response) => {
+    return fetch(`${url}/users/${user_id}/following/products`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -35,7 +39,7 @@ export function getFollowingUsersProducts(user_id, setProducts) {
 }
 
 export function getNotUsersProducts(id, setProducts) {
-    return fetch(`http://localhost:8080/users/${id}/products?owned=false`).then((response) => {
+    return fetch(`${url}/users/${id}/products?owned=false`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -45,7 +49,7 @@ export function getNotUsersProducts(id, setProducts) {
 }
 
 export function getUserInfo(id) {
-    return fetch(`http://localhost:8080/users/${id}`).then((response) => {
+    return fetch(`${url}/users/${id}`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -53,7 +57,7 @@ export function getUserInfo(id) {
 }
 
 export function fetchUserInfo(userID, setUser) {
-    return fetch(`http://localhost:8080/users/${userID}`).then((response) => {
+    return fetch(`${url}/users/${userID}`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -65,7 +69,7 @@ export function fetchUserInfo(userID, setUser) {
 }
 
 export function login(body) {
-    return fetch(`http://localhost:8080/login`, {
+    return fetch(`${url}/login`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -80,7 +84,7 @@ export function login(body) {
 
 
 export function signup(body) {
-    return fetch(`http://localhost:8080/users`, {
+    return fetch(`${url}/users`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -94,7 +98,7 @@ export function signup(body) {
 }
 
 export function joinCommunity(userid, body) {
-    return fetch(`http://localhost:8080/users/${userid}/communities`, {
+    return fetch(`${url}/users/${userid}/communities`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -108,7 +112,7 @@ export function joinCommunity(userid, body) {
 }
 
 export function fetchProduct(productID, setProduct) {
-    return fetch(`http://localhost:8080/products/${productID}`).then((response) => {
+    return fetch(`${url}/products/${productID}`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -120,7 +124,7 @@ export function fetchProduct(productID, setProduct) {
 }
 
 export function fetchAllProducts(setProducts) {
-    return fetch(`http://localhost:8080/products`).then((response) => {
+    return fetch(`${url}/products`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -132,7 +136,7 @@ export function fetchAllProducts(setProducts) {
 }
 
 export function postProduct(userID, body) {
-    return fetch(`http://localhost:8080/users/${userID}/products`, {
+    return fetch(`${url}/users/${userID}/products`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -146,7 +150,7 @@ export function postProduct(userID, body) {
 }
 
 export function pinProduct(body, user_id) {
-    return fetch(`http://localhost:8080/users/${user_id}/pinned`, {
+    return fetch(`${url}/users/${user_id}/pinned`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -160,7 +164,7 @@ export function pinProduct(body, user_id) {
 }
 
 export function postReview(user_id, body) {
-    return fetch(`http://localhost:8080/users/${user_id}/reviews`, {
+    return fetch(`${url}/users/${user_id}/reviews`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -174,7 +178,7 @@ export function postReview(user_id, body) {
 }
 
 export function unpinProduct(product_id, user_id) {
-    return fetch(`http://localhost:8080/users/${user_id}/pinned/${product_id}`, {
+    return fetch(`${url}/users/${user_id}/pinned/${product_id}`, {
         method: "DELETE",
     }).then((response) => {
         const statusCode = response.status;
@@ -184,7 +188,7 @@ export function unpinProduct(product_id, user_id) {
 }
 
 export function getPinnedProducts(user_id, setPinnedProducts) {
-    return fetch(`http://localhost:8080/users/${user_id}/pinned`).then((response) => {
+    return fetch(`${url}/users/${user_id}/pinned`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -196,7 +200,7 @@ export function getPinnedProducts(user_id, setPinnedProducts) {
 }
 
 export function getUsersReviews(user_id, setReviews) {
-    return fetch(`http://localhost:8080/users/${user_id}/reviews`).then((response) => {
+    return fetch(`${url}/users/${user_id}/reviews`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -208,7 +212,7 @@ export function getUsersReviews(user_id, setReviews) {
 }
 
 export function getUserIsFollowing(user_id, setFollowing) {
-    return fetch(`http://localhost:8080/users/${user_id}/following`).then((response) => {
+    return fetch(`${url}/users/${user_id}/following`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -220,7 +224,7 @@ export function getUserIsFollowing(user_id, setFollowing) {
 }
 
 export function getUserFollowers(user_id, setFollowers) {
-    return fetch(`http://localhost:8080/users/${user_id}/followers`).then((response) => {
+    return fetch(`${url}/users/${user_id}/followers`).then((response) => {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
@@ -232,7 +236,7 @@ export function getUserFollowers(user_id, setFollowers) {
 }
 
 export function createFollow(user_id, body) {
-    return fetch(`http://localhost:8080/users/${user_id}/followers`, {
+    return fetch(`${url}/users/${user_id}/followers`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -246,7 +250,7 @@ export function createFollow(user_id, body) {
 }
 
 export function updateUser(user_id, body) {
-    return fetch(`http://localhost:8080/users/${user_id}`, {
+    return fetch(`${url}/users/${user_id}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json'
@@ -256,5 +260,25 @@ export function updateUser(user_id, body) {
         const statusCode = response.status;
         const data = response.json();
         return Promise.all([statusCode, data]);
+    })
+}
+
+export function updateProduct(product_id, body, setUpdatedProduct) {
+    return fetch(`${url}/products/${product_id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 201) {
+            setUpdatedProduct(data[1])
+        } else {
+            Alert.alert("Error", data[1], [ { text: "OK" } ])
+        }
     })
 }

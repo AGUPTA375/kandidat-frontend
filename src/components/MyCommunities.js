@@ -31,7 +31,7 @@ export default function MyCommunities(props) {
                     <View style={styles.list}>
                         <TouchableOpacity style={[styles.button, {backgroundColor: colors[item.community_id % colors.length]}]}
                         onPress={() => {
-                            props.nav.navigate("Community chat", { community: item })
+                            props.nav.navigate("Community chat", { community: item, user_id: props.id })
                         }}>
                             <Text style={styles.comstext}>{item.name}</Text>
                         </TouchableOpacity>

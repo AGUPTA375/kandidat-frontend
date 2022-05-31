@@ -1,102 +1,122 @@
-import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity, TextInput } from 'react-native';
-import CommunityHeader from './CommunityHeader';
-import { useState, useEffect } from 'react'
-import { joinChannelMakeBody, catchError, readMessages, stringifyBody, joinCommunityMakeBody } from '../ws';
-
-// Icons
-import { FontAwesome } from '@expo/vector-icons';
+import { View, Text, Dimensions, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'react-native'
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { joinChannelMakeBody, catchError, stringifyBody, readMessages } from '../ws';
+import { useEffect, useState } from 'react';
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 var ws = new WebSocket('ws://13.51.193.82:5000/ws')
+
 ws.sendmessage = async function(message) {
-while (this.readyState === 0) {
-    await sleep(100)
-}
-this.send(message)
+    while (this.readyState === 0) {
+        await sleep(100)
+    }
+    this.send(message)
 } 
+
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 
+export default function UserChat(props) {
 
-export default function CommunityChat(props) {
-
-
-
-    var id = props.route.params.user_id
-    var community_name = props.route.params.community.name
-
+    var user = props.route.params.user
+    var id = props.route.params.id
 
     const [msg, setMsg] = useState("")
     const [sending, setSending] = useState(false)
     const [messages, setMessages] = useState(null)
-    
+
     useEffect(() => {
 
-        ws.sendmessage(joinCommunityMakeBody(id, community_name))
-        ws.sendmessage(readMessages(id, community_name))
-        
+        ws.sendmessage(joinChannelMakeBody(id, user.user_id.toString()))
+        ws.sendmessage(readMessages(id, user.user_id.toString()))
 
         ws.onmessage = (e) => {
             var body = JSON.parse(e.data)
             var err = catchError(body)
             if (err !== null) {
-                console.log("error: " + err)
+                console.log("error:" + err)
             } else {
                 var type = body.type
                 switch (type) {
                     case 'channelJoin':
-                        console.log(body)
-                        break
-
+                        if (body.channelJoin.messages !== null) {
+                            // console.log(body)
+                            // setMessages(body.channelJoin.messages)
+                        }
+                        break;
+                        
                     case 'channelMessages':
-                    if (body.channelMessages.messages !== null) {
-                        console.log("messages")
-                        console.log(body)
-                        setMessages(body.channelMessages.messages)
-                    }
+                        if (body.channelMessages.messages !== null) {
+                            // console.log(body)
+                            setMessages(body.channelMessages.messages)
+                        }
+
+                    case 'channelMessage':
+                        break
 
                     case 'sys':
-                        console.log("sys")
-                        break
+                        break;
                     default:
-                        console.log(body)
-                        break
+                        // console.log(body)
+                        break;
                 }
             }
         }
 
     }, [])
 
+
     useEffect(() => {
         if (sending) {
-            ws.sendmessage(stringifyBody(msg, id, community_name))
+            ws.sendmessage(stringifyBody(msg, id, user.user_id.toString()))
             setSending(false)
             setMsg("")
-            ws.sendmessage(readMessages(id, community_name))
+            ws.sendmessage(readMessages(id, user.user_id.toString()))
         }
     }, [sending])
 
-
-
-
-    return(
+    return (
         <View style={styles.container}>
 
-            <CommunityHeader title={props.route.params.community.name} nav={props.navigation} />
-            
+            <View style={styles.header}>
+
+                <View style={styles.headerSides}>
+
+                    <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                        
+                        <AntDesign name="left" size={windowHeight*0.05} color="#EDB219" />
+
+                    </TouchableOpacity>
+
+                </View>
+
+                <View style={styles.headerMid}>
+
+                    <Text style={styles.goldText}>
+                        {user.name}
+                    </Text>
+                    
+                </View>
+
+                <View style={styles.headerSides}>
+                    
+                </View>
+
+            </View>
+
             <View style={styles.messagesView}>
 
                 <FlatList
                 data={messages}
                 contentContainerStyle={styles.flatlistContainer}
                 renderItem={({ item }) => {
-                    var isMyMessage = item['RecipientUUID'] === community_name
+                    var isMyMessage = item['RecipientUUID'] === user.user_id.toString()
                     var messageLength = item['Message'].length
                     return (
                         <View style={[styles.message, { 
@@ -112,7 +132,8 @@ export default function CommunityChat(props) {
                         </View>
                     )
                 }}
-                    />
+                />
+
 
             </View>
 
@@ -130,8 +151,10 @@ export default function CommunityChat(props) {
                     <FontAwesome name="send" size={windowHeight*0.04} color={ msg === "" ? "#f7dd98" : "#edb219" } />
 
                 </TouchableOpacity>
-
+                
             </View>
+
+
 
         </View>
     )
@@ -140,16 +163,41 @@ export default function CommunityChat(props) {
 const styles = StyleSheet.create({
     container: {
         width: windowWidth,
-        height: windowHeight*0.77,
+        height: windowHeight*0.9,
+    },
+    header: {
+        width: windowWidth,
+        height: windowHeight*0.15,
+        backgroundColor: "#7f0001",
+        flexDirection:"row"
+    },
+    headerSides: {
+        width: "25%",
+        height: "100%",
+        justifyContent:"center",
+        alignItems:"center",
+        paddingTop: "10%"
+    },
+    headerMid: {
+        width: "50%",
+        height: "100%",
+        justifyContent:"center",
+        alignItems:"center",
+        paddingTop: "10%"
+    },
+    goldText: {
+        fontSize: windowHeight*0.04,
+        color: "#EDB219",
+        fontWeight: "bold"
     },
     messagesView: {
         width: windowWidth,
-        height: windowHeight*0.55,
-        alignItems:"center"
+        height: windowHeight*0.65,
+        alignItems:"center",
     },
     typingView: {
         width: windowWidth,
-        height: windowHeight*0.13,
+        height: windowHeight*0.1,
         alignItems:"center",
         flexDirection:"row",
         justifyContent: "space-evenly",
@@ -178,4 +226,5 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: windowHeight*0.02
     }
+
 })

@@ -1,13 +1,24 @@
-export function joinChannel(ws, SUUID, user_id, community_id) {
+export function joinChannelMakeBody(user_id, recipientUUID) {
     var body = {
-        "SUUID": SUUID,
+        "user_id": user_id,
+        "type": "channelJoin",
+        "SUUID": user_id,
+        "channelJoin": {
+            "recipientID": recipientUUID
+        }
+    }
+    return JSON.stringify(body)
+}
+
+export function joinCommunityMakeBody(user_id, community) {
+    var body = {
         "user_id": user_id,
         "type": "channelJoin",
         "channelJoin": {
-            "recipientUUID": community_id
+            "recipientUUID": community
         }
     }
-    ws.send(JSON.stringify(body))
+    return JSON.stringify(body)
 }
 
 export function catchError(body) {
@@ -18,15 +29,31 @@ export function catchError(body) {
     }
 }
 
-export function channelJoined(body) {
-    if (body.type === 'channelJoin') {
-        return {
-            messages: body.channelJoin.messages,
-            users: body.channelJoin.users
+export function stringifyBody(message, user_id, recipientID) {
+    var body = {
+        "user_id": user_id,
+        "type": "channelMessage",
+        "SUUID": user_id,
+        "channelMessage": {
+            "recipientUUID": recipientID,
+            "message": message
         }
     }
+
+    return JSON.stringify(body)    
 }
 
-export function receiveMessage(body) {
-    
+export function readMessages(user_id, recipientID) {
+    var body = {
+        "user_id" : user_id,
+        "type": "channelMessages",
+        "SUUID": user_id,
+        "channelMessages": {
+            "recipientUUID": recipientID, 
+            "offset": 0,
+            "limit": 100
+        }
+    }
+
+    return JSON.stringify(body)
 }

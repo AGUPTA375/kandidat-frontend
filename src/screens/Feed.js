@@ -5,11 +5,6 @@ import LoggedInFeed from "../components/LoggedInFeed";
 import NotLoggedInFeed from "../components/NotLoggedInFeed";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-var base64 = require('base-64');
-
-// Window dimensions
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 export default function Feed(props) {
 
@@ -55,30 +50,3 @@ export default function Feed(props) {
 
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: windowWidth,
-    height: windowHeight*0.9,
-    alignItems: "center",
-  },
-  product: {
-    width: windowWidth*0.4,
-    height:windowHeight*0.25,
-    alignItems:"center"
-  },
-  products: {
-    width: windowWidth*0.9,
-    height: windowHeight*0.25,
-    marginTop: "20%"
-  },
-  productimage: {
-    width: windowWidth*0.35,
-    height: windowHeight*0.15,
-  },
-  productinfo: {
-    width: windowWidth*0.35,
-    height: windowHeight*0.1,
-    backgroundColor:"green"
-  },
-})

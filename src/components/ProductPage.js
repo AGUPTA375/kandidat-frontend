@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native"
-import { fetchUserInfo, pinProduct, unpinProduct, getPinnedProducts } from "../data";
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, Alert } from "react-native"
+import { fetchUserInfo, pinProduct, unpinProduct, getPinnedProducts, updateProduct } from "../data";
 import { checkIfPinned } from "../funcs";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 var base64 = require('base-64');
 
@@ -14,12 +14,12 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function ProductPage(props) {
 
-
     const [user, setUser] = useState(null)
     const [pinned, setPinned] = useState(null)
     const [pinnedProducts, setPinnedProducts] = useState(null)
     const [id, setID] = useState(null)
     const [pin, setPin] = useState(null)
+    const [updatedProduct, setUpdatedProduct] = useState(null)
 
     const getID = async () => {
         try {
@@ -66,6 +66,12 @@ export default function ProductPage(props) {
         }
     }, [pin])
 
+    useEffect(() => {
+        if (updatedProduct !== null) {
+            props.navigation.navigate('UserChat', { product: updatedProduct, user: user, id: id})
+        }
+    }, [updatedProduct])
+
     if (user === null) {
 
         return (
@@ -81,9 +87,33 @@ export default function ProductPage(props) {
                     <TouchableOpacity onPress={() => props.navigation.navigate('OtherUser', { user: user })}>
                         <Text style={{ fontSize: windowHeight*0.03}}>{user.name}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setPin(!pin)}>
-                        <AntDesign style={{ marginRight: "5%"}} name="pushpin" size={windowHeight*0.06} color={pinned ? "red": "black"} />
-                    </TouchableOpacity>
+
+                    <View style={styles.iconsView}>
+                        <TouchableOpacity onPress={() => {
+                            if (id === null) {
+                                Alert.alert("Error", "You need to be logged in to start a conversation.", [{ text: "OK" }])
+                            } else {
+                                var body = {
+                                    "name": props.product.name,
+                                    "service": props.product.service,
+                                    "price": props.product.price,
+                                    "description": props.product.description,
+                                    "picture": props.product.picture,
+                                    "buyer_id": parseInt(id)
+                                }
+                                updateProduct(props.product.product_id, body, setUpdatedProduct);
+                            }
+                        }}
+                        style={{ marginRight: "10%", marginTop: "2%"}}
+                        >
+                            <Ionicons  name="chatbox-ellipses" size={windowHeight*0.06} color="black" />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => setPin(!pin)}>
+                            <AntDesign  name="pushpin" size={windowHeight*0.06} color={pinned ? "red": "black"} />
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
 
                 <Image source={{uri:img}} style={styles.img} resizeMode="contain" />
@@ -121,5 +151,8 @@ const styles = StyleSheet.create({
         height: windowHeight*0.3,
         paddingLeft: "5%",
         justifyContent:"space-evenly"
+    },
+    iconsView: {
+        flexDirection:"row",
     }
 })

@@ -43,6 +43,9 @@ export default function SellingChat(props) {
                             <Text>{item.title}</Text>
                             <Text>Conversations: {item.no_convs}</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity onPress={() => clearAll()} style={{ width: windowWidth, height:windowHeight*0.1, backgroundColor:"black"}}>
+                            
+                        </TouchableOpacity>
                         
                     </View>
 
