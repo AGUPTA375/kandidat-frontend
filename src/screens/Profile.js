@@ -1,79 +1,72 @@
-import { useEffect, useState } from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react'
+import { View, TouchableOpacity } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import ProfileNotLoggedIn from '../components/ProfileNotLoggedIn'; // Not logged in
-import ProfileLoggedIn from '../components/ProfileLoggedIn'; // Logged in
+import ProfileNotLoggedIn from '../components/ProfileNotLoggedIn' // Not logged in
+import ProfileLoggedIn from '../components/ProfileLoggedIn' // Logged in
 
-export default function Profile(props) {
+export default function Profile (props) {
+  const [token, setToken] = useState(null)
+  const [id, setID] = useState(null)
+  const [refresh, setRefresh] = useState(false)
 
+  useEffect(() => {
+    getToken()
+    getID()
+  }, [])
 
-    const [token, setToken] = useState(null)
-    const [id, setID] = useState(null)
-    const [refresh, setRefresh] = useState(false)
-
-
-    useEffect(() => {
-        getToken();
-        getID();
-    }, [])
-
-    useEffect(() => {
-        if (refresh === true) {
-            getToken()
-            getID()
-        }
-    }, [refresh])
-
-    const getToken = async () => {
-        try {
-        const value = await AsyncStorage.getItem('token')
-        if(value !== null) {
-            setToken(value)
-        } else {
-            setToken(null)
-        }
-        } catch(e) {
-        // error reading value
-        }
+  useEffect(() => {
+    if (refresh === true) {
+      getToken()
+      getID()
     }
+  }, [refresh])
 
-    const getID = async () => {
-        try {
-        const value = await AsyncStorage.getItem('id')
-        if(value !== null) {
-            setID(value)
-        } else {
-            setID(null)
-        }
-        } catch(e) {
-        // error reading value
-        }
-    }
-
-    const clearAll = async () => {
-        try {
-          await AsyncStorage.clear()
-        } catch(e) {
-          // clear error
-        }
+  const getToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token')
+      if (value !== null) {
+        setToken(value)
+      } else {
+        setToken(null)
       }
-
-
-    if (token == null && id == null) {
-        return (
-            <ProfileNotLoggedIn setToken={setToken} setID={setID} setRefresh={setRefresh}/>
-        )
-    } else if(token != null && id != null) {
-        return (
-            <ProfileLoggedIn setToken={setToken} token={token} id={id} setID={setID} setRefresh={setRefresh} nav={props.navigation} />
-        )
-    } else {
-        return (
-            <View>
-            </View>
-        )
+    } catch (e) {
+      // error reading value
     }
+  }
 
-    
+  const getID = async () => {
+    try {
+      const value = await AsyncStorage.getItem('id')
+      if (value !== null) {
+        setID(value)
+      } else {
+        setID(null)
+      }
+    } catch (e) {
+      // error reading value
+    }
+  }
+
+  const clearAll = async () => {
+    try {
+      await AsyncStorage.clear()
+    } catch (e) {
+      // clear error
+    }
+  }
+
+  if (token == null && id == null) {
+    return (
+      <ProfileNotLoggedIn setToken={setToken} setID={setID} setRefresh={setRefresh} />
+    )
+  } else if (token != null && id != null) {
+    return (
+      <ProfileLoggedIn setToken={setToken} token={token} id={id} setID={setID} setRefresh={setRefresh} nav={props.navigation} />
+    )
+  } else {
+    return (
+      <View />
+    )
+  }
 }
