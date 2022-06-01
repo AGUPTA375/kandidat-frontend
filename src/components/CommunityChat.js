@@ -51,21 +51,21 @@ export default function CommunityChat(props) {
                 var type = body.type
                 switch (type) {
                     case 'channelJoin':
-                        console.log(body)
+                        // console.log(body)
                         break
 
                     case 'channelMessages':
                     if (body.channelMessages.messages !== null) {
-                        console.log("messages")
-                        console.log(body)
+                        // console.log("messages")
+                        // console.log(body)
                         setMessages(body.channelMessages.messages)
                     }
 
                     case 'sys':
-                        console.log("sys")
+                        // console.log("sys")
                         break
                     default:
-                        console.log(body)
+                        // console.log(body)
                         break
                 }
             }
@@ -96,20 +96,29 @@ export default function CommunityChat(props) {
                 data={messages}
                 contentContainerStyle={styles.flatlistContainer}
                 renderItem={({ item }) => {
-                    var isMyMessage = item['RecipientUUID'] === community_name
+                    console.log(item)
+                    var isMyMessage = item['SenderID'] === id
                     var messageLength = item['Message'].length
                     return (
-                        <View style={[styles.message, { 
-                            alignSelf: isMyMessage ? "flex-end" : "flex-start",
-                            backgroundColor: isMyMessage ? "#0000eb" : "#d8d8d8",
-                            width: windowWidth*(messageLength/30)
-                            }]}>
-
+                        <>
+                            <Text style={{ 
+                                alignSelf: isMyMessage ? "flex-end" : "flex-start",
+                                color: "gray"
+                            }}>
+                                {item['Sender']['Username']}
+                            </Text>
+                            <View style={[styles.message, { 
+                                alignSelf: isMyMessage ? "flex-end" : "flex-start",
+                                backgroundColor: isMyMessage ? "#0000eb" : "#d8d8d8",
+                                width: windowWidth*(messageLength/30)
+                                }]}
+                            >
                             <Text style={[styles.messageText, { color: isMyMessage ? "white" : "black"}]}>
                                 {item['Message']}
                             </Text>
+                            </View>
+                        </>
 
-                        </View>
                     )
                 }}
                     />
