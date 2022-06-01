@@ -11,6 +11,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 var ws = new WebSocket('ws://13.51.193.82:5000/ws')
+
 ws.sendmessage = async function(message) {
 while (this.readyState === 0) {
     await sleep(100)
@@ -25,8 +26,6 @@ function sleep(ms) {
 
 
 export default function CommunityChat(props) {
-
-
 
     var id = props.route.params.user_id
     var community_name = props.route.params.community.name
@@ -50,22 +49,13 @@ export default function CommunityChat(props) {
             } else {
                 var type = body.type
                 switch (type) {
-                    case 'channelJoin':
-                        // console.log(body)
-                        break
-
                     case 'channelMessages':
                     if (body.channelMessages.messages !== null) {
-                        // console.log("messages")
-                        // console.log(body)
+
                         setMessages(body.channelMessages.messages)
                     }
-
-                    case 'sys':
-                        // console.log("sys")
-                        break
                     default:
-                        // console.log(body)
+                        console.log("default")
                         break
                 }
             }
@@ -96,7 +86,6 @@ export default function CommunityChat(props) {
                 data={messages}
                 contentContainerStyle={styles.flatlistContainer}
                 renderItem={({ item }) => {
-                    console.log(item)
                     var isMyMessage = item['SenderID'] === id
                     var messageLength = item['Message'].length
                     return (
