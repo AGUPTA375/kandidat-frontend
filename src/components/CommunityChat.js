@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity, TextInput } from 'react-native'
 import CommunityHeader from './CommunityHeader'
 import { useState, useEffect } from 'react'
-import { joinChannelMakeBody, catchError, readMessages, stringifyBody, joinCommunityMakeBody } from '../ws'
+import { catchError, readMessages, stringifyBody, joinCommunityMakeBody } from '../ws'
 
 // Icons
 import { FontAwesome } from '@expo/vector-icons'
