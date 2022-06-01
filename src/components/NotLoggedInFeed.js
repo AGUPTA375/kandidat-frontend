@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image } from "react-native"
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, Image } from "react-native"
 import { fetchAllProducts } from "../data"
 
 var base64 = require('base-64');
@@ -16,11 +16,16 @@ export default function NotLoggedInFeed(props) {
     }, [])
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.container}>
+            <View style={styles.header}>
+
+                <Image source={require('../assets/amargboheader.png')} style={{ width: windowWidth*0.75, height: windowHeight*0.1, marginTop: "5%"}} />
+
+            </View>
             <FlatList 
             data={products}
+            numColumns={2}
             contentContainerStyle={{ justifyContent:"center", alignItems:"center"}}
-            horizontal={true}
             keyExtractor={item => item.product_id}
             renderItem={({ item }) => {
                 let img
@@ -32,7 +37,7 @@ export default function NotLoggedInFeed(props) {
                 return (
                     <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item, loggedIn: false })}>
 
-                        <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain" />
+                        <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="stretch" />
                             
 
 
@@ -43,7 +48,7 @@ export default function NotLoggedInFeed(props) {
                     </TouchableOpacity>
             )
             }} />
-        </ScrollView>
+        </View>
     )
 }
 
@@ -55,20 +60,21 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     product: {
-        width: windowWidth*0.43,
+        width: windowWidth*0.4,
         height:windowHeight*0.25,
         alignItems:"center",
         backgroundColor:"#7f0001",
         marginHorizontal: windowWidth*0.05,
-        borderRadius: 10
+        borderRadius: 10,
+        marginVertical: windowHeight*0.05
       },
     goldText: { 
-    color: "#EDB219", 
-    fontSize:windowHeight*0.02, 
-    fontWeight:"bold"
+        color: "#EDB219", 
+        fontSize:windowHeight*0.02, 
+        fontWeight:"bold"
     },
     buttonTop: {
-        width: windowWidth*0.43,
+        width: windowWidth*0.4,
         height: windowHeight*0.17,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10
@@ -79,4 +85,11 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center"
     },
+    header: {
+        width: windowWidth,
+        height: windowHeight*0.2,
+        backgroundColor: "#7f0001",
+        justifyContent:"center",
+        alignItems:"center"
+    }
 })

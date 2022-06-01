@@ -1,20 +1,36 @@
-import { View, StyleSheet, Dimensions, Text, TextInput, FlatList, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Dimensions, Text, TextInput, FlatList, TouchableOpacity, Image } from "react-native";
 import { useState, useEffect } from "react";
+import { getAllUsers } from "../data";
+import { searchItems } from "../funcs";
 
-import { FontAwesome, Entypo } from '@expo/vector-icons';
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width
 
-export default function SearchUser() {
+var base64 = require('base-64');
 
-    useEffect(() => {
+export default function SearchUser(props) {
 
-    }, [])
+
 
     const [search, setSearch] = useState("")
     const [users, setUsers] = useState(null)
     const [searchResults, setSearchResults] = useState(null)
+
+    useEffect(() => {
+        getAllUsers(setUsers)
+    }, [])
+
+    useEffect(() => {
+        if (search === "") {
+            setSearchResults(users)
+        } else {
+            if (users !== null) {
+                setSearchResults(searchItems(search, users))
+            }
+        }
+    }, [users, search])
 
     return (
         <View style={styles.container}>
@@ -29,6 +45,22 @@ export default function SearchUser() {
             </View>
 
             <View style={styles.usersView}>
+
+                <FlatList 
+                data={searchResults}
+                keyExtractor={item => item.user_id}
+                contentContainerStyle={{ alignItems:"center" }}
+                renderItem={({ item }) => {
+                    var im = `data:image/png;base64,${base64.decode(item.picture)}`
+                    return (
+                        <TouchableOpacity style={styles.users} onPress={() => props.navigation.navigate('OtherUser', { user: item })}>
+                            <Image source={{ uri: im }} style={styles.im}/>
+                            <Text style={styles.nameText}>{item.name}</Text>
+                            <AntDesign name="right" size={windowHeight*0.05} color="black" style={{ marginRight: "5%" }} />
+                        </TouchableOpacity>
+                    )
+                }}
+                />
 
             </View>
 
@@ -65,5 +97,24 @@ const styles = StyleSheet.create({
     usersView: {
         width: windowWidth,
         height: windowHeight*0.62,
-    }
+    },
+    users: {
+        width: windowWidth*0.9,
+        height: windowHeight*0.1,
+        backgroundColor: "#d8d8d8",
+        borderRadius: 20,
+        alignItems:"center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: "3%"
+    },
+    im: { 
+        width: windowWidth*0.15, 
+        height: windowHeight*0.075, 
+        marginLeft: "5%",
+        borderRadius: 1000
+    },
+    nameText: {
+        fontSize: windowHeight*0.03
+    },
 })

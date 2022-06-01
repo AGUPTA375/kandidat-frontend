@@ -3,7 +3,7 @@ import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { useState, useEffect } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { searchItems,searchWithCategory } from "../funcs";
-import { getNotUsersProducts } from "../data";
+import { fetchAllProducts, getNotUsersProducts } from "../data";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 var base64 = require('base-64');
 
@@ -89,6 +89,8 @@ export default function Search(props) {
     useEffect(() => {
         if (id !== null) {
             getNotUsersProducts(id, setProducts)
+        } else {
+            fetchAllProducts(setProducts)
         }
     }, [id])
 
@@ -193,7 +195,7 @@ export default function Search(props) {
                             return (
                                 <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
             
-                                    <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
+                                    <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="stretch"/>
                                         
                                     <View style={styles.buttonDown}>
                                         <Text style={styles.goldText}>{item.name}</Text>
@@ -229,7 +231,7 @@ export default function Search(props) {
                 </View>
 
 
-                <View style={styles.bottom}>
+                <View style={[styles.bottom, { height: windowHeight*0.75 }]}>
                     <View style={styles.list}>
                         <FlatList 
                         numColumns={2}
@@ -241,7 +243,7 @@ export default function Search(props) {
                             return (
                                 <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
             
-                                    <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
+                                    <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="stretch"/>
                                         
                                     <View style={styles.buttonDown}>
                                         <Text style={styles.goldText}>{item.name}</Text>
@@ -279,7 +281,7 @@ const styles = StyleSheet.create({
     bottom: {
         width: windowWidth,
         height: windowHeight*0.6,
-        flexDirection:"row"
+        flexDirection:"row",
     },
     searchIcon: {
         position: "absolute",
@@ -329,7 +331,8 @@ const styles = StyleSheet.create({
         alignItems:"center",
         backgroundColor:"#7f0001",
         marginHorizontal: windowWidth*0.05,
-        borderRadius: 10
+        borderRadius: 10,
+        marginVertical: windowHeight*0.05
       },
     goldText: { 
         color: "#EDB219", 

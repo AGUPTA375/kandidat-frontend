@@ -141,7 +141,7 @@ export default function OtherUser(props) {
     
                 <View style={styles.top}>
 
-                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%", flexDirection:"column"}}>
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, paddingLeft:"5%", flexDirection:"column", marginTop: "50%"}}>
                         <TouchableOpacity style={{ marginBottom: windowHeight*0.01}} onPress={() => props.navigation.goBack()}>
                             <AntDesign name="left" size={windowHeight*0.05} color="#EDB219" />
                         </TouchableOpacity>
@@ -263,7 +263,7 @@ export default function OtherUser(props) {
     
                 <View style={styles.top}>
 
-                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"45%", paddingLeft:"5%"}}>
+                    <View style={{ width: windowWidth*0.2, height: windowHeight/2.5, marginTop:"50%", paddingLeft:"5%"}}>
                         <TouchableOpacity style={{ marginBottom: windowHeight*0.01}} onPress={() => props.navigation.goBack()}>
                             <AntDesign name="left" size={windowHeight*0.05} color="#EDB219" />
                         </TouchableOpacity>
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
         height: windowHeight*0.4,
         backgroundColor:"#7f0001",
         alignItems:"center",
-        paddingBottom: "10%",
+        paddingBottom: "25%",
         flexDirection:"row",
     },
     info: {
