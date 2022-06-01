@@ -108,9 +108,11 @@ export default function Search(props) {
         if (category == "Categories") {
             setSearchResults(products)
         } else {
-            setSearchResults(searchWithCategory(category, products))
+            if (products !== null) {
+                setSearchResults(searchWithCategory(category, products))
+            }
         }
-    }, [category])
+    }, [category, products])
 
     if (search === "") {
 
