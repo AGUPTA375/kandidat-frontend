@@ -23,6 +23,7 @@ export default function ProfileNotLoggedIn(props) {
     const [imgb64, setimgb64] = useState(null)
     const [sign, setSign] = useState(false)
     const [business, setBusiness] = useState(false)
+    const [GDPR, setGDPR] = useState(false)
 
     useEffect(() => {
         if (reset) {
@@ -35,31 +36,34 @@ export default function ProfileNotLoggedIn(props) {
 
     useEffect(() => {
         if (sign) {
-            signup({name: nameRegister, phone_number: phoneRegister.toString(), password: passwordRegister, picture: imgb64, business: business })
-            .then((data) => {
-                if (data[0] === 201) {
-                    Alert.alert(
-                        "Account created!",
-                        "You can now login.",
-                        [
-                            {
-                                text: "OK"
-                            }
-                        ]
-                    )
-                    setRegister(!register)
-                } else {
-                    Alert.alert(
-                        "Something went wrong...",
-                        "Try again",
-                        [
-                            { text: "OK" }
-                        ]
-                    )
-                }
-            })
-            setSign(false)
-
+            if (!GDPR) {
+                Alert.alert("Error", "You must accept the GDPR policy.", [{ text:"OK" }])
+            } else {
+                signup({name: nameRegister, phone_number: phoneRegister.toString(), password: passwordRegister, picture: imgb64, business: business })
+                .then((data) => {
+                    if (data[0] === 201) {
+                        Alert.alert(
+                            "Account created!",
+                            "You can now login.",
+                            [
+                                {
+                                    text: "OK"
+                                }
+                            ]
+                        )
+                        setRegister(!register)
+                    } else {
+                        Alert.alert(
+                            "Something went wrong...",
+                            "Try again",
+                            [
+                                { text: "OK" }
+                            ]
+                        )
+                    }
+                })
+                setSign(false)
+            }
         }
 
     }, [sign])
@@ -126,10 +130,27 @@ export default function ProfileNotLoggedIn(props) {
                             onChangeText={setPasswordRegister}
                             secureTextEntry={true} />
 
-                            <View style={{ flexDirection:"row", alignItems:"center", justifyContent:"space-evenly", width:"100%"}}>
-                                <Text style={styles.goldTextBold}>Business? </Text>
-                                <Switch value={business} onValueChange={() => setBusiness(!business)} color="#7f0001"/>
+                            <View style={{ flexDirection:"row", width: windowWidth*0.75, height: windowHeight*0.15}}>
+
+                                <View style={{ width: windowWidth*0.5, height: windowHeight*0.15, flexDirection: "column", justifyContent:"space-evenly"}}>
+                                    <Text style={styles.goldTextBold}>Business? </Text>
+                                    <Text style={styles.goldTextBold}>I accept the GDPR policy: </Text>
+
+                                </View>
+
+                                <View style={{ paddingBottom: "3%",width: windowWidth*0.25, height: windowHeight*0.15, flexDirection:"column", justifyContent:"space-evenly", alignItems:"center"}}>
+                                    <Switch value={business} onValueChange={() => setBusiness(!business)} color="#7f0001"/>
+                                    <Switch value={GDPR} onValueChange={() => setGDPR(!GDPR)} color="#7f0001"/>
+                                </View>
+
                             </View>
+
+
+                            {/* <View style={{ flexDirection:"row", alignItems:"center", justifyContent:"space-evenly", width:"100%"}}>
+                            </View>
+
+                            <View style={{ flexDirection:"row", alignItems:"center", justifyContent:"space-evenly", width:"100%"}}>
+                            </View> */}
 
                             <TouchableOpacity
                             onPress={() => pickImage()}
@@ -224,7 +245,7 @@ const styles = StyleSheet.create({
     },
     modal: {
         width: windowWidth*0.9,
-        height: windowHeight*0.6,
+        height: windowHeight*0.7,
         backgroundColor: "white",
         borderRadius: 20,
         marginLeft: windowWidth*0.05,
@@ -232,7 +253,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor:"black",
         alignItems:"center",
-        marginTop: windowHeight*0.2
+        marginTop: windowHeight*0.15
     },
     image: {
         width: windowWidth,
@@ -258,7 +279,8 @@ const styles = StyleSheet.create({
     },
     goldTextBold: {
         color: "#EDB219", 
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontSize: windowHeight*0.022
     },
     modalbuttons: {
         width: windowWidth*0.5, 
