@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     },
     top: {
         width: windowWidth,
-        height: windowHeight*0.2,
+        height: windowHeight*0.15,
         flexDirection:"row",
         alignItems: "center",
         backgroundColor: "#7f0001",

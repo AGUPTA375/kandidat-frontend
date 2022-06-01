@@ -17,6 +17,7 @@ ws.sendmessage = async function(message) {
 } 
 
 
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -38,7 +39,7 @@ export default function UserChat(props) {
 
         ws.onmessage = (e) => {
             var body = JSON.parse(e.data)
-            var err = catchError(body)
+            var err = catchError("body: " + body)
             if (err !== null) {
                 console.log("error:" + err)
             } else {
@@ -56,8 +57,10 @@ export default function UserChat(props) {
                             // console.log(body)
                             setMessages(body.channelMessages.messages)
                         }
+                        break
 
                     case 'channelMessage':
+                        console.log("Message received")
                         break
 
                     case 'sys':
@@ -70,6 +73,8 @@ export default function UserChat(props) {
         }
 
     }, [])
+
+    // ws.sendmessage(readMessages(id, user.user_id.toString()))
 
 
     useEffect(() => {

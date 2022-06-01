@@ -282,3 +282,15 @@ export function updateProduct(product_id, body, setUpdatedProduct) {
         }
     })
 }
+
+export function getAllUsers(setUsers) {
+    return fetch(`${url}/users`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setUsers(data[1])
+        }
+    })
+}

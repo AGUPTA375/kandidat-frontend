@@ -8,7 +8,7 @@ const windowHeight = Dimensions.get('window').height;
 
 // Screens
 import Home from '../src/screens/Home'
-import SearchStack from './screens/SearchStack';
+import SearchTabs from './screens/SearchTabs';
 import Chat from '../src/screens/Chat'
 import User from './components/User';
 
@@ -43,7 +43,7 @@ export default function App() {
         }} />
 
         {/* Search */}
-        <Tab.Screen name="SearchStack" component={SearchStack} options={{
+        <Tab.Screen name="SearchTabs" component={SearchTabs} options={{
           tabBarIcon: ({focused, color}) => {
             var color = focused ? "#EDB219" : "#8D5B10"
             return <AntDesign name="search1" size={24} color={color} />;
