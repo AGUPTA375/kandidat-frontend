@@ -1,38 +1,35 @@
-import { useState, useEffect } from "react";
-import { useFocusEffect } from '@react-navigation/native';
-import LoggedInFeed from "../components/LoggedInFeed";
-import NotLoggedInFeed from "../components/NotLoggedInFeed";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import LoggedInFeed from '../components/LoggedInFeed'
+import NotLoggedInFeed from '../components/NotLoggedInFeed'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
-export default function Feed(props) {
-
+export default function Feed (props) {
   const [id, setID] = useState(null)
   const [ready, setReady] = useState(false)
 
   const getID = async () => {
     try {
-    const value = await AsyncStorage.getItem('id')
-    if(value !== null) {
+      const value = await AsyncStorage.getItem('id')
+      if (value !== null) {
         setID(value)
-        
-    } else {
+      } else {
         setID(null)
-    }
-    setReady(true)
-    } catch(e) {
+      }
+      setReady(true)
+    } catch (e) {
     // error reading value
     }
   }
 
   useEffect(() => {
-      getID();
+    getID()
   }, [])
 
   useFocusEffect(() => {
-      getID();
+    getID()
   })
-  
+
   if (ready) {
     if (id !== null) {
       return (
@@ -40,13 +37,11 @@ export default function Feed(props) {
       )
     } else {
       return (
-        <NotLoggedInFeed navigation={props.navigation}/>
-  
+        <NotLoggedInFeed navigation={props.navigation} />
+
       )
     }
   } else {
     return null
   }
-
-
 }

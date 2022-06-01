@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
 
-export default function BuyingChat(props) {
-    return (
-        <View>
-            <Text>buying</Text>
-        </View>
-    )
+export default function BuyingChat (props) {
+  return (
+    <View>
+      <Text>buying</Text>
+    </View>
+  )
 }
