@@ -8,7 +8,7 @@ import { confirmDeleteProduct } from '../funcs';
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
-import { getUserInfo, getUsersProducts, getPinnedProducts } from '../data';
+import { getUserInfo, getUsersProducts, getPinnedProducts, deleteProduct } from '../data';
 import CreateProduct from './CreateProduct';
 
 var base64 = require('base-64');
@@ -72,6 +72,15 @@ export default function ProfileLoggedIn(props) {
       }, []);
 
     useEffect(() => {
+        if (refreshing) {
+            wait(500).then(() => {
+                getUsersProducts(props.id, setUserProducts)
+                setRefreshing(false)
+            })
+        }
+    }, [refreshing])
+
+    useEffect(() => {
         getUserInfo(props.id).then((data) => {
             if(data[0] === 200) {
                 var user = data[1]
@@ -86,6 +95,12 @@ export default function ProfileLoggedIn(props) {
         getUsersProducts(props.id, setUserProducts)
         getPinnedProducts(props.id, setPinnedProducts)
     }, [])
+
+    useEffect(() => {
+        if (!addVisible) {
+            setRefreshing(true)
+        }
+    }, [addVisible])
 
     if (!line) {
         if (user !== null) {
@@ -177,7 +192,7 @@ export default function ProfileLoggedIn(props) {
                                         <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="stretch"/>
                                             
                                         <TouchableOpacity style={{position: "absolute", backgroundColor:"white", alignSelf:"flex-end", marginRight: "5%"}}
-                                        onPress={() => confirmDeleteProduct(console.log)}>
+                                        onPress={() => confirmDeleteProduct(deleteProduct, props.id, item.product_id, setRefreshing)}>
                                             <FontAwesome name="trash-o" size={windowHeight*0.04} color="black" />
                                         </TouchableOpacity>
     

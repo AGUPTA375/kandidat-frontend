@@ -201,7 +201,11 @@ export default function CreateProduct(props) {
                                         Alert.alert(
                                             "Item uploaded!",
                                             "Your item has been uploaded.",
-                                            [{ text: "OK" }]
+                                            [{ text: "OK",
+                                                onPress: () => {
+                                                    props.setModal(!props.modal)
+                                                } 
+                                            }]
                                         )
                                     } else {
                                         Alert.alert("Error!", "Something went wrong...", [{ text: "OK" }])

@@ -39,7 +39,7 @@ export function checkIsFollowing(following, user_id) {
     return false
 }
 
-export function confirmDeleteProduct(deleteProduct) {
+export function confirmDeleteProduct(deleteProduct, user_id, product_id, setRefreshing) {
     Alert.alert("Confirm deletion", "Are you sure you want to delete this product?", [
         {
             text: "No",
@@ -48,7 +48,7 @@ export function confirmDeleteProduct(deleteProduct) {
         {
             text: "Yes",
             onPress: () => {
-                deleteProduct("reee")
+                deleteProduct(user_id, product_id, setRefreshing)
             },
             style: "destructive"
         }

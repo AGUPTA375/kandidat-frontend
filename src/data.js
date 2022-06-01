@@ -320,3 +320,16 @@ export function makeChatRelation(user_id, body) {
         return Promise.all([statusCode, data]);
     })
 }
+
+export function deleteProduct(user_id, product_id, setRefreshing) {
+    return fetch(`${url}/users/${user_id}/products/${product_id}`, {
+        method: "DELETE",
+    }).then((response) => {
+        const statusCode = response.status;
+        return Promise.all([statusCode]);
+    }).then((data) => {
+        if (data[0] === 204) {
+            setRefreshing(true)
+        }
+    })
+}
