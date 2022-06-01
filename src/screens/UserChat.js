@@ -2,6 +2,7 @@ import { View, Text, Dimensions, StyleSheet, TouchableOpacity, TextInput, FlatLi
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import { joinChannelMakeBody, catchError, stringifyBody, readMessages } from '../ws'
 import { useEffect, useState } from 'react'
+import MyText from '../components/MyText'
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width
@@ -98,9 +99,7 @@ export default function UserChat (props) {
 
         <View style={styles.headerMid}>
 
-          <Text style={styles.goldText}>
-            {user.name}
-          </Text>
+          <MyText style={styles.goldText} text={user.name} weight='light' />
 
         </View>
 
@@ -186,7 +185,6 @@ const styles = StyleSheet.create({
   goldText: {
     fontSize: windowHeight * 0.04,
     color: '#EDB219',
-    fontWeight: 'bold'
   },
   messagesView: {
     width: windowWidth,
@@ -221,7 +219,6 @@ const styles = StyleSheet.create({
     marginVertical: '2%'
   },
   messageText: {
-    fontWeight: 'bold',
     fontSize: windowHeight * 0.02
   }
 

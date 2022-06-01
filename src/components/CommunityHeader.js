@@ -1,5 +1,6 @@
 import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
+import MyText from './MyText'
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width
@@ -17,7 +18,7 @@ export default function CommunityHeader (props) {
       </View>
 
       <View style={styles.headerMid}>
-        <Text style={styles.goldText}>{props.title}</Text>
+        <MyText style={styles.goldText} text={props.title} weight='light' />
       </View>
 
       <View style={styles.headerSides} />
@@ -50,6 +51,5 @@ const styles = StyleSheet.create({
   goldText: {
     color: '#EDB219',
     fontSize: windowHeight * 0.03,
-    fontWeight: 'bold'
   }
 })

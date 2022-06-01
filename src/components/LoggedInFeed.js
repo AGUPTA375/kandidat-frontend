@@ -1,7 +1,9 @@
 import { useEffect, useState, useCallback } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, FlatList, Dimensions, ScrollView, Image, RefreshControl } from 'react-native'
 import { getFollowingUsersProducts, getNotUsersProducts } from '../data'
+import MyText from './MyText'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 const base64 = require('base-64')
 
@@ -64,7 +66,7 @@ export default function LoggedInFeed (props) {
         <Image source={require('../assets/amargboheader.png')} style={styles.logo} />
       </View>
       <View style={{ width: windowWidth, height: windowHeight * 0.35 }}>
-        <Text style={{ fontSize: windowHeight * 0.032, alignSelf: 'center', fontWeight: 'bold', marginTop: '4%' }}>Followed users items:</Text>
+        <MyText style={{ fontSize: windowHeight * 0.032, alignSelf: 'center', marginTop: '4%' }} weight='extralight' text="Followed users items:" />
         <FlatList
           data={products}
           contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
@@ -78,7 +80,7 @@ export default function LoggedInFeed (props) {
                 <Image style={styles.buttonTop} source={{ uri: img }} resizeMode='stretch' />
 
                 <View style={styles.buttonDown}>
-                  <Text style={styles.goldText}>{item.name}</Text>
+                  <MyText style={styles.goldText} text={item.name} weight='semibold' />
                 </View>
 
               </TouchableOpacity>
@@ -87,7 +89,7 @@ export default function LoggedInFeed (props) {
         />
       </View>
       <View style={{ width: windowWidth, height: windowHeight * 0.35 }}>
-        <Text style={{ fontSize: windowHeight * 0.032, alignSelf: 'center', fontWeight: 'bold', marginTop: '4%' }}>All items:</Text>
+        <MyText style={{ fontSize: windowHeight * 0.032, alignSelf: 'center', marginTop: '4%' }} text="All items:" weight='extralight' />
         <FlatList
           data={allProducts}
           contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
@@ -101,7 +103,7 @@ export default function LoggedInFeed (props) {
                 <Image style={styles.buttonTop} source={{ uri: img }} resizeMode='stretch' />
 
                 <View style={styles.buttonDown}>
-                  <Text style={styles.goldText}>{item.name}</Text>
+                  <MyText style={styles.goldText} text={item.name} weight='semibold' />
                 </View>
 
               </TouchableOpacity>
@@ -132,7 +134,6 @@ const styles = StyleSheet.create({
   goldText: {
     color: '#EDB219',
     fontSize: windowHeight * 0.02,
-    fontWeight: 'bold'
   },
   buttonTop: {
     width: windowWidth * 0.43,

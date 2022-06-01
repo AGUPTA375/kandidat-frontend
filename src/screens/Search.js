@@ -5,6 +5,8 @@ import { useFocusEffect } from '@react-navigation/native'
 import { searchItems, searchWithCategory } from '../funcs'
 import { fetchAllProducts, getNotUsersProducts } from '../data'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import MyText from '../components/MyText'
+
 const base64 = require('base-64')
 
 // Window dimensions
@@ -138,7 +140,7 @@ export default function Search (props) {
                       setCategory(item.name)
                     }}
                   >
-                    <Text style={{ color: '#EDB219', fontSize: windowHeight * 0.02, fontWeight: 'bold' }}>{item.name}</Text>
+                    <MyText style={{ color: '#EDB219', fontSize: windowHeight * 0.02 }} text={item.name} weight='regular' />
                   </TouchableOpacity>
                 )
               }}

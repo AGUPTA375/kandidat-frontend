@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity, TextInput, Alert } from 'react-native'
 import { useState, useEffect } from 'react'
 import { getNotUsersCommunities, joinCommunity } from '../data'
+import MyText from './MyText'
 
 // Helper functions
 import { searchItems } from '../funcs'
@@ -80,7 +81,7 @@ export default function JoinCommunity (props) {
                   }
                 })}
               >
-                <Text style={styles.comstext}>{item.name}</Text>
+                <MyText style={styles.comstext} text={item.name} weight='light' />
               </TouchableOpacity>
             </View>
           )

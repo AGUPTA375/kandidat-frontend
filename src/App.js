@@ -1,6 +1,18 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Dimensions } from 'react-native'
+import { Dimensions, LogBox } from 'react-native'
+import AppLoading from 'expo-app-loading';
+
+import {
+  useFonts,
+  Manrope_200ExtraLight,
+  Manrope_300Light,
+  Manrope_400Regular,
+  Manrope_500Medium,
+  Manrope_600SemiBold,
+  Manrope_700Bold,
+  Manrope_800ExtraBold,
+} from '@expo-google-fonts/manrope';
 
 // Screens
 import Home from '../src/screens/Home'
@@ -13,21 +25,40 @@ import { Entypo } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
+
+
 // Window dimensions
-const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 const Tab = createBottomTabNavigator()
 
 export default function App () {
+
+  let [fontsLoaded] = useFonts({
+    Manrope_200ExtraLight,
+    Manrope_300Light,
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+    Manrope_800ExtraBold,
+  });
+
+  if (!fontsLoaded) {
+  return <AppLoading />;
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: '#EDB219',
           tabBarInactiveTintColor: '#8D5B10',
-          tabBarStyle: { backgroundColor: '#7f0001', height: windowHeight * 0.1 }
-
+          tabBarStyle: { backgroundColor: '#7f0001', height: windowHeight * 0.1 },
+          tabBarLabelStyle: { fontFamily: 'Manrope_500Medium', fontSize: windowHeight*0.017 }
         }}
       >
 

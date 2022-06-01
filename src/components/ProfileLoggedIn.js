@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Settings from './Settings'
 import { AirbnbRating } from 'react-native-ratings'
 import { confirmDeleteProduct } from '../funcs'
+import MyText from './MyText'
 
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
@@ -113,7 +114,7 @@ export default function ProfileLoggedIn (props) {
               <Image style={styles.profilepic} source={{ uri: img }} resizeMode='stretch' />
               <AirbnbRating isDisabled showRating={false} size={windowHeight * 0.03} defaultRating={Math.round(rating)} />
               <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: windowWidth }}>
-                <Text style={styles.name}>{name}</Text>
+                <MyText style={styles.name} text={name} weight='regular'/>
 
               </View>
             </View>
@@ -150,7 +151,7 @@ export default function ProfileLoggedIn (props) {
             <View style={styles.myorpinned}>
               <TouchableOpacity style={styles.mopTO} onPress={() => setLine(false)}>
 
-                <Text style={styles.mopText}>My uploaded ads</Text>
+                <MyText style={styles.mopText} text="My uploaded ads" weight='light' />
                 <View style={[styles.line, {
                   backgroundColor: line ? 'transparent' : '#7f0001'
                 }]}
@@ -160,7 +161,7 @@ export default function ProfileLoggedIn (props) {
 
               <TouchableOpacity style={styles.mopTO} onPress={() => setLine(true)}>
 
-                <Text style={styles.mopText}>Pinned ads</Text>
+              <MyText style={styles.mopText} text="Pinned ads" weight='light' />
                 <View style={[styles.line, {
                   backgroundColor: !line ? 'transparent' : '#7f0001',
                   width: windowWidth * 0.3
@@ -200,7 +201,7 @@ export default function ProfileLoggedIn (props) {
                     </TouchableOpacity>
 
                     <View style={styles.buttonDown}>
-                      <Text style={styles.goldText}>{item.name}</Text>
+                      <MyText style={styles.goldText} text={item.name} weight='medium' />
                     </View>
 
                   </View>
@@ -226,7 +227,7 @@ export default function ProfileLoggedIn (props) {
             <Image style={styles.profilepic} source={{ uri: img }} resizeMode='stretch' />
             <AirbnbRating isDisabled showRating={false} size={windowHeight * 0.03} defaultRating={Math.round(rating)} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: windowWidth }}>
-              <Text style={styles.name}>{name}</Text>
+              <MyText style={styles.name} text={name} weight='regular'/>
             </View>
           </View>
           <View style={{ width: windowWidth * 0.2, height: windowHeight / 2.5, marginTop: '45%' }}>
@@ -261,7 +262,7 @@ export default function ProfileLoggedIn (props) {
           <View style={styles.myorpinned}>
             <TouchableOpacity style={styles.mopTO} onPress={() => setLine(false)}>
 
-              <Text style={styles.mopText}>My uploaded ads</Text>
+              <MyText style={styles.mopText} text="My uploaded ads" weight='light' />
               <View style={[styles.line, {
                 backgroundColor: line ? 'transparent' : '#7f0001'
               }]}
@@ -271,7 +272,7 @@ export default function ProfileLoggedIn (props) {
 
             <TouchableOpacity style={styles.mopTO} onPress={() => setLine(true)}>
 
-              <Text style={styles.mopText}>Pinned ads</Text>
+              <MyText style={styles.mopText} text="Pinned ads" weight='light' />
               <View style={[styles.line, {
                 backgroundColor: !line ? 'transparent' : '#7f0001',
                 width: windowWidth * 0.3
@@ -307,7 +308,7 @@ export default function ProfileLoggedIn (props) {
                   <Image style={styles.buttonTop} source={{ uri: im }} resizeMode='stretch' />
 
                   <View style={styles.buttonDown}>
-                    <Text style={styles.goldText}>{item.name}</Text>
+                    <MyText style={styles.goldText} text={item.name} weight='medium' />
                   </View>
 
                 </TouchableOpacity>
@@ -339,7 +340,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: windowHeight / 30,
     color: '#EDB219',
-    fontWeight: 'bold'
   },
   followers: {
     fontSize: windowHeight / 50
@@ -393,7 +393,6 @@ const styles = StyleSheet.create({
   goldText: {
     color: '#EDB219',
     fontSize: windowHeight * 0.02,
-    fontWeight: 'bold'
   },
   buttonTop: {
     width: windowWidth * 0.43,
@@ -437,7 +436,6 @@ const styles = StyleSheet.create({
   mopText: {
     fontSize: windowHeight * 0.02,
     color: '#7f0001',
-    fontWeight: 'bold',
     marginBottom: '5%'
   },
   line: {

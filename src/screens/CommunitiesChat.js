@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import MyCommunities from '../components/MyCommunities'
 import JoinCommunity from '../components/JoinCommunity'
 import { useFocusEffect } from '@react-navigation/native'
+import MyText from '../components/MyText'
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width
@@ -51,7 +52,7 @@ export default function CommunitiesChat (props) {
             <View>
               {/* My communities */}
               <TouchableOpacity style={styles.com_buttons} onPress={() => { setLine('my') }}>
-                <Text style={{ fontSize: windowHeight / 50 }}>My communities</Text>
+                <MyText style={{ fontSize: windowHeight / 50 }} text="My communities" weight='light' />
               </TouchableOpacity>
               <View style={[styles.line, { backgroundColor: line === 'my' ? '#1F7A8C' : 'transparent' }]} />
             </View>
@@ -59,7 +60,7 @@ export default function CommunitiesChat (props) {
             <View>
               {/* Join new community */}
               <TouchableOpacity style={styles.com_buttons} onPress={() => { setLine('join') }}>
-                <Text style={{ fontSize: windowHeight / 50 }}>Join new community</Text>
+              <MyText style={{ fontSize: windowHeight / 50 }} text="Join community" weight='light' />
               </TouchableOpacity>
               <View style={[styles.line, { backgroundColor: line === 'join' ? '#1F7A8C' : 'transparent' }]} />
             </View>
@@ -85,7 +86,7 @@ export default function CommunitiesChat (props) {
             <View>
               {/* My communities */}
               <TouchableOpacity style={styles.com_buttons} onPress={() => { setLine('my') }}>
-                <Text style={{ fontSize: windowHeight / 50 }}>My communities</Text>
+                <MyText style={{ fontSize: windowHeight / 50 }} text="My communities" weight='light' />
               </TouchableOpacity>
               <View style={[styles.line, { backgroundColor: line === 'my' ? '#1F7A8C' : 'transparent' }]} />
             </View>
@@ -93,7 +94,7 @@ export default function CommunitiesChat (props) {
             <View>
               {/* Join new community */}
               <TouchableOpacity style={styles.com_buttons} onPress={() => { setLine('join') }}>
-                <Text style={{ fontSize: windowHeight / 50 }}>Join new community</Text>
+                <MyText style={{ fontSize: windowHeight / 50 }} text="Join community" weight='light' />
               </TouchableOpacity>
               <View style={[styles.line, { backgroundColor: line === 'join' ? '#1F7A8C' : 'transparent' }]} />
             </View>

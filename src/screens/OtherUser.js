@@ -4,6 +4,7 @@ import { getUsersProducts, postReview, getUsersReviews, getUserIsFollowing, crea
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AirbnbRating } from 'react-native-ratings'
 import { checkIsFollowing, isChattingWithUser } from '../funcs'
+import MyText from '../components/MyText'
 
 import { MaterialIcons, AntDesign, Ionicons, SimpleLineIcons } from '@expo/vector-icons'
 
@@ -153,7 +154,7 @@ export default function OtherUser (props) {
                   }}
                   onPress={() => sendRating()}
                 >
-                  <Text style={styles.goldText}>Post review</Text>
+                  <MyText style={styles.goldText} text="Post review" weight='medium' />
                 </TouchableOpacity>
               </View>
 
@@ -175,7 +176,7 @@ export default function OtherUser (props) {
             <View style={styles.namenbutton}>
 
               <View style={{ flexDirection: 'row', width: windowWidth, justifyContent: 'space-evenly', marginBottom: '1%' }}>
-                <Text style={styles.name}>{props.route.params.user.name}</Text>
+                <MyText style={styles.name} text={props.route.params.user.name} weight='medium' />
               </View>
 
               <View style={{ flexDirection: 'row', width: windowWidth, justifyContent: 'space-around', alignItems: 'center' }}>
@@ -228,12 +229,12 @@ export default function OtherUser (props) {
         <View style={{ width: windowWidth, height: windowHeight * 0.1, flexDirection: 'row' }}>
 
           <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-            <Text style={styles.redtext}>Ads</Text>
+            <MyText style={styles.redtext} weight='regular' text="Ads" />
             <View style={{ width: windowWidth * 0.3, height: 2, backgroundColor: line ? 'transparent' : '#7f0001', marginTop: '5%' }} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-            <Text style={styles.redtext}>Reviews</Text>
+          <MyText style={styles.redtext} weight='regular' text="Reviews" />
             <View style={{ width: windowWidth * 0.3, height: 2, backgroundColor: !line ? 'transparent' : '#7f0001', marginTop: '5%' }} />
           </TouchableOpacity>
 
@@ -250,7 +251,7 @@ export default function OtherUser (props) {
                   <AirbnbRating isDisabled showRating={false} defaultRating={Math.round(item.rating)} size={windowHeight * 0.025} />
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', width: windowWidth * 0.7, height: windowHeight * 0.06 }}>
-                  <Text style={styles.goldText}>{item.content}</Text>
+                  <MyText style={styles.goldText} text={item.content} weight='light' />
                 </View>
               </View>
             )
@@ -298,7 +299,7 @@ export default function OtherUser (props) {
                   }}
                   onPress={() => sendRating()}
                 >
-                  <Text style={styles.goldText}>Post review</Text>
+                  <MyText text="Post review" style={styles.goldText} weight='medium' />
                 </TouchableOpacity>
               </View>
 
@@ -319,7 +320,7 @@ export default function OtherUser (props) {
             <Image style={styles.profilepic} source={{ uri: `data:image/png;base64,${base64.decode(props.route.params.user.picture)}` }} resizeMode='contain' />
             <View style={styles.namenbutton}>
               <View style={{ flexDirection: 'row', width: windowWidth, justifyContent: 'space-evenly', marginBottom: '1%' }}>
-                <Text style={styles.name}>{props.route.params.user.name}</Text>
+                <MyText style={styles.name} text={props.route.params.user.name} weight='medium' />
               </View>
 
               <View style={{ flexDirection: 'row', width: windowWidth, justifyContent: 'space-around', alignItems: 'center' }}>
@@ -371,12 +372,12 @@ export default function OtherUser (props) {
         <View style={{ width: windowWidth, height: windowHeight * 0.1, flexDirection: 'row' }}>
 
           <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-            <Text style={styles.redtext}>Ads</Text>
+            <MyText style={styles.redtext} weight='regular' text="Ads" />
             <View style={{ width: windowWidth * 0.3, height: 2, backgroundColor: line ? 'transparent' : '#7f0001', marginTop: '5%' }} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-            <Text style={styles.redtext}>Reviews</Text>
+              <MyText style={styles.redtext} weight='regular' text="Reviews" />
             <View style={{ width: windowWidth * 0.3, height: 2, backgroundColor: !line ? 'transparent' : '#7f0001', marginTop: '5%' }} />
           </TouchableOpacity>
 
@@ -403,7 +404,7 @@ export default function OtherUser (props) {
                   <Image style={styles.buttonTop} source={{ uri: im }} resizeMode='stretch' />
 
                   <View style={styles.buttonDown}>
-                    <Text style={styles.goldText}>{item.name}</Text>
+                    <MyText style={styles.goldText} text={item.content} weight='light' />
                   </View>
 
                 </TouchableOpacity>
@@ -482,7 +483,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: windowHeight / 30,
     color: '#EDB219',
-    fontWeight: 'bold'
   },
   product: {
     width: windowWidth * 0.43,
@@ -508,7 +508,6 @@ const styles = StyleSheet.create({
   goldText: {
     color: '#EDB219',
     fontSize: windowHeight * 0.02,
-    fontWeight: 'bold'
   },
   line: {
     flexDirection: 'column',
@@ -520,7 +519,6 @@ const styles = StyleSheet.create({
   redtext: {
     color: '#7f0001',
     fontSize: windowHeight * 0.02,
-    fontWeight: 'bold'
   },
   flitem: {
     width: windowWidth * 0.9,

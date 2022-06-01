@@ -4,6 +4,7 @@ import { getAllUsers } from '../data'
 import { searchItems } from '../funcs'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { FontAwesome, AntDesign } from '@expo/vector-icons'
+import MyText from '../components/MyText'
 
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
@@ -77,7 +78,7 @@ export default function SearchUser (props) {
                 return (
                   <TouchableOpacity style={styles.users} onPress={() => props.navigation.navigate('OtherUser', { user: item })}>
                     <Image source={{ uri: im }} style={styles.im} />
-                    <Text style={styles.nameText}>{item.name}</Text>
+                    <MyText style={styles.nameText} text={item.name} weight='light' />
                     <AntDesign name='right' size={windowHeight * 0.05} color='black' style={{ marginRight: '5%' }} />
                   </TouchableOpacity>
                 )

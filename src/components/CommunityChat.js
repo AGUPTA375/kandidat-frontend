@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
     marginVertical: '2%'
   },
   messageText: {
-    fontWeight: 'bold',
     fontSize: windowHeight * 0.02
   }
 })

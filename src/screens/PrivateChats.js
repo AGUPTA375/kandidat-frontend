@@ -4,6 +4,7 @@ import { getChattingUsers } from '../data'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AntDesign } from '@expo/vector-icons'
 import { useFocusEffect } from '@react-navigation/native'
+import MyText from '../components/MyText'
 
 // Window dimensions
 const windowWidth = Dimensions.get('window').width
@@ -58,7 +59,7 @@ export default function PrivateChats (props) {
             return (
               <TouchableOpacity style={styles.users} onPress={() => props.navigation.navigate('UserChat', { user: item, id })}>
                 <Image source={{ uri: im }} style={styles.im} />
-                <Text style={styles.nameText}>{item.name}</Text>
+                <MyText style={styles.nameText} text={item.name} weight='extralight' />
                 <AntDesign name='right' size={windowHeight * 0.05} color='black' style={{ marginRight: '5%' }} />
               </TouchableOpacity>
             )

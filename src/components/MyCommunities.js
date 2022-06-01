@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Dimensions, FlatList, TouchableOpacity } from 'react-native'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
+import MyText from './MyText'
 
 import { getUsersCommunities } from '../data'
 
@@ -34,7 +35,7 @@ export default function MyCommunities (props) {
                 props.nav.navigate('Community chat', { community: item, user_id: props.id })
               }}
             >
-              <Text style={styles.comstext}>{item.name}</Text>
+              <MyText style={styles.comstext} text={item.name} weight='light' />
             </TouchableOpacity>
 
           </View>
