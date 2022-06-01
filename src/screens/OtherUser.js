@@ -164,7 +164,7 @@ export default function OtherUser(props) {
                         </View>
                     </View>
 
-                    <View style={{ width: windowWidth*0.2, height:"100%", marginRight:-windowWidth*0.2, alignItems:"center", marginTop: windowHeight*0.15}}>
+                    <View style={{ width: windowWidth*0.2, height:"100%", marginRight:-windowWidth*0.2, alignItems:"center", marginTop: windowHeight*0.08, justifyContent:"space-evenly"}}>
                         <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                             <MaterialIcons name="rate-review" size={windowHeight*0.05} color="#EDB219" />   
                         </TouchableOpacity>
@@ -173,6 +173,17 @@ export default function OtherUser(props) {
                             setUpdate(!update)
                         }}>
                             <SimpleLineIcons name={isFollowing ? "user-following" : "user-follow"} size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            if (id === null) {
+                                Alert.alert("Error", "You need to be logged in to start a conversation.", [{ text: "OK" }])
+                            } else {
+                                Alert.alert("ERROR", "Not implemented", [{ text: "OK" }])
+                            }
+                        }}
+                        style={{ marginRight: "10%", marginTop: "2%"}}
+                        >
+                            <Ionicons  name="chatbox-ellipses" size={windowHeight*0.06} color="#EDB219" />
                         </TouchableOpacity>
                     </View>
     
@@ -272,7 +283,7 @@ export default function OtherUser(props) {
                         </View>
                     </View>
 
-                    <View style={{ width: windowWidth*0.2, height:"100%", marginRight:-windowWidth*0.2, alignItems:"center", marginTop: windowHeight*0.15}}>
+                    <View style={{ width: windowWidth*0.2, height:"100%", marginRight:-windowWidth*0.2, alignItems:"center",  marginTop: windowHeight*0.08, justifyContent:"space-evenly"}}>
                         <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                             <MaterialIcons name="rate-review" size={windowHeight*0.05} color="#EDB219" />   
                         </TouchableOpacity>
@@ -281,6 +292,17 @@ export default function OtherUser(props) {
                             setUpdate(!update)
                         }}>
                             <SimpleLineIcons name={isFollowing ? "user-following" : "user-follow"} size={windowHeight*0.05} color="#EDB219" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            if (id === null) {
+                                Alert.alert("Error", "You need to be logged in to start a conversation.", [{ text: "OK" }])
+                            } else {
+                                Alert.alert("ERROR", "Not implemented", [{ text: "OK" }])
+                            }
+                        }}
+                        style={{ marginRight: "10%", marginTop: "2%"}}
+                        >
+                            <Ionicons  name="chatbox-ellipses" size={windowHeight*0.06} color="#EDB219" />
                         </TouchableOpacity>
                     </View>
 

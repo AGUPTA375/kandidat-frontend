@@ -89,25 +89,7 @@ export default function ProductPage(props) {
                     </TouchableOpacity>
 
                     <View style={styles.iconsView}>
-                        <TouchableOpacity onPress={() => {
-                            if (id === null) {
-                                Alert.alert("Error", "You need to be logged in to start a conversation.", [{ text: "OK" }])
-                            } else {
-                                var body = {
-                                    "name": props.product.name,
-                                    "service": props.product.service,
-                                    "price": props.product.price,
-                                    "description": props.product.description,
-                                    "picture": props.product.picture,
-                                    "buyer_id": parseInt(id)
-                                }
-                                updateProduct(props.product.product_id, body, setUpdatedProduct);
-                            }
-                        }}
-                        style={{ marginRight: "10%", marginTop: "2%"}}
-                        >
-                            <Ionicons  name="chatbox-ellipses" size={windowHeight*0.06} color="black" />
-                        </TouchableOpacity>
+
 
                         <TouchableOpacity onPress={() => setPin(!pin)}>
                             <AntDesign  name="pushpin" size={windowHeight*0.06} color={pinned ? "red": "black"} />
