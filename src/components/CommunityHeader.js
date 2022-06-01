@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
   },
   goldText: {
     color: '#EDB219',
-    fontSize: windowHeight * 0.03,
+    fontSize: windowHeight * 0.03
   }
 })

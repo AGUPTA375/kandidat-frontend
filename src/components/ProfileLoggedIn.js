@@ -114,7 +114,7 @@ export default function ProfileLoggedIn (props) {
               <Image style={styles.profilepic} source={{ uri: img }} resizeMode='stretch' />
               <AirbnbRating isDisabled showRating={false} size={windowHeight * 0.03} defaultRating={Math.round(rating)} />
               <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: windowWidth }}>
-                <MyText style={styles.name} text={name} weight='regular'/>
+                <MyText style={styles.name} text={name} weight='regular' />
 
               </View>
             </View>
@@ -151,7 +151,7 @@ export default function ProfileLoggedIn (props) {
             <View style={styles.myorpinned}>
               <TouchableOpacity style={styles.mopTO} onPress={() => setLine(false)}>
 
-                <MyText style={styles.mopText} text="My uploaded ads" weight='light' />
+                <MyText style={styles.mopText} text='My uploaded ads' weight='light' />
                 <View style={[styles.line, {
                   backgroundColor: line ? 'transparent' : '#7f0001'
                 }]}
@@ -161,7 +161,7 @@ export default function ProfileLoggedIn (props) {
 
               <TouchableOpacity style={styles.mopTO} onPress={() => setLine(true)}>
 
-              <MyText style={styles.mopText} text="Pinned ads" weight='light' />
+                <MyText style={styles.mopText} text='Pinned ads' weight='light' />
                 <View style={[styles.line, {
                   backgroundColor: !line ? 'transparent' : '#7f0001',
                   width: windowWidth * 0.3
@@ -227,7 +227,7 @@ export default function ProfileLoggedIn (props) {
             <Image style={styles.profilepic} source={{ uri: img }} resizeMode='stretch' />
             <AirbnbRating isDisabled showRating={false} size={windowHeight * 0.03} defaultRating={Math.round(rating)} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: windowWidth }}>
-              <MyText style={styles.name} text={name} weight='regular'/>
+              <MyText style={styles.name} text={name} weight='regular' />
             </View>
           </View>
           <View style={{ width: windowWidth * 0.2, height: windowHeight / 2.5, marginTop: '45%' }}>
@@ -262,7 +262,7 @@ export default function ProfileLoggedIn (props) {
           <View style={styles.myorpinned}>
             <TouchableOpacity style={styles.mopTO} onPress={() => setLine(false)}>
 
-              <MyText style={styles.mopText} text="My uploaded ads" weight='light' />
+              <MyText style={styles.mopText} text='My uploaded ads' weight='light' />
               <View style={[styles.line, {
                 backgroundColor: line ? 'transparent' : '#7f0001'
               }]}
@@ -272,7 +272,7 @@ export default function ProfileLoggedIn (props) {
 
             <TouchableOpacity style={styles.mopTO} onPress={() => setLine(true)}>
 
-              <MyText style={styles.mopText} text="Pinned ads" weight='light' />
+              <MyText style={styles.mopText} text='Pinned ads' weight='light' />
               <View style={[styles.line, {
                 backgroundColor: !line ? 'transparent' : '#7f0001',
                 width: windowWidth * 0.3
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: windowHeight / 30,
-    color: '#EDB219',
+    color: '#EDB219'
   },
   followers: {
     fontSize: windowHeight / 50
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
   },
   goldText: {
     color: '#EDB219',
-    fontSize: windowHeight * 0.02,
+    fontSize: windowHeight * 0.02
   },
   buttonTop: {
     width: windowWidth * 0.43,

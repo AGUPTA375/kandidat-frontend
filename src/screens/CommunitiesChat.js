@@ -52,7 +52,7 @@ export default function CommunitiesChat (props) {
             <View>
               {/* My communities */}
               <TouchableOpacity style={styles.com_buttons} onPress={() => { setLine('my') }}>
-                <MyText style={{ fontSize: windowHeight / 50 }} text="My communities" weight='light' />
+                <MyText style={{ fontSize: windowHeight / 50 }} text='My communities' weight='light' />
               </TouchableOpacity>
               <View style={[styles.line, { backgroundColor: line === 'my' ? '#1F7A8C' : 'transparent' }]} />
             </View>
@@ -60,7 +60,7 @@ export default function CommunitiesChat (props) {
             <View>
               {/* Join new community */}
               <TouchableOpacity style={styles.com_buttons} onPress={() => { setLine('join') }}>
-              <MyText style={{ fontSize: windowHeight / 50 }} text="Join community" weight='light' />
+                <MyText style={{ fontSize: windowHeight / 50 }} text='Join community' weight='light' />
               </TouchableOpacity>
               <View style={[styles.line, { backgroundColor: line === 'join' ? '#1F7A8C' : 'transparent' }]} />
             </View>
@@ -86,7 +86,7 @@ export default function CommunitiesChat (props) {
             <View>
               {/* My communities */}
               <TouchableOpacity style={styles.com_buttons} onPress={() => { setLine('my') }}>
-                <MyText style={{ fontSize: windowHeight / 50 }} text="My communities" weight='light' />
+                <MyText style={{ fontSize: windowHeight / 50 }} text='My communities' weight='light' />
               </TouchableOpacity>
               <View style={[styles.line, { backgroundColor: line === 'my' ? '#1F7A8C' : 'transparent' }]} />
             </View>
@@ -94,7 +94,7 @@ export default function CommunitiesChat (props) {
             <View>
               {/* Join new community */}
               <TouchableOpacity style={styles.com_buttons} onPress={() => { setLine('join') }}>
-                <MyText style={{ fontSize: windowHeight / 50 }} text="Join community" weight='light' />
+                <MyText style={{ fontSize: windowHeight / 50 }} text='Join community' weight='light' />
               </TouchableOpacity>
               <View style={[styles.line, { backgroundColor: line === 'join' ? '#1F7A8C' : 'transparent' }]} />
             </View>

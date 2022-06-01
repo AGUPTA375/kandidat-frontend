@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   goldText: {
     fontSize: windowHeight * 0.04,
-    color: '#EDB219',
+    color: '#EDB219'
   },
   messagesView: {
     width: windowWidth,

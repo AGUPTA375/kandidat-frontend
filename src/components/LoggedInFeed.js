@@ -4,7 +4,6 @@ import { getFollowingUsersProducts, getNotUsersProducts } from '../data'
 import MyText from './MyText'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
 const base64 = require('base-64')
 
 const windowWidth = Dimensions.get('window').width
@@ -66,7 +65,7 @@ export default function LoggedInFeed (props) {
         <Image source={require('../assets/amargboheader.png')} style={styles.logo} />
       </View>
       <View style={{ width: windowWidth, height: windowHeight * 0.35 }}>
-        <MyText style={{ fontSize: windowHeight * 0.032, alignSelf: 'center', marginTop: '4%' }} weight='extralight' text="Followed users items:" />
+        <MyText style={{ fontSize: windowHeight * 0.032, alignSelf: 'center', marginTop: '4%' }} weight='extralight' text='Followed users items:' />
         <FlatList
           data={products}
           contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
@@ -89,7 +88,7 @@ export default function LoggedInFeed (props) {
         />
       </View>
       <View style={{ width: windowWidth, height: windowHeight * 0.35 }}>
-        <MyText style={{ fontSize: windowHeight * 0.032, alignSelf: 'center', marginTop: '4%' }} text="All items:" weight='extralight' />
+        <MyText style={{ fontSize: windowHeight * 0.032, alignSelf: 'center', marginTop: '4%' }} text='All items:' weight='extralight' />
         <FlatList
           data={allProducts}
           contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
   },
   goldText: {
     color: '#EDB219',
-    fontSize: windowHeight * 0.02,
+    fontSize: windowHeight * 0.02
   },
   buttonTop: {
     width: windowWidth * 0.43,

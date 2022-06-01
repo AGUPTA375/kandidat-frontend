@@ -2,11 +2,11 @@ import { Dimensions } from 'react-native'
 import PrivateChatsStack from './PrivateChatsStack'
 import CommunitiesStack from '../components/CommunitiesStack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import AppLoading from 'expo-app-loading';
+import AppLoading from 'expo-app-loading'
 import {
   useFonts,
-  Manrope_500Medium,
-} from '@expo-google-fonts/manrope';
+  Manrope_500Medium
+} from '@expo-google-fonts/manrope'
 
 // Window dimensions
 const windowHeight = Dimensions.get('window').height
@@ -14,13 +14,12 @@ const windowHeight = Dimensions.get('window').height
 const Tab = createMaterialTopTabNavigator()
 
 export default function Chat () {
-
-  let [fontsLoaded] = useFonts({
-    Manrope_500Medium,
-  });
+  const [fontsLoaded] = useFonts({
+    Manrope_500Medium
+  })
 
   if (!fontsLoaded) {
-  return <AppLoading />;
+    return <AppLoading />
   }
 
   return (
@@ -30,7 +29,7 @@ export default function Chat () {
       tabBarStyle: { backgroundColor: '#7f0001', height: windowHeight * 0.13, paddingTop: '13%' },
       tabBarIndicatorStyle: { backgroundColor: '#EDB219' },
       tabBarLabelStyle: {
-        fontSize: windowHeight*0.02,
+        fontSize: windowHeight * 0.02,
         fontFamily: 'Manrope_500Medium'
       }
     }}

@@ -154,7 +154,7 @@ export default function OtherUser (props) {
                   }}
                   onPress={() => sendRating()}
                 >
-                  <MyText style={styles.goldText} text="Post review" weight='medium' />
+                  <MyText style={styles.goldText} text='Post review' weight='medium' />
                 </TouchableOpacity>
               </View>
 
@@ -229,12 +229,12 @@ export default function OtherUser (props) {
         <View style={{ width: windowWidth, height: windowHeight * 0.1, flexDirection: 'row' }}>
 
           <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-            <MyText style={styles.redtext} weight='regular' text="Ads" />
+            <MyText style={styles.redtext} weight='regular' text='Ads' />
             <View style={{ width: windowWidth * 0.3, height: 2, backgroundColor: line ? 'transparent' : '#7f0001', marginTop: '5%' }} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-          <MyText style={styles.redtext} weight='regular' text="Reviews" />
+            <MyText style={styles.redtext} weight='regular' text='Reviews' />
             <View style={{ width: windowWidth * 0.3, height: 2, backgroundColor: !line ? 'transparent' : '#7f0001', marginTop: '5%' }} />
           </TouchableOpacity>
 
@@ -299,7 +299,7 @@ export default function OtherUser (props) {
                   }}
                   onPress={() => sendRating()}
                 >
-                  <MyText text="Post review" style={styles.goldText} weight='medium' />
+                  <MyText text='Post review' style={styles.goldText} weight='medium' />
                 </TouchableOpacity>
               </View>
 
@@ -372,12 +372,12 @@ export default function OtherUser (props) {
         <View style={{ width: windowWidth, height: windowHeight * 0.1, flexDirection: 'row' }}>
 
           <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-            <MyText style={styles.redtext} weight='regular' text="Ads" />
+            <MyText style={styles.redtext} weight='regular' text='Ads' />
             <View style={{ width: windowWidth * 0.3, height: 2, backgroundColor: line ? 'transparent' : '#7f0001', marginTop: '5%' }} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.line} onPress={() => setLine(!line)}>
-              <MyText style={styles.redtext} weight='regular' text="Reviews" />
+            <MyText style={styles.redtext} weight='regular' text='Reviews' />
             <View style={{ width: windowWidth * 0.3, height: 2, backgroundColor: !line ? 'transparent' : '#7f0001', marginTop: '5%' }} />
           </TouchableOpacity>
 
@@ -482,7 +482,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: windowHeight / 30,
-    color: '#EDB219',
+    color: '#EDB219'
   },
   product: {
     width: windowWidth * 0.43,
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
   },
   goldText: {
     color: '#EDB219',
-    fontSize: windowHeight * 0.02,
+    fontSize: windowHeight * 0.02
   },
   line: {
     flexDirection: 'column',
@@ -518,7 +518,7 @@ const styles = StyleSheet.create({
   },
   redtext: {
     color: '#7f0001',
-    fontSize: windowHeight * 0.02,
+    fontSize: windowHeight * 0.02
   },
   flitem: {
     width: windowWidth * 0.9,

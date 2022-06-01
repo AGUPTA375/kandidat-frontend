@@ -166,8 +166,8 @@ export default function CreateProduct (props) {
                 renderItem={({ item }) => {
                   return (
                     <TouchableOpacity style={styles.flatlistTO} onPress={() => { setCategory(item.name); setCategoriesVisible(!categoriesVisible) }}>
-                        <Text style={styles.goldTextBold}>{item.name}</Text>
-                      </TouchableOpacity>
+                      <Text style={styles.goldTextBold}>{item.name}</Text>
+                    </TouchableOpacity>
                   )
                 }}
               />
