@@ -294,3 +294,29 @@ export function getAllUsers(setUsers) {
         }
     })
 }
+
+export function getChattingUsers(user_id, setUsers) {
+    return fetch(`${url}/users/${user_id}/chats`).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    }).then((data) => {
+        if (data[0] === 200) {
+            setUsers(data[1])
+        }
+    })
+}
+
+export function makeChatRelation(user_id, body) {
+    return fetch(`${url}/users/${user_id}/chats`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+    })
+}

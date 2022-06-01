@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, TextInput,
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Settings from './Settings';
 import { AirbnbRating } from 'react-native-ratings';
+import { confirmDeleteProduct } from '../funcs';
 
 // Icons
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -97,7 +98,7 @@ export default function ProfileLoggedIn(props) {
                             <Ionicons name="business" size={windowHeight*0.05} color={user.business ? "#EDB219" : "transparent"}/>
                         </View>
                         <View style={styles.info}>
-                            <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />
+                            <Image style={styles.profilepic} source={{ uri: img}} resizeMode="stretch" />
                             <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(rating)} />
                             <View style={{ flexDirection:"row", justifyContent:"space-evenly", width: windowWidth }}>
                                 <Text style={styles.name}>{name}</Text>
@@ -169,17 +170,22 @@ export default function ProfileLoggedIn(props) {
                         renderItem={({ item }) => {
                             var im = `data:image/png;base64,${base64.decode(item.picture)}`
                             return (
-                                    <TouchableOpacity style={styles.product}>
-    
-                                        <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="contain"/>
+                                    <View style={styles.product}>
+
+
+
+                                        <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="stretch"/>
                                             
-    
+                                        <TouchableOpacity style={{position: "absolute", backgroundColor:"white", alignSelf:"flex-end", marginRight: "5%"}}
+                                        onPress={() => confirmDeleteProduct(console.log)}>
+                                            <FontAwesome name="trash-o" size={windowHeight*0.04} color="black" />
+                                        </TouchableOpacity>
     
                                         <View style={styles.buttonDown}>
                                             <Text style={styles.goldText}>{item.name}</Text>
                                         </View>
                                         
-                                    </TouchableOpacity>
+                                    </View>
                             )
                         }}
                         />
@@ -200,7 +206,7 @@ export default function ProfileLoggedIn(props) {
                         <Ionicons name="business" size={windowHeight*0.05} color={user.business ? "#EDB219" : "transparent"}/>
                     </View>
                     <View style={styles.info}>
-                        <Image style={styles.profilepic} source={{ uri: img}} resizeMode="contain" />
+                        <Image style={styles.profilepic} source={{ uri: img}} resizeMode="stretch" />
                         <AirbnbRating isDisabled={true} showRating={false} size={windowHeight*0.03} defaultRating={Math.round(rating)} />
                         <View style={{ flexDirection:"row", justifyContent:"space-evenly", width: windowWidth }}>
                             <Text style={styles.name}>{name}</Text>
@@ -273,7 +279,7 @@ export default function ProfileLoggedIn(props) {
                                 <TouchableOpacity style={styles.product}
                                 onPress={() => props.nav.navigate("Product", { product: item })} >
 
-                                    <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="contain"/>
+                                    <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="stretch"/>
                                         
 
 

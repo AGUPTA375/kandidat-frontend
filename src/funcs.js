@@ -1,3 +1,4 @@
+import { Alert } from "react-native"
 
 export function searchItems(input, data) {
     var result = []
@@ -36,4 +37,20 @@ export function checkIsFollowing(following, user_id) {
         }
     }
     return false
+}
+
+export function confirmDeleteProduct(deleteProduct) {
+    Alert.alert("Confirm deletion", "Are you sure you want to delete this product?", [
+        {
+            text: "No",
+            style: "cancel"
+        },
+        {
+            text: "Yes",
+            onPress: () => {
+                deleteProduct("reee")
+            },
+            style: "destructive"
+        }
+    ])
 }

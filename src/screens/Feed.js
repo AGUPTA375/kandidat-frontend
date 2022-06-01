@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList, ScrollView, RefreshControl, Image } from "react-native"
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import LoggedInFeed from "../components/LoggedInFeed";
 import NotLoggedInFeed from "../components/NotLoggedInFeed";

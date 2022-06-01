@@ -129,11 +129,8 @@ export default function Search(props) {
                         value={search}
                         />
                     </View>
-                    <Text style={{ fontSize: windowHeight*0.03, fontWeight:"bold"}}>{category}</Text>
-
 
                     <View style={styles.bottom}>
-                        <View style={styles.list}>
                             <FlatList 
                             numColumns={2}
                             contentContainerStyle={styles.flatlist}
@@ -150,7 +147,6 @@ export default function Search(props) {
                                 )
                             }}/>
 
-                        </View>
 
                     </View>
 
@@ -269,7 +265,8 @@ const styles = StyleSheet.create({
         height: windowHeight*0.9,
         backgroundColor:"white",
         alignItems:"center",
-        justifyContent:"space-between"
+        justifyContent:"space-between",
+        flex: 1
     },
     top: {
         width: windowWidth,

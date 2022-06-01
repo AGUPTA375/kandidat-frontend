@@ -76,7 +76,7 @@ export default function LoggedInFeed(props) {
                     return (
                         <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item })}>
 
-                            <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
+                            <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="stretch"/>
                                 
 
 
@@ -100,7 +100,7 @@ export default function LoggedInFeed(props) {
                     return (
                         <TouchableOpacity style={styles.product} onPress={() => props.navigation.navigate("Product", { product: item})}>
 
-                            <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="contain"/>
+                            <Image style={styles.buttonTop} source={{ uri: img }} resizeMode="stretch"/>
                                 
 
 

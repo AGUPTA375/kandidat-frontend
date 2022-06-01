@@ -178,7 +178,7 @@ export default function OtherUser(props) {
                             if (id === null) {
                                 Alert.alert("Error", "You need to be logged in to start a conversation.", [{ text: "OK" }])
                             } else {
-                                Alert.alert("ERROR", "Not implemented", [{ text: "OK" }])
+                                props.navigation.navigate("UserChat", { user: props.route.params.user, id: id})
                             }
                         }}
                         style={{ marginRight: "10%", marginTop: "2%"}}
@@ -297,7 +297,7 @@ export default function OtherUser(props) {
                             if (id === null) {
                                 Alert.alert("Error", "You need to be logged in to start a conversation.", [{ text: "OK" }])
                             } else {
-                                Alert.alert("ERROR", "Not implemented", [{ text: "OK" }])
+                                props.navigation.navigate("UserChat", { user: props.route.params.user, id: id})
                             }
                         }}
                         style={{ marginRight: "10%", marginTop: "2%"}}
@@ -339,7 +339,7 @@ export default function OtherUser(props) {
                             return (
                                     <TouchableOpacity style={styles.product}>
     
-                                        <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="contain"/>
+                                        <Image style={styles.buttonTop} source={{ uri: im }} resizeMode="stretch"/>
                                             
     
     

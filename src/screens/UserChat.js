@@ -31,6 +31,8 @@ export default function UserChat(props) {
     const [msg, setMsg] = useState("")
     const [sending, setSending] = useState(false)
     const [messages, setMessages] = useState(null)
+    const [users, setUsers] = useState(null)
+    const [readyState, setReadyState] = useState(false)
 
     useEffect(() => {
 
@@ -73,6 +75,8 @@ export default function UserChat(props) {
         }
 
     }, [])
+
+    
 
     // ws.sendmessage(readMessages(id, user.user_id.toString()))
 
