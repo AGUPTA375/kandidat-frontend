@@ -17,11 +17,9 @@ import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-
 
   return (
     <NavigationContainer>

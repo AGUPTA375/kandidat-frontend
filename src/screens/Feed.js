@@ -32,6 +32,7 @@ export default function Feed(props) {
   useFocusEffect(() => {
       getID();
   })
+  
   if (ready) {
     if (id !== null) {
       return (

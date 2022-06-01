@@ -54,3 +54,12 @@ export function confirmDeleteProduct(deleteProduct, user_id, product_id, setRefr
         }
     ])
 }
+
+export function isChattingWithUser(user_id, users) {
+    for (var user of users) {
+        if (parseInt(user_id) === user.user_id) {
+            return true
+        }
+    }
+    return false
+}

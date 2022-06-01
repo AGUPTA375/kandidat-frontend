@@ -302,7 +302,11 @@ export function getChattingUsers(user_id, setUsers) {
         return Promise.all([statusCode, data]);
     }).then((data) => {
         if (data[0] === 200) {
-            setUsers(data[1])
+            if (data[1] === null) {
+                setUsers([])
+            } else {
+                setUsers(data[1])
+            }
         }
     })
 }

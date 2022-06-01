@@ -1,9 +1,9 @@
 import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity, FlatList, ScrollView, RefreshControl, Modal, TextInput, Alert } from "react-native";
 import { useState, useEffect, useCallback } from "react"
-import { getUsersProducts, postReview, getUsersReviews, getUserIsFollowing, createFollow } from "../data";
+import { getUsersProducts, postReview, getUsersReviews, getUserIsFollowing, createFollow, makeChatRelation, getChattingUsers } from "../data";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AirbnbRating } from 'react-native-ratings';
-import { checkIsFollowing } from "../funcs";
+import { checkIsFollowing, isChattingWithUser } from "../funcs";
 
 var base64 = require('base-64');
 
@@ -50,6 +50,8 @@ export default function OtherUser(props) {
     const [following, setFollowing] = useState(null)
     const [isFollowing, setIsFollowing] = useState(false)
     const [update, setUpdate] = useState(false)
+    const [chattingUsers, setChattingUsers] = useState(null)
+    const [hasChat, setHasChat] = useState(null)
 
     useEffect(() => {
         getID()
@@ -82,6 +84,7 @@ export default function OtherUser(props) {
     useEffect(() => {
         if (id !== null) {
             getUserIsFollowing(id, setFollowing)
+            getChattingUsers(id, setChattingUsers)
         }
     }, [id])
 
@@ -95,10 +98,23 @@ export default function OtherUser(props) {
 
     useEffect(() => {
         if (update) {
-            getUserIsFollowing(id, setFollowing)
-            setUpdate(false)
+            if (id !== null) {
+                getUserIsFollowing(id, setFollowing)
+                setUpdate(false)
+            }
+
         }
-    }, [update])
+    }, [update, id])
+
+    useEffect(() => {
+        if (chattingUsers !== null) {
+            if (chattingUsers.length === 0) {
+                setHasChat(false)
+            } else {
+                setHasChat(isChattingWithUser(id, chattingUsers))
+            }
+        }
+    }, [chattingUsers])
 
 
     if (line) {
@@ -178,7 +194,20 @@ export default function OtherUser(props) {
                             if (id === null) {
                                 Alert.alert("Error", "You need to be logged in to start a conversation.", [{ text: "OK" }])
                             } else {
-                                props.navigation.navigate("UserChat", { user: props.route.params.user, id: id})
+                                if (hasChat !== null) {
+                                    if (!hasChat) {
+                                        var body = {
+                                            "user_id": props.route.params.user.user_id
+                                        }
+                                        makeChatRelation(id, body).then((data) => {
+                                            if (data[0] === 201) {
+                                                props.navigation.navigate("UserChat", { user: props.route.params.user, id: id})
+                                            }
+                                        })
+                                    } else {
+                                        props.navigation.navigate("UserChat", { user: props.route.params.user, id: id})
+                                    }
+                                }
                             }
                         }}
                         style={{ marginRight: "10%", marginTop: "2%"}}
@@ -297,7 +326,20 @@ export default function OtherUser(props) {
                             if (id === null) {
                                 Alert.alert("Error", "You need to be logged in to start a conversation.", [{ text: "OK" }])
                             } else {
-                                props.navigation.navigate("UserChat", { user: props.route.params.user, id: id})
+                                if (hasChat !== null) {
+                                    if (!hasChat) {
+                                        var body = {
+                                            "user_id": props.route.params.user.user_id
+                                        }
+                                        makeChatRelation(id, body).then((data) => {
+                                            if (data[0] === 201) {
+                                                props.navigation.navigate("UserChat", { user: props.route.params.user, id: id})
+                                            }
+                                        })
+                                    } else {
+                                        props.navigation.navigate("UserChat", { user: props.route.params.user, id: id})
+                                    }
+                                }
                             }
                         }}
                         style={{ marginRight: "10%", marginTop: "2%"}}
